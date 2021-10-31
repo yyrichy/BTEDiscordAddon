@@ -9,7 +9,9 @@ import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.api.events.DiscordReadyEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import github.scarsz.discordsrv.util.DiscordUtil;
+import me.vapor.discordplus.MinecraftStats;
 import me.vapor.discordplus.Status;
+import me.vapor.discordplus.TeamStats;
 import me.vapor.discordplus.commands.discord.Linked;
 import me.vapor.discordplus.commands.discord.Setup;
 import me.vapor.discordplus.schematics.Download;
@@ -38,13 +40,10 @@ public class DiscordListener {
         plugin.getLogger().info("Discord Ready!");
         Status.updateEmbed(null, false, null);
         Timer t = new Timer();
-        /*
-        I will work on this later
         MinecraftStats mTask = new MinecraftStats(plugin);
         TeamStats tTask = new TeamStats(plugin);
-        t.scheduleAtFixedRate(mTask, 0, plugin.getConfig().getInt("MinecraftStatsEditIntervalInMilliseconds"));
-        t.scheduleAtFixedRate(tTask, 0, plugin.getConfig().getInt("TeamStatsEditIntervalInMilliseconds"));
-        */
+        t.scheduleAtFixedRate(mTask, 0, plugin.getConfig().getInt("MinecraftStatsEditIntervalInSeconds") * 1000L);
+        t.scheduleAtFixedRate(tTask, 0, plugin.getConfig().getInt("TeamStatsEditIntervalInSeconds") * 1000L);
     }
 
     @Subscribe(priority = ListenerPriority.MONITOR)

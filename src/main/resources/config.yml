@@ -23,9 +23,15 @@ LinkAccountChannelID: "0"
 
 DelayBeforeDeleteLinkAccountMessageInSeconds: 5
 
-MinecraftStatsEditIntervalInMilliseconds: 10000
+MinecraftStatsEditIntervalInSeconds: 10
 
-TeamStatsEditIntervalInMilliseconds: 600000
+TeamStatsEditIntervalInSeconds: 10
+
+TeamStatsRoleID: "0"
+
+MinecraftStatsMessageID: "0"
+
+TeamStatsMessageID: "0"
 
 BuilderRoleID: "0"
 
