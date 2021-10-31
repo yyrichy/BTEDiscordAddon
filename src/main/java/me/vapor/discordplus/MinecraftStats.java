@@ -39,6 +39,5 @@ public class MinecraftStats extends TimerTask {
         embed.addField("Memory", usedMemory + "/" + maxMemory + " MB", false);
         embed.addField("Uptime", uptime, false);
         jda.getTextChannelById(plugin.getConfig().getString("ChannelID")).editMessageById(plugin.getConfig().getString("MinecraftStatsMessageID"), embed.build()).queue();
-        plugin.getLogger().info("Updated Minecraft Stats Embed.");
     }
 }

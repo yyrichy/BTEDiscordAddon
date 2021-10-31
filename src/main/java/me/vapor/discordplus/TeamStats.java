@@ -33,6 +33,5 @@ public class TeamStats extends TimerTask {
         embed.addField("Guild Members", String.valueOf(mainGuild.getMembers().size()), false);
         embed.addField(role.getName() + " Role Size", String.valueOf(mainGuild.getMembersWithRoles(role).size()), false);
         jda.getTextChannelById(plugin.getConfig().getString("ChannelID")).editMessageById(plugin.getConfig().getString("TeamStatsMessageID"), embed.build()).queue();
-        plugin.getLogger().info("Updated Team Stats Embed.");
     }
 }
