@@ -30,8 +30,8 @@ public class TeamStats extends TimerTask {
         }
         embed.setTitle("Team Statistics");
         embed.setDescription("Last Updated: <t:" + unixTime + ":R>");
-        embed.addField("Guild Members", String.valueOf(mainGuild.getMembers().size()), false);
-        embed.addField(role.getName() + " Role Size", String.valueOf(mainGuild.getMembersWithRoles(role).size()), false);
+        embed.addField("Guild Members", "`" + mainGuild.getMembers().size() + "`", false);
+        embed.addField(role.getName() + " Role Size", "`" + mainGuild.getMembersWithRoles(role).size() + "`", false);
         jda.getTextChannelById(plugin.getConfig().getString("ChannelID")).editMessageById(plugin.getConfig().getString("TeamStatsMessageID"), embed.build()).queue();
     }
 }

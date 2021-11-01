@@ -22,21 +22,22 @@ public class MinecraftStats extends TimerTask {
     @Override
     public void run() {
         Runtime r = Runtime.getRuntime();
-        final long usedMemory = (r.totalMemory() - r.freeMemory()) / 1048576;
-        final long maxMemory = r.maxMemory() / 1048576;
-        final long unixTime = System.currentTimeMillis() / 1000L;
-        final long milliseconds = ManagementFactory.getRuntimeMXBean().getUptime();
-        final long dys = TimeUnit.MILLISECONDS.toDays(milliseconds);
-        final long hrs = TimeUnit.MILLISECONDS.toHours(milliseconds)  - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(milliseconds));
-        final long mins = TimeUnit.MILLISECONDS.toMinutes(milliseconds)  - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds));
-        String uptime = String.format("%d Days %d Hours %d Minutes", dys, hrs, mins);
+        long usedMemory = (r.totalMemory() - r.freeMemory()) / 1048576;
+        long maxMemory = r.maxMemory() / 1048576;
+        long unixTime = System.currentTimeMillis() / 1000L;
+        long milliseconds = ManagementFactory.getRuntimeMXBean().getUptime();
+        long dys = TimeUnit.MILLISECONDS.toDays(milliseconds);
+        long hrs = TimeUnit.MILLISECONDS.toHours(milliseconds)  - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(milliseconds));
+        long mins = TimeUnit.MILLISECONDS.toMinutes(milliseconds)  - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds));
+        float memory = ((float) usedMemory / (float) maxMemory) * 100;
+
         EmbedBuilder embed = new EmbedBuilder();
         embed.setTitle("Minecraft Server Statistics");
         embed.setDescription("Last Updated: <t:" + unixTime + ":R>");
-        embed.addField("Unique Players Joined", String.valueOf(Bukkit.getOfflinePlayers().length), false);
-        embed.addField("Linked Players", String.valueOf(DiscordSRV.getPlugin().getAccountLinkManager().getLinkedAccountCount()), false);
-        embed.addField("Memory", usedMemory + "/" + maxMemory + " MB", false);
-        embed.addField("Uptime", uptime, false);
+        embed.addField("Unique Players Joined", "`" + Bukkit.getOfflinePlayers().length + "`", false);
+        embed.addField("Linked Players", "`" + DiscordSRV.getPlugin().getAccountLinkManager().getLinkedAccountCount() + "`", false);
+        embed.addField("Memory", "`" + String.format("%.2f", memory) + "`% | `" + usedMemory + "`/`" + maxMemory + "` MB", false);
+        embed.addField("Uptime", String.format("`%d` Days `%02d` Hours `%02d` Minutes", dys, hrs, mins), false);
         jda.getTextChannelById(plugin.getConfig().getString("ChannelID")).editMessageById(plugin.getConfig().getString("MinecraftStatsMessageID"), embed.build()).queue();
     }
 }
