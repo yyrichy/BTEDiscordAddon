@@ -29,8 +29,7 @@ public class MinecraftStats extends TimerTask {
         final long dys = TimeUnit.MILLISECONDS.toDays(milliseconds);
         final long hrs = TimeUnit.MILLISECONDS.toHours(milliseconds)  - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(milliseconds));
         final long mins = TimeUnit.MILLISECONDS.toMinutes(milliseconds)  - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds));
-        final long secs = TimeUnit.MILLISECONDS.toSeconds(milliseconds)  - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliseconds));
-        String uptime = String.format("%d Days %d Hours %d Minutes %d Seconds", dys, hrs, mins, secs);
+        String uptime = String.format("%d Days %d Hours %d Minutes", dys, hrs, mins);
         EmbedBuilder embed = new EmbedBuilder();
         embed.setTitle("Minecraft Server Statistics");
         embed.setDescription("Last Updated: <t:" + unixTime + ":R>");
