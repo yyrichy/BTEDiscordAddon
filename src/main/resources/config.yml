@@ -4,35 +4,26 @@
 
 # Displayed at top of embed
 ServerIP: "buildtheearth.net"
-
 LinkedCommandGuildID: "0"
-
 ChannelID: "0"
-
 MessageID: "0"
-
 OfflineMessage: "Read the announcements channel for more information"
+NoPlayersHexColor: "a1ee33"
 
 DiscordPrefix: '$'
-
 UploadSchematicsChannelID: "0"
-
 DownloadSchematicsChannelID: "0"
-
 LinkAccountChannelID: "0"
-
 DelayBeforeDeleteLinkAccountMessageInSeconds: 5
 
 MinecraftStatsEditIntervalInSeconds: 10
+MinecraftStatsMessageID: "0"
+MinecraftStatsGroupNames:
+  - "Builder"
+  - "Default"
 
 TeamStatsEditIntervalInSeconds: 10
-
-TeamStatsRoleID: "0"
-
-MinecraftStatsMessageID: "0"
-
 TeamStatsMessageID: "0"
-
-BuilderRoleID: "0"
-
-NoPlayersHexColor: "a1ee33"
+TeamStatsRoleIDS:
+  - "0"
+  - "0"

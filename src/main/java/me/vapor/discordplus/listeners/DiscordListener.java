@@ -40,10 +40,12 @@ public class DiscordListener {
         plugin.getLogger().info("Discord Ready!");
         Status.updateEmbed(null, false, null);
         Timer t = new Timer();
-        MinecraftStats mTask = new MinecraftStats(plugin);
-        TeamStats tTask = new TeamStats(plugin);
-        t.scheduleAtFixedRate(mTask, 0, plugin.getConfig().getInt("MinecraftStatsEditIntervalInSeconds") * 1000L);
-        t.scheduleAtFixedRate(tTask, 0, plugin.getConfig().getInt("TeamStatsEditIntervalInSeconds") * 1000L);
+        int mcInterval = plugin.getConfig().getInt("MinecraftStatsEditIntervalInSeconds");
+        int teamInterval = plugin.getConfig().getInt("TeamStatsEditIntervalInSeconds");
+        MinecraftStats mTask = new MinecraftStats(plugin, mcInterval);
+        TeamStats tTask = new TeamStats(plugin, teamInterval);
+        t.scheduleAtFixedRate(mTask, 0, mcInterval * 1000L);
+        t.scheduleAtFixedRate(tTask, 0, teamInterval * 1000L);
     }
 
     @Subscribe(priority = ListenerPriority.MONITOR)
