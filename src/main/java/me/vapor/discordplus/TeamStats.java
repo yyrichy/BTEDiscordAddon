@@ -39,7 +39,7 @@ public class TeamStats extends TimerTask {
                 embed.addField(role.getName() + " Role Size", "`" + mainGuild.getMembersWithRoles(role).size() + "`", false);
             }
         }
-        embed.setFooter("Updtaed every " + interval + " seconds");
+        embed.setFooter("Updated every " + interval + " seconds");
         jda.getTextChannelById(plugin.getConfig().getString("ChannelID")).editMessageById(plugin.getConfig().getString("TeamStatsMessageID"), embed.build()).queue();
     }
 }
