@@ -15,6 +15,7 @@ public class TeamStats extends TimerTask {
     private Plugin plugin;
     private int interval;
     private static JDA jda = DiscordUtil.getJda();
+    private EmbedBuilder embed = new EmbedBuilder();
 
     public TeamStats(Plugin plugin, int interval) {
         this.plugin = plugin;
@@ -27,10 +28,10 @@ public class TeamStats extends TimerTask {
         Guild mainGuild = DiscordSRV.getPlugin().getMainGuild();
         List<String> roles = plugin.getConfig().getStringList("TeamStatsRoleIDS");
 
-        EmbedBuilder embed = new EmbedBuilder();
+        embed = new EmbedBuilder();
         embed.setTitle("Team Statistics");
-        embed.setDescription("Last Updated: <t:" + unixTime + ":R>");
-        embed.addField("Guild Members", "`" + mainGuild.getMembers().size() + "`", false);
+        add("Last Updated", "<t:" + unixTime + ":R>");
+        add("Guild Members", "`" + mainGuild.getMembers().size() + "`");
         for(String roleID : roles){
             Role role = mainGuild.getRoleById(roleID);
             if (role == null) {
@@ -41,5 +42,9 @@ public class TeamStats extends TimerTask {
         }
         embed.setFooter("Updated every " + interval + " seconds");
         jda.getTextChannelById(plugin.getConfig().getString("ChannelID")).editMessageById(plugin.getConfig().getString("TeamStatsMessageID"), embed.build()).queue();
+    }
+
+    private void add(String name, String value) {
+        embed.appendDescription("\n**" + name + "**: " + value);
     }
 }

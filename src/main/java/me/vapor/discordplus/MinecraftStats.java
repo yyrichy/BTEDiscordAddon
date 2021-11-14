@@ -21,6 +21,7 @@ public class MinecraftStats extends TimerTask {
     private Plugin plugin;
     private static JDA jda = DiscordUtil.getJda();
     private int interval;
+    private EmbedBuilder embed = new EmbedBuilder();
     LuckPerms luckPerms;
 
     public MinecraftStats(Plugin plugin, int interval) {
@@ -48,13 +49,13 @@ public class MinecraftStats extends TimerTask {
         float memory = ((float) usedMemory / (float) maxMemory) * 100;
         List<String> groupNames = plugin.getConfig().getStringList("MinecraftStatsGroupNames");
 
-        EmbedBuilder embed = new EmbedBuilder();
+        embed = new EmbedBuilder();
         embed.setTitle("Minecraft Server Statistics");
-        embed.setDescription("Last Updated: <t:" + unixTime + ":R>");
-        embed.addField("Unique Players Joined", "`" + Bukkit.getOfflinePlayers().length + "`", false);
-        embed.addField("Linked Players", "`" + DiscordSRV.getPlugin().getAccountLinkManager().getLinkedAccountCount() + "`", false);
-        embed.addField("Memory", "`" + String.format("%.2f", memory) + "`% | `" + usedMemory + "`/`" + maxMemory + "` MB", false);
-        embed.addField("Uptime", String.format("`%d` Days `%02d` Hours `%02d` Minutes", dys, hrs, mins), false);
+        add("Last Updated", "<t:" + unixTime + ":R>");
+        add("Unique Players Joined", "`" + Bukkit.getOfflinePlayers().length + "`");
+        add("Linked Players", "`" + DiscordSRV.getPlugin().getAccountLinkManager().getLinkedAccountCount() + "`");
+        add("Memory", "`" + String.format("%.2f", memory) + "`% | `" + usedMemory + "`/`" + maxMemory + "` MB");
+        add("Uptime", String.format("`%d` Days %02d` Hours `%02d` Minutes", dys, hrs, mins));
         for(String name : groupNames){
             embed.addField(name + " Group Size", "`" + getNumUsersInGroup(name) + "`", false);
         }
@@ -67,5 +68,9 @@ public class MinecraftStats extends TimerTask {
         if(group == null) return -1;
         NodeMatcher<InheritanceNode> matcher = NodeMatcher.key(InheritanceNode.builder(group).build());
         return luckPerms.getUserManager().searchAll(matcher).join().size();
+    }
+
+    private void add(String name, String value) {
+        embed.appendDescription("\n**" + name + "**: " + value);
     }
 }
