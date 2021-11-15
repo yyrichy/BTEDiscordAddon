@@ -55,7 +55,7 @@ public class MinecraftStats extends TimerTask {
         add("Unique Players Joined", "`" + Bukkit.getOfflinePlayers().length + "`");
         add("Linked Players", "`" + DiscordSRV.getPlugin().getAccountLinkManager().getLinkedAccountCount() + "`");
         add("Memory", "`" + String.format("%.2f", memory) + "`% | `" + usedMemory + "`/`" + maxMemory + "` MB");
-        add("Uptime", String.format("`%d` Days %02d` Hours `%02d` Minutes", dys, hrs, mins));
+        add("Uptime", String.format("`%d` Days `%02d` Hours `%02d` Minutes", dys, hrs, mins));
         for(String name : groupNames){
             embed.addField(name + " Group Size", "`" + getNumUsersInGroup(name) + "`", false);
         }
