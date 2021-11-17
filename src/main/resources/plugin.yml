@@ -1,4 +1,4 @@
-main: me.vapor.discordplus.Main
+main: me.vapor.discordplus.DiscordPlus
 name: DiscordPlus
 depend: [DiscordSRV, WorldEdit, Essentials, LuckPerms]
 version: 1.4.1-SNAPSHOT
