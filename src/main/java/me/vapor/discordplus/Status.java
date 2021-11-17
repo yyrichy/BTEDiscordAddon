@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public class Status {
     private static final JDA jda = DiscordUtil.getJda();
-    private static final Plugin plugin = Main.getPlugin(Main.class);
+    private static final Plugin plugin = DiscordPlus.getPlugin(DiscordPlus.class);
     static Essentials ess = (Essentials) Bukkit.getServer().getPluginManager().getPlugin("Essentials");
 
     public static void updateEmbed(PlayerQuitEvent quitEvent, Boolean offline, AfkStatusChangeEvent afkEvent) {

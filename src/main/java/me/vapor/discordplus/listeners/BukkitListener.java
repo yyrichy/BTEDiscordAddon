@@ -1,7 +1,7 @@
 package me.vapor.discordplus.listeners;
 
 import com.earth2me.essentials.Essentials;
-import me.vapor.discordplus.Main;
+import me.vapor.discordplus.DiscordPlus;
 import me.vapor.discordplus.Status;
 import net.ess3.api.events.AfkStatusChangeEvent;
 import org.bukkit.Bukkit;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class BukkitListener implements Listener {
     static Essentials ess = (Essentials) Bukkit.getServer().getPluginManager().getPlugin("Essentials");
-    private static final Plugin plugin = Main.getPlugin(Main.class);
+    private static final Plugin plugin = DiscordPlus.getPlugin(DiscordPlus.class);
     private static Map<String, Boolean> hasQuit = new HashMap<>();
 
     @EventHandler

@@ -7,7 +7,7 @@ import me.vapor.discordplus.listeners.BukkitListener;
 import me.vapor.discordplus.listeners.DiscordListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Main extends JavaPlugin {
+public class DiscordPlus extends JavaPlugin {
     private final DiscordListener discordsrvListener = new DiscordListener(this);
     @Override
     public void onEnable() {
