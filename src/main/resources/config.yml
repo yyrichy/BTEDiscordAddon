@@ -16,6 +16,7 @@ DownloadSchematicsChannelID: "0"
 LinkAccountChannelID: "0"
 DelayBeforeDeleteLinkAccountMessageInSeconds: 5
 
+StatsEnabled: true
 MinecraftStatsEditIntervalInSeconds: 10
 MinecraftStatsMessageID: "0"
 MinecraftStatsGroupNames:

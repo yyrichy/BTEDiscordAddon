@@ -39,13 +39,15 @@ public class DiscordListener {
         DiscordUtil.getJda().addEventListener(new JDAListener(plugin));
         plugin.getLogger().info("Discord Ready!");
         Status.updateEmbed(null, false, null);
-        Timer t = new Timer();
-        int mcInterval = plugin.getConfig().getInt("MinecraftStatsEditIntervalInSeconds");
-        int teamInterval = plugin.getConfig().getInt("TeamStatsEditIntervalInSeconds");
-        MinecraftStats mTask = new MinecraftStats(plugin, mcInterval);
-        TeamStats tTask = new TeamStats(plugin, teamInterval);
-        t.scheduleAtFixedRate(mTask, 0, mcInterval * 1000L);
-        t.scheduleAtFixedRate(tTask, 0, teamInterval * 1000L);
+        if (plugin.getConfig().getBoolean("StatsEnabled")) {
+            Timer t = new Timer();
+            int mcInterval = plugin.getConfig().getInt("MinecraftStatsEditIntervalInSeconds");
+            int teamInterval = plugin.getConfig().getInt("TeamStatsEditIntervalInSeconds");
+            MinecraftStats mTask = new MinecraftStats(plugin, mcInterval);
+            TeamStats tTask = new TeamStats(plugin, teamInterval);
+            t.scheduleAtFixedRate(mTask, 0, mcInterval * 1000L);
+            t.scheduleAtFixedRate(tTask, 0, teamInterval * 1000L);
+        }
     }
 
     @Subscribe(priority = ListenerPriority.MONITOR)
