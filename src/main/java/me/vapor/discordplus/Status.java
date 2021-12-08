@@ -8,14 +8,17 @@ import github.scarsz.discordsrv.dependencies.jda.api.JDA;
 import github.scarsz.discordsrv.util.DiscordUtil;
 import net.ess3.api.events.AfkStatusChangeEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class Status {
     private static final JDA jda = DiscordUtil.getJda();
@@ -34,7 +37,6 @@ public class Status {
             Objects.requireNonNull(jda.getTextChannelById(ChannelID)).editMessageById(MessageID, statusEmbed.build()).queue();
             return;
         }
-        int maxPlayerCount = Bukkit.getMaxPlayers();
         ArrayList<String> onlinePlayersList;
         int playerCount;
 
@@ -49,14 +51,15 @@ public class Status {
             }
             playerCount = Bukkit.getOnlinePlayers().size();
         }
-
-        plugin.getLogger().info("Updating Embed | " + playerCount +" | " + String.join(", ", onlinePlayersList));
+        onlinePlayersList.sort(String.CASE_INSENSITIVE_ORDER);
+        List<String> onlinePlayersNames = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
+        plugin.getLogger().info("Updating Embed | " + playerCount +" | " + String.join(", ", onlinePlayersNames));
         if(playerCount < 1 || onlinePlayersList.isEmpty()) {
             statusEmbed.setColor(Color.decode("#" + plugin.getConfig().getString("NoPlayersHexColor"))); //hex code for orange
             statusEmbed.addField("No Players Online", "```):```", false);
         } else {
             statusEmbed.setColor(Color.decode("#a1ee33")); //hex code for green
-            statusEmbed.addField(playerCount + "/" + maxPlayerCount + " Player(s) Online", String.join("\n", onlinePlayersList), false);
+            statusEmbed.addField(playerCount + "/" + Bukkit.getMaxPlayers() + " Player(s) Online", String.join("\n", onlinePlayersList), false);
         }
         Objects.requireNonNull(jda.getTextChannelById(ChannelID)).editMessageById(MessageID, statusEmbed.build()).queue();
     }
@@ -65,9 +68,8 @@ public class Status {
         ArrayList<String> playerList = new ArrayList<>();
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             User user = ess.getUser(player);
-            playerList.add((user.isAfk() ? "[AFK]" : "") + player.getName() + getDiscordMentionFromUUID(player.getUniqueId()));
+            playerList.add((user.isAfk() ? "[AFK]" : "") + player.getName().replace("_", "\\_") + getDiscordMentionFromUUID(player.getUniqueId()));
         }
-        playerList.sort(String.CASE_INSENSITIVE_ORDER);
         return playerList;
     }
 
@@ -75,32 +77,30 @@ public class Status {
         ArrayList<String> playerList = new ArrayList<>();
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             if (event.getAffected().getName().equals(player.getName()))
-                playerList.add((event.getValue() ? "[AFK]" : "") + player.getName() + getDiscordMentionFromUUID(player.getUniqueId()));
+                playerList.add((event.getValue() ? "[AFK]" : "") + player.getName().replace("_", "\\_") + getDiscordMentionFromUUID(player.getUniqueId()));
             else {
                 User user = ess.getUser(player);
-                playerList.add((user.isAfk() ? "[AFK]" : "") + player.getName() + getDiscordMentionFromUUID(player.getUniqueId()));
+                playerList.add((user.isAfk() ? "[AFK]" : "") + player.getName().replace("_", "\\_") + getDiscordMentionFromUUID(player.getUniqueId()));
             }
         }
-        playerList.sort(String.CASE_INSENSITIVE_ORDER);
         return playerList;
     }
 
     public static ArrayList<String> playerList(PlayerQuitEvent event){
         ArrayList<String> playerList = new ArrayList<>();
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-            if (!event.getPlayer().getName().equals(player.getName())) {
+            if (!event.getPlayer().getUniqueId().equals(player.getUniqueId())) {
                 User user = ess.getUser(player);
-                playerList.add((user.isAfk() ? "[AFK]" : "") + player.getName() + getDiscordMentionFromUUID(player.getUniqueId()));
+                playerList.add((user.isAfk() ? "[AFK]" : "") + player.getName().replace("_", "\\_") + getDiscordMentionFromUUID(player.getUniqueId()));
             }
         }
-        playerList.sort(String.CASE_INSENSITIVE_ORDER);
         return playerList;
     }
 
     public static String getDiscordMentionFromUUID(UUID UUID) {
         String discordId = discordSRV.getAccountLinkManager().getDiscordId(UUID);
         if (discordId != null) {
-            return " <@" + discordId + ">";
+            return " <@!" + discordId + ">";
         }
         return "";
     }
