@@ -1,8 +1,8 @@
-package github.vaporrrr.discordplus.listeners;
+package github.vaporrrr.btediscordaddon.listeners;
 
-import github.vaporrrr.discordplus.DiscordPlus;
-import github.vaporrrr.discordplus.ServerStatus;
-import github.vaporrrr.discordplus.UserManager;
+import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
+import github.vaporrrr.btediscordaddon.ServerStatus;
+import github.vaporrrr.btediscordaddon.UserManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -11,9 +11,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class BukkitListener implements Listener {
     private final UserManager userManager;
     private final ServerStatus serverStatus;
-    public BukkitListener(DiscordPlus discordPlus) {
-        this.userManager = discordPlus.getUserManager();
-        this.serverStatus = discordPlus.getServerStatus();
+    public BukkitListener(BTEDiscordAddon BTEDiscordAddon) {
+        this.userManager = BTEDiscordAddon.getUserManager();
+        this.serverStatus = BTEDiscordAddon.getServerStatus();
     }
 
     @EventHandler

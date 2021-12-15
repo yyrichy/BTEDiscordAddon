@@ -1,4 +1,4 @@
-# DiscordPlus (1.12.2 - 1.17)
+# BTEDiscordAddon (1.12.2 - 1.17)
 Add features through DiscordSRV API. Tested on 1.12.2 and 1.17, native 1.12.2
 
 ## Features:
@@ -13,7 +13,7 @@ Add features through DiscordSRV API. Tested on 1.12.2 and 1.17, native 1.12.2
 - `(prefix)linked` equivalent of `/discord linked`
 - Statistics messages with Discord, Minecraft (LuckPerms as dependency), and BTE website stats (In develop branch)
 - Rewrite of everything
-- Custom made AFK system (Essentials AFK acts weirdly when a player first joins)
+- Custom-made AFK system (Essentials AFK acts weirdly when a player first joins)
 
 ## Requires: 
 - DiscordSRV

@@ -1,4 +1,4 @@
-package github.vaporrrr.discordplus;
+package github.vaporrrr.btediscordaddon;
 
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
@@ -14,17 +14,17 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 public class ServerStatus {
-    private final DiscordPlus discordPlus;
+    private final BTEDiscordAddon BTEDiscordAddon;
     private final DiscordSRV discordSRV = DiscordSRV.getPlugin();
-    private final JDA jda = discordSRV.getJda();
+    private JDA jda;
     private final Logger logger;
-    public ServerStatus(DiscordPlus discordPlus) {
-        this.discordPlus = discordPlus;
-        this.logger = discordPlus.getLogger();
+    public ServerStatus(BTEDiscordAddon BTEDiscordAddon) {
+        this.BTEDiscordAddon = BTEDiscordAddon;
+        this.logger = BTEDiscordAddon.getLogger();
     }
 
     public void update() {
-        FileConfiguration config = discordPlus.getConfig();
+        FileConfiguration config = BTEDiscordAddon.getConfig();
         TextChannel channel = jda.getTextChannelById(config.getString("ServerStatus.ChannelID"));
         if (channel == null) {
             logger.severe("Could not find TextChannel from ServerStatus.ChannelID");
@@ -44,7 +44,7 @@ public class ServerStatus {
     }
 
     public void shutdown() {
-        FileConfiguration config = discordPlus.getConfig();
+        FileConfiguration config = BTEDiscordAddon.getConfig();
         TextChannel channel = jda.getTextChannelById(config.getString("ServerStatus.ChannelID"));
         if (channel == null) {
             logger.severe("Could not find TextChannel from ServerStatus.ChannelID");
@@ -52,14 +52,14 @@ public class ServerStatus {
         }
         EmbedBuilder embed = new EmbedBuilder();
         embed.setAuthor(config.getString("ServerStatus.Title"), null, config.getString("ServerStatus.IconURL"));
-        embed.setDescription(config.getString("ServerStatus.OfflineMessage"));
+        embed.addField("Server Offline", config.getString("ServerStatus.OfflineMessage"), false);
         embed.setColor(Color.decode("#" + config.getString("ServerStatus.Colors.Offline")));
         channel.editMessageById(config.getString("ServerStatus.MessageID"), embed.build()).queue();
     }
 
     private ArrayList<String> playerList() {
         ArrayList<String> playerList = new ArrayList<>();
-        HashMap<UUID, User> userMap = discordPlus.getUserManager().getUserMap();
+        HashMap<UUID, User> userMap = BTEDiscordAddon.getUserManager().getUserMap();
         for (User user : userMap.values()) {
             playerList.add(format(user));
         }
@@ -68,7 +68,7 @@ public class ServerStatus {
     }
 
     private String format(User user) {
-        String format = discordPlus.getConfig().getString("ServerStatus.NameFormat");
+        String format = BTEDiscordAddon.getConfig().getString("ServerStatus.NameFormat");
         UUID UUID = user.getPlayer().getUniqueId();
         format = format.replace("%username%", getFormattedMinecraftUsername(user));
         if (getDiscordIDFromUUID(UUID) != null) {
@@ -107,5 +107,9 @@ public class ServerStatus {
 
     private String getDiscordIDFromUUID(UUID UUID) {
         return discordSRV.getAccountLinkManager().getDiscordId(UUID);
+    }
+
+    public void setJDA(JDA jda) {
+        this.jda = jda;
     }
 }

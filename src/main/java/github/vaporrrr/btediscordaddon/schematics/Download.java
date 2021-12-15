@@ -1,4 +1,4 @@
-package github.vaporrrr.discordplus.schematics;
+package github.vaporrrr.btediscordaddon.schematics;
 
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import org.bukkit.plugin.Plugin;

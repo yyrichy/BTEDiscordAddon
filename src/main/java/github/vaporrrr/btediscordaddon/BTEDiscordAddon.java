@@ -1,23 +1,23 @@
-package github.vaporrrr.discordplus;
+package github.vaporrrr.btediscordaddon;
 
 import github.scarsz.discordsrv.DiscordSRV;
-import github.vaporrrr.discordplus.listeners.BukkitListener;
-import github.vaporrrr.discordplus.listeners.DiscordListener;
-import github.vaporrrr.discordplus.commands.minecraft.Reload;
-import github.vaporrrr.discordplus.commands.minecraft.Update;
+import github.vaporrrr.btediscordaddon.listeners.BukkitListener;
+import github.vaporrrr.btediscordaddon.listeners.DiscordListener;
+import github.vaporrrr.btediscordaddon.commands.minecraft.Reload;
+import github.vaporrrr.btediscordaddon.commands.minecraft.Update;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class DiscordPlus extends JavaPlugin {
+public class BTEDiscordAddon extends JavaPlugin {
     private final DiscordListener discordSRVListener = new DiscordListener(this);
     private final UserManager userManager = new UserManager();
     private final ServerStatus serverStatus = new ServerStatus(this);
     @Override
     public void onEnable() {
-        getLogger().info("DiscordPlus enabled!");
+        getLogger().info("Enabled!");
         saveDefaultConfig();
         getServer().getPluginManager().registerEvents(new BukkitListener(this), this);
         getCommand("ds-update").setExecutor(new Update(this));
-        getCommand("ds-reload").setExecutor(new Reload());
+        getCommand("ds-reload").setExecutor(new Reload(this));
         DiscordSRV.api.subscribe(discordSRVListener);
     }
     public void onDisable(){

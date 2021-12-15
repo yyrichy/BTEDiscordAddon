@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>github.vaporrrr</groupId>
-    <artifactId>discordplus</artifactId>
-    <version>1.4.3</version>
+    <artifactId>btediscordaddon</artifactId>
+    <version>2.0.0</version>
     <packaging>jar</packaging>
 
-    <name>DiscordPlus</name>
+    <name>BTEDiscordAddon</name>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -57,7 +57,6 @@
     </dependencies>
 
     <build>
-        <!--suppress UnresolvedMavenProperty -->
         <finalName>${project.name}-${project.version}-SNAPSHOT</finalName>
         <plugins>
             <plugin>

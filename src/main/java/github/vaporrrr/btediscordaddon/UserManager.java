@@ -1,4 +1,4 @@
-package github.vaporrrr.discordplus;
+package github.vaporrrr.btediscordaddon;
 
 import org.bukkit.entity.Player;
 
