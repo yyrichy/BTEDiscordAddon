@@ -12,8 +12,8 @@ public class Setup {
             EmbedBuilder Embed = new EmbedBuilder();
             Embed.setDescription("Minecraft Server Status will be edited into this message. Use the command again to change the location of the message.");
             e.getChannel().sendMessage(Embed.build()).queue((m -> {
-                plugin.getConfig().set("ChannelID", m.getTextChannel().getId());
-                plugin.getConfig().set("MessageID", m.getId());
+                plugin.getConfig().set("ServerStatus.ChannelID", m.getTextChannel().getId());
+                plugin.getConfig().set("ServerStatus.MessageID", m.getId());
                 plugin.saveConfig();
             }));
         } catch (Exception exception) {

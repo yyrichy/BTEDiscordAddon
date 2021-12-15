@@ -7,6 +7,7 @@ import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -15,13 +16,34 @@ import java.util.logging.Logger;
 public class ServerStatus {
     private final DiscordPlus discordPlus;
     private final DiscordSRV discordSRV = DiscordSRV.getPlugin();
+    private final JDA jda = discordSRV.getJda();
+    private final Logger logger;
     public ServerStatus(DiscordPlus discordPlus) {
         this.discordPlus = discordPlus;
+        this.logger = discordPlus.getLogger();
     }
 
     public void update() {
-        JDA jda = discordSRV.getJda();
-        Logger logger = discordPlus.getLogger();
+        FileConfiguration config = discordPlus.getConfig();
+        TextChannel channel = jda.getTextChannelById(config.getString("ServerStatus.ChannelID"));
+        if (channel == null) {
+            logger.severe("Could not find TextChannel from ServerStatus.ChannelID");
+            return;
+        }
+        ArrayList<String> playerList = playerList();
+        EmbedBuilder embed = new EmbedBuilder();
+        embed.setAuthor(config.getString("ServerStatus.Title"), null, config.getString("ServerStatus.IconURL"));
+        if (playerList.size() == 0) {
+            embed.setDescription("No Players Online.");
+            embed.setColor(Color.decode("#" + config.getString("ServerStatus.Colors.NoPlayersOnline")));
+        } else {
+            embed.addField(playerList.size() + "/" + Bukkit.getMaxPlayers() + " Player(s) Online", String.join("\n", playerList), false);
+            embed.setColor(Color.decode("#" + config.getString("ServerStatus.Colors.PlayersOnline")));
+        }
+        channel.editMessageById(config.getString("ServerStatus.MessageID"), embed.build()).queue();
+    }
+
+    public void shutdown() {
         FileConfiguration config = discordPlus.getConfig();
         TextChannel channel = jda.getTextChannelById(config.getString("ServerStatus.ChannelID"));
         if (channel == null) {
@@ -29,12 +51,9 @@ public class ServerStatus {
             return;
         }
         EmbedBuilder embed = new EmbedBuilder();
-        embed.setTitle(config.getString("ServerStatus.Title"));
-        if (Bukkit.getOnlinePlayers().size() == 0) {
-            embed.setDescription("No Players Online.");
-        } else {
-            embed.addField(Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers() + " Player(s) Online", String.join("\n", playerList()), false);
-        }
+        embed.setAuthor(config.getString("ServerStatus.Title"), null, config.getString("ServerStatus.IconURL"));
+        embed.setDescription(config.getString("ServerStatus.OfflineMessage"));
+        embed.setColor(Color.decode("#" + config.getString("ServerStatus.Colors.Offline")));
         channel.editMessageById(config.getString("ServerStatus.MessageID"), embed.build()).queue();
     }
 
@@ -44,6 +63,7 @@ public class ServerStatus {
         for (User user : userMap.values()) {
             playerList.add(format(user));
         }
+        playerList.sort(String.CASE_INSENSITIVE_ORDER);
         return playerList;
     }
 
@@ -77,7 +97,7 @@ public class ServerStatus {
     }
 
     private String getFormattedMinecraftUsername(User user) {
-        String name = user.getPlayer().getName().replace("_", "\\_") + getDiscordMentionFromUUID(user.getPlayer().getUniqueId());
+        String name = user.getPlayer().getName().replace("_", "\\_");
         return user.isAfk() ? "[AFK]" + name : name;
     }
 

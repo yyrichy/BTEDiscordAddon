@@ -6,7 +6,8 @@
 
     <groupId>github.vaporrrr</groupId>
     <artifactId>discordplus</artifactId>
-    <version>1.4.3-SNAPSHOT</version>
+    <version>1.4.3</version>
+    <packaging>jar</packaging>
 
     <name>DiscordPlus</name>
 
@@ -54,4 +55,26 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <!--suppress UnresolvedMavenProperty -->
+        <finalName>${project.name}-${project.version}-SNAPSHOT</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
 </project>

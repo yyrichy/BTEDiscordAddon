@@ -1,13 +1,13 @@
-package github.vaporrrr.discordplus.commands;
+package github.vaporrrr.discordplus.commands.minecraft;
 
 import github.vaporrrr.discordplus.DiscordPlus;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class CommandUpdate implements CommandExecutor {
+public class Update implements CommandExecutor {
     private final DiscordPlus discordPlus;
-    public CommandUpdate(DiscordPlus discordPlus) {
+    public Update(DiscordPlus discordPlus) {
         this.discordPlus = discordPlus;
     }
     @Override

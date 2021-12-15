@@ -4,31 +4,32 @@
 # NameFormat placeholder options: %username% %discord-mention% %discord-tag% %discord-username% %discord-id%
 ServerStatus:
   Title: "Minecraft Server"
-  ChannelID: "0"
-  MessageID: "0"
-  OfflineMessage: "Read the announcements channel for more information"
-  NameFormat: "%username% %mention%"
+  IconURL: "https://i.imgur.com/dhYpMGQ.gif"
+  ChannelID: 00000000000000000
+  MessageID: 000000000000000000
+  OfflineMessage: "Sorry for the inconvenience."
+  NameFormat: "%username% %discord-mention%"
   Colors:
-    PlayersOnline: "a1ee33"
-    NoPlayersOnline: "a1ee33"
-    Offline: "962d2d"
+    PlayersOnline: a1ee33
+    NoPlayersOnline: a1ee33
+    Offline: 962d2d
 
-LinkedCommandGuildID: "0"
-DiscordPrefix: '$'
-UploadSchematicsChannelID: "0"
-DownloadSchematicsChannelID: "0"
-LinkAccountChannelID: "0"
+LinkedCommandGuildID: 00000000000000000
+DiscordPrefix: $
+UploadSchematicsChannelID: 00000000000000000
+DownloadSchematicsChannelID: 00000000000000000
+LinkAccountChannelID: 00000000000000000
 DelayBeforeDeleteLinkAccountMessageInSeconds: 5
 
 StatsEnabled: true
 MinecraftStatsEditIntervalInSeconds: 10
-MinecraftStatsMessageID: "0"
+MinecraftStatsMessageID: 00000000000000000
 MinecraftStatsGroupNames:
-  - "Builder"
-  - "Default"
+  - Builder
+  - Default
 
 TeamStatsEditIntervalInSeconds: 10
-TeamStatsMessageID: "0"
+TeamStatsMessageID: 00000000000000000
 TeamStatsRoleIDS:
-  - "0"
-  - "0"
+  - 0
+  - 0

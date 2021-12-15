@@ -3,8 +3,8 @@ package github.vaporrrr.discordplus;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.vaporrrr.discordplus.listeners.BukkitListener;
 import github.vaporrrr.discordplus.listeners.DiscordListener;
-import github.vaporrrr.discordplus.commands.CommandReload;
-import github.vaporrrr.discordplus.commands.CommandUpdate;
+import github.vaporrrr.discordplus.commands.minecraft.Reload;
+import github.vaporrrr.discordplus.commands.minecraft.Update;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DiscordPlus extends JavaPlugin {
@@ -16,12 +16,12 @@ public class DiscordPlus extends JavaPlugin {
         getLogger().info("DiscordPlus enabled!");
         saveDefaultConfig();
         getServer().getPluginManager().registerEvents(new BukkitListener(this), this);
-        getCommand("ds-update").setExecutor(new CommandUpdate(this));
-        getCommand("ds-reload").setExecutor(new CommandReload());
+        getCommand("ds-update").setExecutor(new Update(this));
+        getCommand("ds-reload").setExecutor(new Reload());
         DiscordSRV.api.subscribe(discordSRVListener);
     }
     public void onDisable(){
-        serverStatus.update();
+        serverStatus.shutdown();
     }
 
     public UserManager getUserManager() {

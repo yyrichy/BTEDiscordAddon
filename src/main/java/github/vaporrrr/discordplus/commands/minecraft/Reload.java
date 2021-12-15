@@ -1,4 +1,4 @@
-package github.vaporrrr.discordplus.commands;
+package github.vaporrrr.discordplus.commands.minecraft;
 
 import github.vaporrrr.discordplus.DiscordPlus;
 import org.bukkit.command.Command;
@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
-public class CommandReload implements CommandExecutor {
+public class Reload implements CommandExecutor {
     private static final Plugin plugin = DiscordPlus.getPlugin(DiscordPlus.class);
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {

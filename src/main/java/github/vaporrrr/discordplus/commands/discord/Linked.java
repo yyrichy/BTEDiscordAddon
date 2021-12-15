@@ -85,8 +85,8 @@ public class Linked {
                                 .flatMap(guild -> guild.getMembers().stream())
                                 .filter(member -> member.getUser().getName().equalsIgnoreCase(targetUsername)
                                         || (member.getNickname() != null && member.getNickname().equalsIgnoreCase(targetUsername)))
-                                .filter(member -> member.getUser().getDiscriminator().contains(discriminator))
                                 .map(Member::getUser)
+                                .filter(user -> user.getDiscriminator().contains(discriminator))
                                 .collect(Collectors.toSet());
 
                         if (matches.size() >= 1) {
