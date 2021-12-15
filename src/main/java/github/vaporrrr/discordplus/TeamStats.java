@@ -1,4 +1,4 @@
-package me.vapor.discordplus;
+package github.vaporrrr.discordplus;
 
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.TimerTask;
 
 public class TeamStats extends TimerTask {
-    private Plugin plugin;
-    private int interval;
-    private static JDA jda = DiscordUtil.getJda();
+    private final Plugin plugin;
+    private final int interval;
+    private static final JDA jda = DiscordUtil.getJda();
     private EmbedBuilder embed = new EmbedBuilder();
 
     public TeamStats(Plugin plugin, int interval) {

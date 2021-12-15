@@ -1,7 +1,7 @@
-main: me.vapor.discordplus.DiscordPlus
-name: DiscordPlus
-depend: [DiscordSRV, WorldEdit, Essentials, LuckPerms]
-version: 1.4.1-SNAPSHOT
+main: ${project.groupId}.${project.artifactId}.${project.name}
+name: ${project.name}
+depend: [DiscordSRV, WorldEdit, LuckPerms]
+version: ${project.version}
 author: VapoR
 commands:
   ds-update:

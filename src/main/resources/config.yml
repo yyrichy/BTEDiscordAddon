@@ -1,15 +1,19 @@
 # In order to set up the Discord bot's message, use the command "$setup" in Discord.
 # It will create a new message that will be edited with the status of the Minecraft Server.
 # Make sure the bot has permission "EMBED_LINKS", "SEND_MESSAGES" and "VIEW_CHANNEL"
+# NameFormat placeholder options: %username% %discord-mention% %discord-tag% %discord-username% %discord-id%
+ServerStatus:
+  Title: "Minecraft Server"
+  ChannelID: "0"
+  MessageID: "0"
+  OfflineMessage: "Read the announcements channel for more information"
+  NameFormat: "%username% %mention%"
+  Colors:
+    PlayersOnline: "a1ee33"
+    NoPlayersOnline: "a1ee33"
+    Offline: "962d2d"
 
-# Displayed at top of embed
-ServerIP: "buildtheearth.net"
 LinkedCommandGuildID: "0"
-ChannelID: "0"
-MessageID: "0"
-OfflineMessage: "Read the announcements channel for more information"
-NoPlayersHexColor: "a1ee33"
-
 DiscordPrefix: '$'
 UploadSchematicsChannelID: "0"
 DownloadSchematicsChannelID: "0"

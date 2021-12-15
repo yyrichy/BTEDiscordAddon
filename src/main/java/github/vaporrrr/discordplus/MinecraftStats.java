@@ -1,4 +1,4 @@
-package me.vapor.discordplus;
+package github.vaporrrr.discordplus;
 
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
@@ -18,9 +18,9 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class MinecraftStats extends TimerTask {
-    private Plugin plugin;
-    private static JDA jda = DiscordUtil.getJda();
-    private int interval;
+    private final Plugin plugin;
+    private static final JDA jda = DiscordUtil.getJda();
+    private final int interval;
     private EmbedBuilder embed = new EmbedBuilder();
     LuckPerms luckPerms;
 
@@ -45,7 +45,7 @@ public class MinecraftStats extends TimerTask {
         long milliseconds = ManagementFactory.getRuntimeMXBean().getUptime();
         long dys = TimeUnit.MILLISECONDS.toDays(milliseconds);
         long hrs = TimeUnit.MILLISECONDS.toHours(milliseconds)  - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(milliseconds));
-        long mins = TimeUnit.MILLISECONDS.toMinutes(milliseconds)  - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds));
+        long minis = TimeUnit.MILLISECONDS.toMinutes(milliseconds)  - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds));
         float memory = ((float) usedMemory / (float) maxMemory) * 100;
         List<String> groupNames = plugin.getConfig().getStringList("MinecraftStatsGroupNames");
 
@@ -55,7 +55,7 @@ public class MinecraftStats extends TimerTask {
         add("Unique Players Joined", "`" + Bukkit.getOfflinePlayers().length + "`");
         add("Linked Players", "`" + DiscordSRV.getPlugin().getAccountLinkManager().getLinkedAccountCount() + "`");
         add("Memory", "`" + String.format("%.2f", memory) + "`% | `" + usedMemory + "`/`" + maxMemory + "` MB");
-        add("Uptime", String.format("`%d` Days `%02d` Hours `%02d` Minutes", dys, hrs, mins));
+        add("Uptime", String.format("`%d` Days `%02d` Hours `%02d` Minutes", dys, hrs, minis));
         for(String name : groupNames){
             embed.addField(name + " Group Size", "`" + getNumUsersInGroup(name) + "`", false);
         }

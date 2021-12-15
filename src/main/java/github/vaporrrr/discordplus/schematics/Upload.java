@@ -1,4 +1,4 @@
-package me.vapor.discordplus.schematics;
+package github.vaporrrr.discordplus.schematics;
 
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
@@ -17,8 +17,13 @@ public class Upload {
         Plugin worldEdit = plugin.getServer().getPluginManager().getPlugin("WorldEdit");
         File schematicsFolder = new File(worldEdit.getDataFolder() + File.separator + "schematics");
         try {
+            boolean folderMade = true;
             if (!schematicsFolder.exists()) {
-                schematicsFolder.mkdir();
+                folderMade = schematicsFolder.mkdir();
+            }
+            if (!folderMade) {
+                errorMessage(event, "Schematics folder does not exist, and could not create one.");
+                return;
             }
             List<Message.Attachment> attachments = event.getMessage().getAttachments();
             if (attachments.size() == 1) {

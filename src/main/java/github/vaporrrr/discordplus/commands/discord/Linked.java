@@ -1,4 +1,4 @@
-package me.vapor.discordplus.commands.discord;
+package github.vaporrrr.discordplus.commands.discord;
 
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
