@@ -12,3 +12,31 @@ commands:
     description: Reloads Config
     usage: /ds-reload
     permission: ds.admin.config
+  afk:
+    description: Toggles afk status
+    usage: /afk
+    permission: ds.command.afk
+permissions:
+  ds.*:
+    description: Wildcard
+    children:
+      ds.admin: true
+      ds.admin.update: true
+      ds.admin.reload: true
+      ds.command: true
+      ds.command.afk: true
+  ds.admin.*:
+    description: All "admin" permissions
+    children:
+      ds.admin.update: true
+      ds.admin.reload: true
+  ds.admin.update:
+    description: Update Server Status message
+  ds.admin.reload:
+    description: Reload config
+  ds.command.*:
+    description: All general commands
+    children:
+      ds.command.afk: true
+  ds.command.afk:
+    description: Allows usage of /afk

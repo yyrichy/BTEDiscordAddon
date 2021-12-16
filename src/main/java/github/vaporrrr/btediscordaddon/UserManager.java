@@ -20,11 +20,13 @@ public class UserManager {
         userMap.remove(player.getUniqueId());
     }
 
+    public User getUser(Player player) {
+        return userMap.get(player.getUniqueId());
+    }
+
     public void updateAfk(Player player) {
-        if (userMap.containsKey(player.getUniqueId())) {
-            User user = userMap.get(player.getUniqueId());
-            user.setAfk(!user.isAfk());
-        }
+        User user = userMap.get(player.getUniqueId());
+        user.setAfk(!user.isAfk());
     }
 
     public HashMap<UUID, User> getUserMap() {

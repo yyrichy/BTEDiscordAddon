@@ -11,9 +11,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class BukkitListener implements Listener {
     private final UserManager userManager;
     private final ServerStatus serverStatus;
-    public BukkitListener(BTEDiscordAddon BTEDiscordAddon) {
-        this.userManager = BTEDiscordAddon.getUserManager();
-        this.serverStatus = BTEDiscordAddon.getServerStatus();
+    public BukkitListener(BTEDiscordAddon bteDiscordAddon) {
+        this.userManager = bteDiscordAddon.getUserManager();
+        this.serverStatus = bteDiscordAddon.getServerStatus();
     }
 
     @EventHandler

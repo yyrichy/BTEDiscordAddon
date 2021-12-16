@@ -6,14 +6,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class Update implements CommandExecutor {
-    private final BTEDiscordAddon BTEDiscordAddon;
-    public Update(BTEDiscordAddon BTEDiscordAddon) {
-        this.BTEDiscordAddon = BTEDiscordAddon;
+    private final BTEDiscordAddon bteDiscordAddon;
+    public Update(BTEDiscordAddon bteDiscordAddon) {
+        this.bteDiscordAddon = bteDiscordAddon;
     }
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         if (!commandSender.hasPermission("ds.admin.update") || !commandSender.isOp()) return false;
-        BTEDiscordAddon.getServerStatus().update();
+        bteDiscordAddon.getServerStatus().update();
         commandSender.sendMessage("Updated");
         return true;
     }

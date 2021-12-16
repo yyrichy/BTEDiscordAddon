@@ -1,6 +1,7 @@
 package github.vaporrrr.btediscordaddon;
 
 import github.scarsz.discordsrv.DiscordSRV;
+import github.vaporrrr.btediscordaddon.commands.minecraft.Afk;
 import github.vaporrrr.btediscordaddon.listeners.BukkitListener;
 import github.vaporrrr.btediscordaddon.listeners.DiscordListener;
 import github.vaporrrr.btediscordaddon.commands.minecraft.Reload;
@@ -18,6 +19,7 @@ public class BTEDiscordAddon extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BukkitListener(this), this);
         getCommand("ds-update").setExecutor(new Update(this));
         getCommand("ds-reload").setExecutor(new Reload(this));
+        getCommand("afk").setExecutor(new Afk(this));
         DiscordSRV.api.subscribe(discordSRVListener);
     }
     public void onDisable(){
