@@ -4,8 +4,6 @@ import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.JDA;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
-import github.scarsz.discordsrv.dependencies.jda.api.exceptions.ErrorResponseException;
-import github.scarsz.discordsrv.dependencies.jda.api.requests.ErrorResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -90,17 +88,12 @@ public class ServerStatus {
             logSevere(notFoundFormat("TextChannel", channelIDPath));
             return;
         }
-        channel.retrieveMessageById(bteDiscordAddon.getConfig().getString(messageIDPath)).queue((message) -> message.editMessage(embed.build()).queue(), (failure) -> {
-            if (failure instanceof ErrorResponseException) {
-                ErrorResponseException ex = (ErrorResponseException) failure;
-                if (ex.getErrorResponse() == ErrorResponse.UNKNOWN_MESSAGE) {
-                    logSevere(notFoundFormat("Message", messageIDPath + " in channel #" + channel.getName()));
-                    return;
-                }
-            }
-            bteDiscordAddon.getLogger().severe("Exception getting message from ServerStatus.MessageID.");
-            failure.printStackTrace();
-        });
+        try {
+            channel.editMessageById(bteDiscordAddon.getConfig().getString(messageIDPath), embed.build()).queue();
+        } catch(Exception e) {
+            logSevere("Could not edit message " + messageIDPath + " in #" + channel.getName());
+            e.printStackTrace();
+        }
     }
 
     private String getDiscordTagFromUUID(UUID UUID) {
