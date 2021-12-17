@@ -8,8 +8,6 @@ import github.vaporrrr.btediscordaddon.commands.minecraft.Reload;
 import github.vaporrrr.btediscordaddon.commands.minecraft.Update;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Timer;
-
 public class BTEDiscordAddon extends JavaPlugin {
     private final DiscordListener discordSRVListener = new DiscordListener(this);
     private final UserManager userManager = new UserManager(this);

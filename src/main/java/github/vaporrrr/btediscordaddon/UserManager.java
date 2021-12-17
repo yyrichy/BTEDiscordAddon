@@ -14,10 +14,11 @@ public class UserManager {
     }
 
     public void add(Player player) {
-        userMap.put(player.getUniqueId(), new User(player, false, bteDiscordAddon.getConfig().getInt("AfkAutoInSeconds")));
+        userMap.put(player.getUniqueId(), new User(player, false));
     }
 
     public void remove(Player player) {
+        userMap.get(player.getUniqueId()).cancelAfkTimer();
         userMap.remove(player.getUniqueId());
     }
 
@@ -26,11 +27,13 @@ public class UserManager {
     }
 
     public void toggleAfk(Player player) {
-        setAfk(player, userMap.get(player.getUniqueId()).isAfk());
+        setAfk(player, !userMap.get(player.getUniqueId()).isAfk());
     }
 
-    public void setAfk(Player player, boolean afk) {
-        userMap.get(player.getUniqueId()).setAfk(afk);
+    public void setAfk(Player player, boolean isAfk) {
+        User user = userMap.get(player.getUniqueId());
+        user.setAfk(isAfk);
+        if (isAfk) user.startAfkTimer(bteDiscordAddon.getConfig().getInt("AutoAfkInSeconds"), bteDiscordAddon.getServerStatus());
     }
 
     public HashMap<UUID, User> getUserMap() {
