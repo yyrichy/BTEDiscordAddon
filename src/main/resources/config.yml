@@ -14,6 +14,8 @@ ServerStatus:
     NoPlayersOnline: a1ee33
     Offline: 962d2d
 
+AutoAfkInSeconds: 10
+
 LinkedCommandGuildID: 00000000000000000
 DiscordPrefix: $
 UploadSchematicsChannelID: 00000000000000000

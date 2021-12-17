@@ -7,13 +7,14 @@ import java.util.UUID;
 
 public class UserManager {
     private final HashMap<UUID, User> userMap = new HashMap<>();
+    private final BTEDiscordAddon bteDiscordAddon;
 
-    public UserManager() {
-
+    public UserManager(BTEDiscordAddon bteDiscordAddon) {
+        this.bteDiscordAddon = bteDiscordAddon;
     }
 
     public void add(Player player) {
-        userMap.put(player.getUniqueId(), new User(player, false));
+        userMap.put(player.getUniqueId(), new User(player, false, bteDiscordAddon.getConfig().getInt("AfkAutoInSeconds")));
     }
 
     public void remove(Player player) {
@@ -24,9 +25,12 @@ public class UserManager {
         return userMap.get(player.getUniqueId());
     }
 
-    public void updateAfk(Player player) {
-        User user = userMap.get(player.getUniqueId());
-        user.setAfk(!user.isAfk());
+    public void toggleAfk(Player player) {
+        setAfk(player, userMap.get(player.getUniqueId()).isAfk());
+    }
+
+    public void setAfk(Player player, boolean afk) {
+        userMap.get(player.getUniqueId()).setAfk(afk);
     }
 
     public HashMap<UUID, User> getUserMap() {

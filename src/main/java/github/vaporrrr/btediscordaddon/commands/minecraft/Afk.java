@@ -1,7 +1,6 @@
 package github.vaporrrr.btediscordaddon.commands.minecraft;
 
 import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
-import github.vaporrrr.btediscordaddon.UserManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -38,9 +37,8 @@ public class Afk implements CommandExecutor {
         } else {
             cooldownMap.put(player.getUniqueId(), System.currentTimeMillis());
         }
-        UserManager userManager = bteDiscordAddon.getUserManager();
-        userManager.updateAfk(player);
-        commandSender.sendMessage(ChatColor.GRAY + "You are now " + (userManager.getUser(player).isAfk() ? "" : "not ") + "afk.");
+        bteDiscordAddon.getUserManager().toggleAfk(player);
+        commandSender.sendMessage(ChatColor.GRAY + "You are now " + (bteDiscordAddon.getUserManager().getUser(player).isAfk() ? "" : "not ") + "afk.");
         bteDiscordAddon.getServerStatus().update();
         return true;
     }
