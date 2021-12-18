@@ -18,8 +18,8 @@ public class BTEDiscordAddon extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
         getServer().getPluginManager().registerEvents(new BukkitListener(this), this);
-        getCommand("ds-update").setExecutor(new Update(this));
-        getCommand("ds-reload").setExecutor(new Reload(this));
+        getCommand("bted-update").setExecutor(new Update(this));
+        getCommand("bted-reload").setExecutor(new Reload(this));
         getCommand("afk").setExecutor(new Afk(this));
         DiscordSRV.api.subscribe(discordSRVListener);
     }

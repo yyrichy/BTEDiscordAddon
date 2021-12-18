@@ -12,8 +12,7 @@ import github.scarsz.discordsrv.util.DiscordUtil;
 import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import github.vaporrrr.btediscordaddon.MinecraftStats;
 import github.vaporrrr.btediscordaddon.TeamStats;
-import github.vaporrrr.btediscordaddon.commands.discord.Linked;
-import github.vaporrrr.btediscordaddon.commands.discord.Setup;
+import github.vaporrrr.btediscordaddon.commands.DiscordCommandManager;
 import github.vaporrrr.btediscordaddon.schematics.Download;
 import github.vaporrrr.btediscordaddon.schematics.Upload;
 
@@ -25,12 +24,13 @@ public class DiscordListener {
     private final BTEDiscordAddon bteDiscordAddon;
     private final Upload upload;
     private final Download download;
-
+    private final DiscordCommandManager discordCommandManager;
 
     public DiscordListener(BTEDiscordAddon bteDiscordAddon){
         this.bteDiscordAddon = bteDiscordAddon;
         this.upload = new Upload(this.bteDiscordAddon);
         this.download = new Download(this.bteDiscordAddon);
+        this.discordCommandManager = new DiscordCommandManager(bteDiscordAddon);
     }
 
     @Subscribe
@@ -64,16 +64,11 @@ public class DiscordListener {
             return;
         }
         if (event.getMessage().getContentRaw().length() < 2) return;
-        if (!event.getMessage().getContentRaw().substring(0, 1).equals(bteDiscordAddon.getConfig().getString("DiscordPrefix"))) return;
+        if (!event.getMessage().getContentRaw().substring(0, 1).equals(bteDiscordAddon.getConfig().getString("DiscordCommandsPrefix"))) return;
         String[] args = event.getMessage().getContentRaw().split(" ");
         String command = args[0].substring(1);
         args = Arrays.copyOfRange(args, 1, args.length);
-
-        if (command.equals("setup")) {
-            Setup.execute(event, args, bteDiscordAddon);
-        } else if (command.equals("linked")) {
-            Linked.execute(event, args, bteDiscordAddon);
-        }
+        discordCommandManager.executeCommand(event, command, args);
     }
 
     @Subscribe

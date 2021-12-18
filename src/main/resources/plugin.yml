@@ -5,39 +5,39 @@ softdepend: [PlaceholderAPI]
 version: ${project.version}
 author: VapoR
 commands:
-  ds-update:
+  bted-update:
     description: Updates the Status Embed in Discord
-    usage: /ds-update
-    permission: ds.admin.update
-  ds-reload:
+    usage: /bted-update
+    permission: bted.admin.update
+  bted-reload:
     description: Reloads Config
-    usage: /ds-reload
-    permission: ds.admin.config
+    usage: /bted-reload
+    permission: bted.admin.config
   afk:
     description: Toggles afk status
     usage: /afk
-    permission: ds.command.afk
+    permission: bted.command.afk
 permissions:
-  ds.*:
+  bted.*:
     description: Wildcard
     children:
-      ds.admin: true
-      ds.admin.update: true
-      ds.admin.reload: true
-      ds.command: true
-      ds.command.afk: true
-  ds.admin.*:
+      bted.admin: true
+      bted.admin.update: true
+      bted.admin.reload: true
+      bted.command: true
+      bted.command.afk: true
+  bted.admin.*:
     description: All "admin" permissions
     children:
-      ds.admin.update: true
-      ds.admin.reload: true
-  ds.admin.update:
+      bted.admin.update: true
+      bted.admin.reload: true
+  bted.admin.update:
     description: Update Server Status message
-  ds.admin.reload:
+  bted.admin.reload:
     description: Reload config
-  ds.command.*:
+  bted.command.*:
     description: All general commands
     children:
-      ds.command.afk: true
-  ds.command.afk:
+      bted.command.afk: true
+  bted.command.afk:
     description: Allows usage of /afk

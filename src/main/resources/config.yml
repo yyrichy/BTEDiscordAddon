@@ -5,32 +5,43 @@
 ServerStatus:
   Title: "Minecraft Server"
   IconURL: "https://i.imgur.com/dhYpMGQ.gif"
-  ChannelID: 00000000000000000
+  ChannelID: 000000000000000000
   MessageID: 000000000000000000
   OfflineMessage: "Sorry for the inconvenience."
-  NameFormat: "%username% %discord-mention%"
+  NameFormat: "%player_name_with_afk_status% %btedaddon_user_mention%"
   Colors:
     PlayersOnline: a1ee33
     NoPlayersOnline: a1ee33
     Offline: 962d2d
 
-AutoAfkInSeconds: 10
+AutoAfkInSeconds: 30
 
-LinkedCommandGuildID: 00000000000000000
-DiscordPrefix: $
+DiscordCommandsPrefix: $
+DiscordCommands:
+  setup:
+    Enabled: true
+    Permissions:
+      Roles:
+        - 000000000000000000
+  linked:
+    Enabled: true
+    Permissions:
+      Roles:
+        - 000000000000000000
+
 UploadSchematicsChannelID: 00000000000000000
 DownloadSchematicsChannelID: 00000000000000000
 LinkAccountChannelID: 00000000000000000
 DelayBeforeDeleteLinkAccountMessageInSeconds: 5
 
 StatsEnabled: true
-MinecraftStatsEditIntervalInSeconds: 10
+MinecraftStatsEditIntervalInSeconds: 150
 MinecraftStatsMessageID: 00000000000000000
 MinecraftStatsGroupNames:
   - Builder
   - Default
 
-TeamStatsEditIntervalInSeconds: 10
+TeamStatsEditIntervalInSeconds: 300
 TeamStatsMessageID: 00000000000000000
 TeamStatsRoleIDS:
   - 0
