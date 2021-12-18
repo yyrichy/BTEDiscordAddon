@@ -130,7 +130,7 @@ public class ServerStatus {
     private String getDiscordIDFromUUID(UUID UUID) {
         AccountLinkManager accountLinkManager = discordSRV.getAccountLinkManager();
         if (accountLinkManager == null) return null;
-        return discordSRV.getAccountLinkManager().getDiscordId(UUID);
+        return accountLinkManager.getDiscordId(UUID);
     }
 
     private void logSevere(String message) {
