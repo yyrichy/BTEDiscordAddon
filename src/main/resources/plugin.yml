@@ -1,6 +1,7 @@
 main: ${project.groupId}.${project.artifactId}.${project.name}
 name: ${project.name}
 depend: [DiscordSRV, WorldEdit, LuckPerms]
+softdepend: [PlaceholderAPI]
 version: ${project.version}
 author: VapoR
 commands:

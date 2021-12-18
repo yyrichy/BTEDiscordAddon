@@ -5,11 +5,11 @@ import github.vaporrrr.btediscordaddon.ServerStatus;
 import github.vaporrrr.btediscordaddon.User;
 import github.vaporrrr.btediscordaddon.UserManager;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.*;
 
 public class BukkitListener implements Listener {
     private final BTEDiscordAddon bteDiscordAddon;
@@ -37,22 +37,52 @@ public class BukkitListener implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        if (event.getFrom().getBlockX() == event.getTo().getBlockX() && event.getFrom().getBlockZ() == event.getTo().getBlockZ() && event.getFrom().getBlockY() == event.getTo().getBlockY()) {
+        if (System.currentTimeMillis() - lastCheck < 500) {
             return;
         }
-        if (System.currentTimeMillis() - lastCheck <= 1000) {
-            return;
+        checkAndStartTimer(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onPlayerChat(AsyncPlayerChatEvent event) {
+        checkAndStartTimer(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onPlayerToggleSneak(PlayerToggleSneakEvent event) {
+        checkAndStartTimer(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onPlayerItemBreak(PlayerItemBreakEvent event) {
+        checkAndStartTimer(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event) {
+        checkAndStartTimer(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onCommandPreprocess(PlayerCommandPreprocessEvent event) {
+        if (!event.getMessage().toLowerCase().startsWith("/afk")) {
+            checkAndStartTimer(event.getPlayer());
         }
+    }
+
+    private void checkAndStartTimer(Player player) {
         int interval = bteDiscordAddon.getConfig().getInt("AutoAfkInSeconds");
         if (interval < 1) {
             return;
         }
-        User user = userManager.getUser(event.getPlayer());
-        user.startAfkTimer(interval, serverStatus);
+        User user = userManager.getUser(player);
         if (user.isAfk()) {
-            userManager.setAfk(event.getPlayer(), false);
-            event.getPlayer().sendMessage(ChatColor.GRAY + "You are now not afk.");
-            serverStatus.update();;
+            user.setAfk(false);
+            user.cancelAfkTask();
+            player.sendMessage(ChatColor.GRAY + "You are now not afk.");
+            serverStatus.update();
+        } else {
+            user.startAfkTimer(interval, bteDiscordAddon.getServerStatus());
         }
         lastCheck = System.currentTimeMillis();
     }

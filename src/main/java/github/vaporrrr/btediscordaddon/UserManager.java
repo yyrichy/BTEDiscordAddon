@@ -15,6 +15,7 @@ public class UserManager {
 
     public void add(Player player) {
         userMap.put(player.getUniqueId(), new User(player, false));
+        userMap.get(player.getUniqueId()).startAfkTimer(bteDiscordAddon.getConfig().getInt("AutoAfkInSeconds"), bteDiscordAddon.getServerStatus());
     }
 
     public void remove(Player player) {
@@ -27,13 +28,25 @@ public class UserManager {
     }
 
     public void toggleAfk(Player player) {
-        setAfk(player, !userMap.get(player.getUniqueId()).isAfk());
+        User user = userMap.get(player.getUniqueId());
+        boolean isAfk = user.isAfk();
+        setAfk(player, !isAfk);
+        //No ! since in previous line afk is reversed
+        if (isAfk) {
+            user.startAfkTimer(bteDiscordAddon.getConfig().getInt("AutoAfkInSeconds"), bteDiscordAddon.getServerStatus());
+        } else {
+            user.cancelAfkTask();
+        }
     }
 
     public void setAfk(Player player, boolean isAfk) {
         User user = userMap.get(player.getUniqueId());
         user.setAfk(isAfk);
-        if (isAfk) user.startAfkTimer(bteDiscordAddon.getConfig().getInt("AutoAfkInSeconds"), bteDiscordAddon.getServerStatus());
+        if (!isAfk) {
+            user.startAfkTimer(bteDiscordAddon.getConfig().getInt("AutoAfkInSeconds"), bteDiscordAddon.getServerStatus());
+        } else {
+            user.cancelAfkTask();
+        }
     }
 
     public HashMap<UUID, User> getUserMap() {

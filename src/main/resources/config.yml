@@ -1,7 +1,7 @@
 # In order to set up the Discord bot's message, use the command "$setup" in Discord.
 # It will create a new message that will be edited with the status of the Minecraft Server.
 # Make sure the bot has permission "EMBED_LINKS", "SEND_MESSAGES" and "VIEW_CHANNEL"
-# NameFormat placeholder options: %username% %discord-mention% %discord-tag% %discord-username% %discord-id%
+# NameFormat Default placeholders: %player_name% %player_name_with_afk_status% %btedaddon_user_mention% %btedaddon_user_tag% %btedaddon_user_username% %btedaddon_user_id% (PlaceHolder API is supported)
 ServerStatus:
   Title: "Minecraft Server"
   IconURL: "https://i.imgur.com/dhYpMGQ.gif"

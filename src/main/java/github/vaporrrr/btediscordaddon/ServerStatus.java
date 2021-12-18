@@ -4,6 +4,7 @@ import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.JDA;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -70,12 +71,16 @@ public class ServerStatus {
     private String format(User user) {
         String format = bteDiscordAddon.getConfig().getString("ServerStatus.NameFormat");
         UUID UUID = user.getPlayer().getUniqueId();
-        format = format.replace("%username%", getFormattedMinecraftUsername(user));
+        format = format.replace("%player_name%", getFormattedMinecraftUsername(user));
+        format = format.replace("%player_name_with_afk_status", user.getPlayer().getName());
         if (getDiscordIDFromUUID(UUID) != null) {
-            format = format.replace("%discord-mention%", getDiscordMentionFromUUID(UUID));
-            format = format.replace("%discord-tag%", getDiscordTagFromUUID(UUID));
-            format = format.replace("%discord-username%", getDiscordUsernameFromUUID(UUID));
-            format = format.replace("%discord-id%", getDiscordIDFromUUID(UUID));
+            format = format.replace("%btedaddon_user_mention%", getDiscordMentionFromUUID(UUID));
+            format = format.replace("%btedaddon_user_tag%", getDiscordTagFromUUID(UUID));
+            format = format.replace("%btedaddon_user_username%", getDiscordUsernameFromUUID(UUID));
+            format = format.replace("%btedaddon_user_id%", getDiscordIDFromUUID(UUID));
+        }
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            format = PlaceholderAPI.setPlaceholders(user.getPlayer(), format);
         }
         return format;
     }
@@ -85,12 +90,12 @@ public class ServerStatus {
         String messageIDPath = "ServerStatus.MessageID";
         TextChannel channel = jda.getTextChannelById(bteDiscordAddon.getConfig().getString(channelIDPath));
         if (channel == null) {
-            logSevere(notFoundFormat("TextChannel", channelIDPath));
+            logSevere("TextChanel from " + channelIDPath + " does not exist.");
             return;
         }
         try {
             channel.editMessageById(bteDiscordAddon.getConfig().getString(messageIDPath), embed.build()).queue();
-        } catch(Exception e) {
+        } catch (Exception e) {
             logSevere("Could not edit message " + messageIDPath + " in #" + channel.getName());
             e.printStackTrace();
         }
@@ -127,9 +132,5 @@ public class ServerStatus {
 
     private void logSevere(String message) {
         bteDiscordAddon.getLogger().severe(message);
-    }
-
-    private String notFoundFormat(String type, String path) {
-        return type + " from " + path + " does not exist.";
     }
 }

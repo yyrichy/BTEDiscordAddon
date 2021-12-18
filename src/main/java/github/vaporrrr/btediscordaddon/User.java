@@ -40,6 +40,10 @@ public class User {
         afkTimerTask.cancel();
     }
 
+    public void cancelAfkTask() {
+        afkTimerTask.cancel();
+    }
+
     public void startAfkTimer(int interval, ServerStatus serverStatus) {
         if (interval < 1) return;
         afkTimerTask.cancel();
