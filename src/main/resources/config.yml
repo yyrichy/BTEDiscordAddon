@@ -13,9 +13,7 @@ ServerStatus:
     PlayersOnline: a1ee33
     NoPlayersOnline: a1ee33
     Offline: 962d2d
-
 AutoAfkInSeconds: 30
-
 DiscordCommandsPrefix: $
 DiscordCommands:
   setup:
@@ -28,21 +26,17 @@ DiscordCommands:
     Permissions:
       Roles:
         - 000000000000000000
-
 UploadSchematicsChannelID: 00000000000000000
 DownloadSchematicsChannelID: 00000000000000000
 LinkAccountChannelID: 00000000000000000
 DelayBeforeDeleteLinkAccountMessageInSeconds: 5
-
 StatsEnabled: true
 MinecraftStatsEditIntervalInSeconds: 150
 MinecraftStatsMessageID: 00000000000000000
 MinecraftStatsGroupNames:
   - Builder
   - Default
-
 TeamStatsEditIntervalInSeconds: 300
 TeamStatsMessageID: 00000000000000000
 TeamStatsRoleIDS:
-  - 0
   - 0

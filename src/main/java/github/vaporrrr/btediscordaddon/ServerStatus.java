@@ -4,6 +4,7 @@ import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.JDA;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
+import github.scarsz.discordsrv.objects.managers.AccountLinkManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -127,6 +128,8 @@ public class ServerStatus {
     }
 
     private String getDiscordIDFromUUID(UUID UUID) {
+        AccountLinkManager accountLinkManager = discordSRV.getAccountLinkManager();
+        if (accountLinkManager == null) return null;
         return discordSRV.getAccountLinkManager().getDiscordId(UUID);
     }
 
