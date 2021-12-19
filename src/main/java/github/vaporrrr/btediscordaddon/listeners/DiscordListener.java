@@ -10,11 +10,12 @@ import github.scarsz.discordsrv.api.events.DiscordReadyEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import github.scarsz.discordsrv.util.DiscordUtil;
 import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
-import github.vaporrrr.btediscordaddon.MinecraftStats;
-import github.vaporrrr.btediscordaddon.TeamStats;
+import github.vaporrrr.btediscordaddon.stats.MinecraftStats;
+import github.vaporrrr.btediscordaddon.stats.TeamStats;
 import github.vaporrrr.btediscordaddon.commands.DiscordCommandManager;
 import github.vaporrrr.btediscordaddon.schematics.Download;
 import github.vaporrrr.btediscordaddon.schematics.Upload;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;
 import java.util.Timer;
@@ -26,7 +27,7 @@ public class DiscordListener {
     private final Download download;
     private final DiscordCommandManager discordCommandManager;
 
-    public DiscordListener(BTEDiscordAddon bteDiscordAddon){
+    public DiscordListener(BTEDiscordAddon bteDiscordAddon) {
         this.bteDiscordAddon = bteDiscordAddon;
         this.upload = new Upload(this.bteDiscordAddon);
         this.download = new Download(this.bteDiscordAddon);
@@ -38,13 +39,16 @@ public class DiscordListener {
         bteDiscordAddon.getLogger().info("Discord Ready!");
         bteDiscordAddon.getServerStatus().setJDA(DiscordUtil.getJda());
         bteDiscordAddon.getServerStatus().update();
-        if (bteDiscordAddon.getConfig().getBoolean("StatsEnabled")) {
-            Timer t = new Timer();
-            int mcInterval = bteDiscordAddon.getConfig().getInt("MinecraftStatsEditIntervalInSeconds");
-            int teamInterval = bteDiscordAddon.getConfig().getInt("TeamStatsEditIntervalInSeconds");
+        FileConfiguration config = bteDiscordAddon.getConfig();
+        Timer t = new Timer();
+        if (config.getBoolean("Stats.Minecraft.Enabled")) {
+            int mcInterval = bteDiscordAddon.getConfig().getInt("Stats.Minecraft.IntervalInSeconds");
             MinecraftStats mTask = new MinecraftStats(bteDiscordAddon, mcInterval);
-            TeamStats tTask = new TeamStats(bteDiscordAddon, teamInterval);
             t.scheduleAtFixedRate(mTask, 0, mcInterval * 1000L);
+        }
+        if (config.getBoolean("Stats.Team.Enabled")) {
+            int teamInterval = bteDiscordAddon.getConfig().getInt("Stats.Team.IntervalInSeconds");
+            TeamStats tTask = new TeamStats(bteDiscordAddon, teamInterval);
             t.scheduleAtFixedRate(tTask, 0, teamInterval * 1000L);
         }
     }
@@ -52,19 +56,27 @@ public class DiscordListener {
     @Subscribe(priority = ListenerPriority.MONITOR)
     public void discordMessageReceived(DiscordGuildMessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
-        if (event.getChannel().getId().equals(bteDiscordAddon.getConfig().getString("UploadSchematicsChannelID"))) {upload.execute(event); return;}
-        if (event.getChannel().getId().equals(bteDiscordAddon.getConfig().getString("DownloadSchematicsChannelID"))) {download.execute(event); return;}
+        if (event.getChannel().getId().equals(bteDiscordAddon.getConfig().getString("UploadSchematicsChannelID"))) {
+            upload.execute(event);
+            return;
+        }
+        if (event.getChannel().getId().equals(bteDiscordAddon.getConfig().getString("DownloadSchematicsChannelID"))) {
+            download.execute(event);
+            return;
+        }
         if (event.getChannel().getId().equals(bteDiscordAddon.getConfig().getString("LinkAccountChannelID"))) {
             try {
                 event.getChannel().sendMessage(DiscordSRV.getPlugin().getAccountLinkManager().process(event.getMessage().getContentRaw(), event.getAuthor().getId())).complete().delete().completeAfter(bteDiscordAddon.getConfig().getInt("DelayBeforeDeleteLinkAccountMessageInSeconds"), TimeUnit.SECONDS);
                 event.getMessage().delete().queue();
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return;
         }
         if (event.getMessage().getContentRaw().length() < 2) return;
-        if (!event.getMessage().getContentRaw().substring(0, 1).equals(bteDiscordAddon.getConfig().getString("DiscordCommandsPrefix"))) return;
+        if (!event.getMessage().getContentRaw().substring(0, 1).equals(bteDiscordAddon.getConfig().getString("DiscordCommandsPrefix"))) {
+            return;
+        }
         String[] args = event.getMessage().getContentRaw().split(" ");
         String command = args[0].substring(1);
         args = Arrays.copyOfRange(args, 1, args.length);

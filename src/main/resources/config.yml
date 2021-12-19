@@ -15,6 +15,9 @@ ServerStatus:
     Offline: 962d2d
 AutoAfkInSeconds: 30
 DiscordCommandsPrefix: $
+MinecraftCommands:
+  afk:
+    CooldownInSeconds: 10
 DiscordCommands:
   setup:
     Enabled: true
@@ -30,13 +33,19 @@ UploadSchematicsChannelID: 00000000000000000
 DownloadSchematicsChannelID: 00000000000000000
 LinkAccountChannelID: 00000000000000000
 DelayBeforeDeleteLinkAccountMessageInSeconds: 5
-StatsEnabled: true
-MinecraftStatsEditIntervalInSeconds: 150
-MinecraftStatsMessageID: 00000000000000000
-MinecraftStatsGroupNames:
-  - Builder
-  - Default
-TeamStatsEditIntervalInSeconds: 300
-TeamStatsMessageID: 00000000000000000
-TeamStatsRoleIDS:
-  - 0
+Stats:
+  Minecraft:
+    Enabled: true
+    IntervalInSeconds: 120
+    ChannelID: 00000000000000000
+    MessageID: 00000000000000000
+    GroupNames:
+      - Builder
+      - Default
+  Team:
+    Enabled: true
+    IntervalInSeconds: 300
+    ChannelID: 00000000000000000
+    MessageID: 00000000000000000
+    RoleIDS:
+      - 00000000000000000

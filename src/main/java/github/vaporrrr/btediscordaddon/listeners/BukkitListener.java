@@ -4,7 +4,6 @@ import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import github.vaporrrr.btediscordaddon.ServerStatus;
 import github.vaporrrr.btediscordaddon.User;
 import github.vaporrrr.btediscordaddon.UserManager;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -79,7 +78,6 @@ public class BukkitListener implements Listener {
         if (user.isAfk()) {
             user.setAfk(false);
             user.cancelAfkTask();
-            player.sendMessage(ChatColor.GRAY + "You are now not afk.");
             serverStatus.update();
         } else {
             user.startAfkTimer(interval, bteDiscordAddon.getServerStatus());

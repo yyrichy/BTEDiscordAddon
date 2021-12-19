@@ -72,8 +72,8 @@ public class ServerStatus {
     private String format(User user) {
         String format = bteDiscordAddon.getConfig().getString("ServerStatus.NameFormat");
         UUID UUID = user.getPlayer().getUniqueId();
-        format = format.replace("%player_name%", getFormattedMinecraftUsername(user));
-        format = format.replace("%player_name_with_afk_status", user.getPlayer().getName());
+        format = format.replace("%player_name%", user.getPlayer().getName());
+        format = format.replace("%player_name_with_afk_status%", getFormattedMinecraftUsername(user));
         if (getDiscordIDFromUUID(UUID) != null) {
             format = format.replace("%btedaddon_user_mention%", getDiscordMentionFromUUID(UUID));
             format = format.replace("%btedaddon_user_tag%", getDiscordTagFromUUID(UUID));
