@@ -15,6 +15,7 @@ public class BukkitListener implements Listener {
     private final UserManager userManager;
     private final ServerStatus serverStatus;
     private long lastCheck;
+
     public BukkitListener(BTEDiscordAddon bteDiscordAddon) {
         this.bteDiscordAddon = bteDiscordAddon;
         this.userManager = bteDiscordAddon.getUserManager();

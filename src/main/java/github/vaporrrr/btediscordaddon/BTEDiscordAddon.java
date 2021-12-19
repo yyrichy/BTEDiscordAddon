@@ -12,6 +12,7 @@ public class BTEDiscordAddon extends JavaPlugin {
     private final DiscordListener discordSRVListener = new DiscordListener(this);
     private final UserManager userManager = new UserManager(this);
     private final ServerStatus serverStatus = new ServerStatus(this);
+
     @Override
     public void onEnable() {
         getLogger().info("Enabled!");
@@ -23,7 +24,8 @@ public class BTEDiscordAddon extends JavaPlugin {
         getCommand("afk").setExecutor(new Afk(this));
         DiscordSRV.api.subscribe(discordSRVListener);
     }
-    public void onDisable(){
+
+    public void onDisable() {
         serverStatus.shutdown();
     }
 

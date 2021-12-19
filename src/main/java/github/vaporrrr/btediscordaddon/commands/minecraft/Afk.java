@@ -12,10 +12,12 @@ import java.util.UUID;
 
 public class Afk implements CommandExecutor {
     private final BTEDiscordAddon bteDiscordAddon;
+    private final HashMap<UUID, Long> cooldownMap = new HashMap<>();
+
     public Afk(BTEDiscordAddon bteDiscordAddon) {
         this.bteDiscordAddon = bteDiscordAddon;
     }
-    private final HashMap<UUID, Long> cooldownMap = new HashMap<>();
+
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         if (!commandSender.hasPermission("ds.command.afk") || !commandSender.isOp()) return false;

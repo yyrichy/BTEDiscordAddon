@@ -33,7 +33,7 @@ public class TeamStats extends TimerTask {
         embed.setTitle("Team Statistics");
         add("Last Updated", "<t:" + unixTime + ":R>");
         add("Guild Members", "`" + mainGuild.getMembers().size() + "`");
-        for(String roleID : roles){
+        for (String roleID : roles) {
             Role role = mainGuild.getRoleById(roleID);
             if (role == null) {
                 plugin.getLogger().warning("Could not find role " + roleID);

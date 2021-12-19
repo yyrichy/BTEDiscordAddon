@@ -24,7 +24,7 @@ public class Linked extends DiscordCommand {
             Adapted from DiscordSRV's /discord linked
          */
         try {
-            if(args.length < 1){
+            if (args.length < 1) {
                 event.getChannel().sendMessage("Specify a UUID, Discord ID, Minecraft player name, or Discord name.").queue();
             } else {
                 String target = args[0];
@@ -141,6 +141,6 @@ public class Linked extends DiscordCommand {
 
     @Override
     public String[] getArguments() {
-        return new String[]{ "{input(UUID, Minecraft Name, Discord ID, Discord Name)}" };
+        return new String[]{"{input(UUID, Minecraft Name, Discord ID, Discord Name)}"};
     }
 }

@@ -10,6 +10,7 @@ import java.util.HashMap;
 public class DiscordCommandManager {
     private final BTEDiscordAddon bteDiscordAddon;
     private final HashMap<String, DiscordCommand> discordCommands = new HashMap<>();
+
     public DiscordCommandManager(BTEDiscordAddon bteDiscordAddon) {
         this.bteDiscordAddon = bteDiscordAddon;
         Linked linked = new Linked();
