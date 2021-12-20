@@ -1,5 +1,5 @@
-# BTEDiscordAddon (1.12.2 - 1.17)
-Add features through DiscordSRV API. Tested on 1.12.2 and 1.17, native 1.12.2
+# BTEDiscordAddon (1.12 - 1.18)
+Add features through DiscordSRV API. Tested on 1.12.2 and 1.18.1, native 1.12.2
 
 ## Features:
 - Server status message in Discord, edited with # of players and list of players
@@ -12,9 +12,8 @@ Add features through DiscordSRV API. Tested on 1.12.2 and 1.17, native 1.12.2
 - Default placeholders in server status message: 
 
 ## WIP:
-- `(prefix)linked` equivalent of `/discord linked` (works but isn't pretty)
+- `(prefix)linked` equivalent of `/discord linked` (needs to be remade)
 - Statistics messages with Discord, Minecraft (Uses LuckPerms for group stats), and BTE website stats
-- Rewrite and add more customization to statistics messages config 
 - Rewrite (Partly complete)
 - Custom-made AFK system (Essentials AFK acts weirdly when a player first joins) (Mostly complete)
 
