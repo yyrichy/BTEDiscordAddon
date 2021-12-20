@@ -20,7 +20,10 @@ public class Afk implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
-        if (!commandSender.hasPermission("ds.command.afk") || !commandSender.isOp()) return false;
+        if (!commandSender.hasPermission("bted.command.afk") || !commandSender.isOp()) {
+            commandSender.sendMessage(ChatColor.RED + "You do not have permission to use that command.");
+            return true;
+        }
         if (!(commandSender instanceof Player)) {
             commandSender.sendMessage(ChatColor.RED + "You must be a player to use this command.");
             return true;
