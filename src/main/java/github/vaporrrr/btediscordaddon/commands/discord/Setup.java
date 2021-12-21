@@ -8,12 +8,15 @@ import github.vaporrrr.btediscordaddon.commands.DiscordCommand;
 public class Setup extends DiscordCommand {
     @Override
     public void execute(BTEDiscordAddon bteDiscordAddon, DiscordGuildMessageReceivedEvent event, String[] args) {
-        EmbedBuilder Embed = new EmbedBuilder();
-        Embed.setDescription("Minecraft Server Status will be edited into this message. Use the command again to change the location of the message.");
-        event.getChannel().sendMessage(Embed.build()).queue((m -> {
+        EmbedBuilder embed = new EmbedBuilder();
+        embed.setDescription("Minecraft Server Status will be edited into this message. Type " + bteDiscordAddon.getConfig().getString("DiscordCommandsPrefix") + getName() + " again to change the location.");
+        embed.setFooter("Editing config...");
+        event.getChannel().sendMessage(embed.build()).queue((m -> {
             bteDiscordAddon.getConfig().set("ServerStatus.ChannelID", m.getTextChannel().getId());
             bteDiscordAddon.getConfig().set("ServerStatus.MessageID", m.getId());
             bteDiscordAddon.saveConfig();
+            embed.setFooter("Success editing config!");
+            m.editMessage(embed.build()).queue();
         }));
     }
 
