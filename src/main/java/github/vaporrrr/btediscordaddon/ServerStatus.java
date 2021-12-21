@@ -74,11 +74,12 @@ public class ServerStatus {
         UUID UUID = user.getPlayer().getUniqueId();
         format = format.replace("%player_name%", user.getPlayer().getName());
         format = format.replace("%player_name_with_afk_status%", getFormattedMinecraftUsername(user));
-        if (getDiscordIDFromUUID(UUID) != null) {
-            format = format.replace("%btedaddon_user_mention%", getDiscordMentionFromUUID(UUID));
-            format = format.replace("%btedaddon_user_tag%", getDiscordTagFromUUID(UUID));
-            format = format.replace("%btedaddon_user_username%", getDiscordUsernameFromUUID(UUID));
-            format = format.replace("%btedaddon_user_id%", getDiscordIDFromUUID(UUID));
+        String id = getDiscordIDFromUUID(UUID);
+        if (id != null) {
+            format = format.replace("%btedaddon_user_mention%", getDiscordMentionFromID(id));
+            format = format.replace("%btedaddon_user_tag%", getDiscordTagFromID(id));
+            format = format.replace("%btedaddon_user_username%", getDiscordUsernameFromID(id));
+            format = format.replace("%btedaddon_user_id%", id);
         }
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             format = PlaceholderAPI.setPlaceholders(user.getPlayer(), format);
@@ -102,20 +103,20 @@ public class ServerStatus {
         }
     }
 
-    private String getDiscordTagFromUUID(UUID UUID) {
-        github.scarsz.discordsrv.dependencies.jda.api.entities.User user = getDiscordUserFromUUID(UUID);
+    private String getDiscordTagFromID(String id) {
+        github.scarsz.discordsrv.dependencies.jda.api.entities.User user = getDiscordUserFromID(id);
         if (user == null) return "";
         return user.getAsTag();
     }
 
-    private String getDiscordUsernameFromUUID(UUID UUID) {
-        github.scarsz.discordsrv.dependencies.jda.api.entities.User user = getDiscordUserFromUUID(UUID);
+    private String getDiscordUsernameFromID(String id) {
+        github.scarsz.discordsrv.dependencies.jda.api.entities.User user = getDiscordUserFromID(id);
         if (user == null) return "";
         return user.getName();
     }
 
-    private github.scarsz.discordsrv.dependencies.jda.api.entities.User getDiscordUserFromUUID(UUID UUID) {
-        return discordSRV.getJda().getUserById(getDiscordIDFromUUID(UUID));
+    private github.scarsz.discordsrv.dependencies.jda.api.entities.User getDiscordUserFromID(String id) {
+        return discordSRV.getJda().getUserById(id);
     }
 
     private String getFormattedMinecraftUsername(User user) {
@@ -123,8 +124,8 @@ public class ServerStatus {
         return user.isAfk() ? "[AFK]" + name : name;
     }
 
-    private String getDiscordMentionFromUUID(UUID UUID) {
-        return getDiscordIDFromUUID(UUID) == null ? "" : "<@!" + getDiscordIDFromUUID(UUID) + ">";
+    private String getDiscordMentionFromID(String id) {
+        return "<@!" + id + ">";
     }
 
     private String getDiscordIDFromUUID(UUID UUID) {
