@@ -2,8 +2,7 @@ package github.vaporrrr.btediscordaddon.commands;
 
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
-import github.vaporrrr.btediscordaddon.commands.discord.Linked;
-import github.vaporrrr.btediscordaddon.commands.discord.Setup;
+import github.vaporrrr.btediscordaddon.commands.discord.*;
 
 import java.util.HashMap;
 
@@ -17,6 +16,8 @@ public class DiscordCommandManager {
         discordCommands.put(linked.getName(), linked);
         Setup setup = new Setup();
         discordCommands.put(setup.getName(), setup);
+        Online online = new Online();
+        discordCommands.put(online.getName(), online);
     }
 
     public void executeCommand(DiscordGuildMessageReceivedEvent event, String command, String[] args) {

@@ -29,6 +29,11 @@ DiscordCommands:
     Permissions:
       Roles:
         - 000000000000000000
+  online:
+    Enabled: true
+    Permissions:
+      Roles:
+        - 000000000000000000
 UploadSchematicsChannelID: 00000000000000000
 DownloadSchematicsChannelID: 00000000000000000
 LinkAccountChannelID: 00000000000000000

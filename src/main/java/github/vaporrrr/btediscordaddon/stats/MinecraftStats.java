@@ -59,7 +59,12 @@ public class MinecraftStats extends TimerTask {
         add("Memory", "`" + String.format("%.2f", memory) + "`% | `" + usedMemory + "`/`" + maxMemory + "` MB");
         add("Uptime", String.format("`%d` Days `%02d` Hours `%02d` Minutes", dys, hrs, minis));
         for(String name : groupNames){
-            embed.addField(name + " Group Size", "`" + getNumUsersInGroup(name) + "`", false);
+            int groupSize = getGroupSize(name);
+            if (groupSize == -1) {
+                plugin.getLogger().warning("Could not get group size of group " + name);
+            } else {
+                embed.addField(name + " Group Size", "`" + groupSize + "`", false);
+            }
         }
         embed.setFooter("Updated every " + interval + " seconds");
         TextChannel channel = jda.getTextChannelById(plugin.getConfig().getString("Stats.Minecraft.ChannelID"));
@@ -70,7 +75,7 @@ public class MinecraftStats extends TimerTask {
         }
     }
 
-    private int getNumUsersInGroup(String groupName) {
+    private int getGroupSize(String groupName) {
         Group group = luckPerms.getGroupManager().getGroup(groupName);
         if(group == null) return -1;
         NodeMatcher<InheritanceNode> matcher = NodeMatcher.key(InheritanceNode.builder(group).build());

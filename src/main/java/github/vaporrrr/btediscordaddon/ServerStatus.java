@@ -1,23 +1,17 @@
 package github.vaporrrr.btediscordaddon;
 
-import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.JDA;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
-import github.scarsz.discordsrv.objects.managers.AccountLinkManager;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 public class ServerStatus {
     private final BTEDiscordAddon bteDiscordAddon;
-    private final DiscordSRV discordSRV = DiscordSRV.getPlugin();
     private JDA jda;
     private final Logger logger;
 
@@ -26,9 +20,13 @@ public class ServerStatus {
         this.logger = bteDiscordAddon.getLogger();
     }
 
+    public void setJDA(JDA jda) {
+        this.jda = jda;
+    }
+
     public void update() {
         FileConfiguration config = bteDiscordAddon.getConfig();
-        ArrayList<String> playerList = playerList();
+        ArrayList<String> playerList = bteDiscordAddon.getUserManager().playerList();
         EmbedBuilder embed = new EmbedBuilder();
         embed.setAuthor(config.getString("ServerStatus.Title"), null, config.getString("ServerStatus.IconURL"));
         if (playerList.size() == 0) {
@@ -55,38 +53,6 @@ public class ServerStatus {
         editStatus(embed);
     }
 
-    public void setJDA(JDA jda) {
-        this.jda = jda;
-    }
-
-    private ArrayList<String> playerList() {
-        ArrayList<String> playerList = new ArrayList<>();
-        HashMap<UUID, User> userMap = bteDiscordAddon.getUserManager().getUserMap();
-        for (User user : userMap.values()) {
-            playerList.add(format(user));
-        }
-        playerList.sort(String.CASE_INSENSITIVE_ORDER);
-        return playerList;
-    }
-
-    private String format(User user) {
-        String format = bteDiscordAddon.getConfig().getString("ServerStatus.NameFormat");
-        UUID UUID = user.getPlayer().getUniqueId();
-        format = format.replace("%player_name%", user.getPlayer().getName());
-        format = format.replace("%player_name_with_afk_status%", getFormattedMinecraftUsername(user));
-        String id = getDiscordIDFromUUID(UUID);
-        if (id != null) {
-            format = format.replace("%btedaddon_user_mention%", getDiscordMentionFromID(id));
-            format = format.replace("%btedaddon_user_tag%", getDiscordTagFromID(id));
-            format = format.replace("%btedaddon_user_username%", getDiscordUsernameFromID(id));
-            format = format.replace("%btedaddon_user_id%", id);
-        }
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            format = PlaceholderAPI.setPlaceholders(user.getPlayer(), format);
-        }
-        return format;
-    }
-
     private void editStatus(EmbedBuilder embed) {
         String channelIDPath = "ServerStatus.ChannelID";
         String messageIDPath = "ServerStatus.MessageID";
@@ -101,37 +67,6 @@ public class ServerStatus {
             logSevere("Could not edit message " + messageIDPath + " in #" + channel.getName());
             e.printStackTrace();
         }
-    }
-
-    private String getDiscordTagFromID(String id) {
-        github.scarsz.discordsrv.dependencies.jda.api.entities.User user = getDiscordUserFromID(id);
-        if (user == null) return "";
-        return user.getAsTag();
-    }
-
-    private String getDiscordUsernameFromID(String id) {
-        github.scarsz.discordsrv.dependencies.jda.api.entities.User user = getDiscordUserFromID(id);
-        if (user == null) return "";
-        return user.getName();
-    }
-
-    private github.scarsz.discordsrv.dependencies.jda.api.entities.User getDiscordUserFromID(String id) {
-        return discordSRV.getJda().getUserById(id);
-    }
-
-    private String getFormattedMinecraftUsername(User user) {
-        String name = user.getPlayer().getName().replace("_", "\\_");
-        return user.isAfk() ? "[AFK]" + name : name;
-    }
-
-    private String getDiscordMentionFromID(String id) {
-        return "<@!" + id + ">";
-    }
-
-    private String getDiscordIDFromUUID(UUID UUID) {
-        AccountLinkManager accountLinkManager = discordSRV.getAccountLinkManager();
-        if (accountLinkManager == null) return null;
-        return accountLinkManager.getDiscordId(UUID);
     }
 
     private void logSevere(String message) {
