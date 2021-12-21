@@ -10,10 +10,12 @@ import java.util.concurrent.TimeUnit;
 
 public class Upload {
     private final Plugin plugin;
-    public Upload(Plugin  plugin){
+
+    public Upload(Plugin plugin) {
         this.plugin = plugin;
     }
-    public void execute(DiscordGuildMessageReceivedEvent event){
+
+    public void execute(DiscordGuildMessageReceivedEvent event) {
         Plugin worldEdit = plugin.getServer().getPluginManager().getPlugin("WorldEdit");
         File schematicsFolder = new File(worldEdit.getDataFolder() + File.separator + "schematics");
         try {
@@ -32,14 +34,14 @@ public class Upload {
                 if (fileName.endsWith(".schematic") || fileName.endsWith(".schem")) {
                     File file = new File(schematicsFolder, fileName);
                     if (!file.exists()) {
-                        if(file.length() <= 8388608){
+                        if (file.length() <= 8388608) {
                             attachments.get(0).downloadToFile(file);
                             event.getChannel().sendMessage(fileName + " has been successfully uploaded to the server.").queue();
                         } else {
                             errorMessage(event, "File is too large. (>8MB)");
                         }
                     } else {
-                        errorMessage(event,fileName + " already exists.");
+                        errorMessage(event, fileName + " already exists.");
                     }
                 } else {
                     errorMessage(event, "The attachment must be a .schematic or .schem file.");
@@ -51,11 +53,12 @@ public class Upload {
             error.printStackTrace();
         }
     }
+
     public static void errorMessage(DiscordGuildMessageReceivedEvent event, String errorMessage) {
         event.getChannel().sendMessage(errorMessage).complete().delete().completeAfter(2, TimeUnit.SECONDS);
         try {
             event.getMessage().delete().queue();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
