@@ -3,6 +3,7 @@ package github.vaporrrr.btediscordaddon.commands.discord;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.dependencies.commons.lang3.StringUtils;
+import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Member;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.User;
@@ -18,39 +19,45 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class Linked extends DiscordCommand {
+    private final EmbedBuilder embed = new EmbedBuilder();
+    private TextChannel channel;
+
     @Override
     public void execute(BTEDiscordAddon bteDiscordAddon, DiscordGuildMessageReceivedEvent event, String[] args) {
         /*
             Adapted from DiscordSRV's /discord linked
-         */
+        */
+        embed.clear();
+        embed.setTitle(getName().toUpperCase());
+        channel = event.getChannel();
         try {
             if (args.length < 1) {
-                event.getChannel().sendMessage("Specify a UUID, Discord ID, Minecraft player name, or Discord name.").queue();
+                channel.sendMessage("Specify a UUID, Discord ID, Minecraft player name, or Discord name.").queue();
             } else {
                 String target = args[0];
                 String joinedTarget = String.join(" ", args);
 
                 if (args.length == 1 && target.length() == 32 || target.length() == 36) {
-                    // target is UUID
-                    notifyInterpret(event.getChannel(), "UUID");
+                    //Target is UUID
+                    notifyInterpret("UUID");
                     OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(target));
-                    notifyPlayer(event.getChannel(), player);
-                    notifyDiscord(event.getChannel(), DiscordSRV.getPlugin().getAccountLinkManager().getDiscordId(player.getUniqueId()));
+                    notifyPlayer(player);
+                    notifyDiscord(DiscordSRV.getPlugin().getAccountLinkManager().getDiscordId(player.getUniqueId()));
+                    sendEmbed();
                     return;
                 } else if (args.length == 1 && DiscordUtil.getUserById(target) != null ||
                         (StringUtils.isNumeric(target) && target.length() >= 17 && target.length() <= 20)) {
-                    // target is a Discord ID
-                    notifyInterpret(event.getChannel(), "Discord ID");
+                    //Target is Discord ID
+                    notifyInterpret("Discord ID");
                     UUID uuid = DiscordSRV.getPlugin().getAccountLinkManager().getUuid(target);
-                    notifyPlayer(event.getChannel(), uuid != null ? Bukkit.getOfflinePlayer(uuid) : null);
-                    notifyDiscord(event.getChannel(), target);
+                    notifyPlayer(uuid != null ? Bukkit.getOfflinePlayer(uuid) : null);
+                    notifyDiscord(target);
+                    sendEmbed();
                     return;
                 } else {
                     if (args.length == 1 && target.length() >= 3 && target.length() <= 16) {
-                        // target is probably a Minecraft player name
-                        OfflinePlayer player;
-
-                        player = Bukkit.getOnlinePlayers().stream()
+                        //Target probably a Minecraft player name
+                        OfflinePlayer player = Bukkit.getOnlinePlayers().stream()
                                 .filter(p -> p.getName().equalsIgnoreCase(target))
                                 .findFirst().orElse(null);
 
@@ -59,27 +66,26 @@ public class Linked extends DiscordCommand {
                                     .filter(p -> p.getName() != null && p.getName().equalsIgnoreCase(target))
                                     .findFirst().orElse(null);
                         }
-
                         if (player == null) {
                             //noinspection deprecation
                             player = Bukkit.getOfflinePlayer(target);
                             if (player.getName() == null) {
-                                // player doesn't actually exist
+                                //Player doesn't actually exist
                                 player = null;
                             }
                         }
-
                         if (player != null) {
-                            // found them
-                            notifyInterpret(event.getChannel(), "Minecraft player");
-                            notifyPlayer(event.getChannel(), player);
-                            notifyDiscord(event.getChannel(), DiscordSRV.getPlugin().getAccountLinkManager().getDiscordId(player.getUniqueId()));
+                            //Found
+                            notifyInterpret("Minecraft player");
+                            notifyPlayer(player);
+                            notifyDiscord(DiscordSRV.getPlugin().getAccountLinkManager().getDiscordId(player.getUniqueId()));
+                            sendEmbed();
                             return;
                         }
                     }
 
                     if (joinedTarget.contains("#") || (joinedTarget.length() >= 2 && joinedTarget.length() <= 32 + 5)) {
-                        // target is a discord name... probably.
+                        //Target is probably a Discord name
                         String targetUsername = joinedTarget.contains("#") ? joinedTarget.split("#")[0] : joinedTarget;
                         String discriminator = joinedTarget.contains("#") ? joinedTarget.split("#")[1] : "";
 
@@ -92,46 +98,49 @@ public class Linked extends DiscordCommand {
                                 .collect(Collectors.toSet());
 
                         if (matches.size() >= 1) {
-                            notifyInterpret(event.getChannel(), "Discord name");
-
+                            notifyInterpret("Discord name");
                             matches.stream().limit(5).forEach(user -> {
                                 UUID uuid = DiscordSRV.getPlugin().getAccountLinkManager().getUuid(user.getId());
-                                notifyPlayer(event.getChannel(), uuid != null ? Bukkit.getOfflinePlayer(uuid) : null);
-                                notifyDiscord(event.getChannel(), user.getId());
+                                notifyPlayer(uuid != null ? Bukkit.getOfflinePlayer(uuid) : null);
+                                notifyDiscord(user.getId());
                             });
-
+                            sendEmbed();
                             int remaining = matches.size() - 5;
                             if (remaining >= 1) {
-                                event.getChannel().sendMessage("More results... " + remaining).queue();
+                                channel.sendMessage("More results... " + remaining).queue();
                             }
                             return;
                         }
                     }
                 }
-                // no matches at all found
-                event.getChannel().sendMessage("Could not find matches for user/player.").queue();
+                //No matches found
+                channel.sendMessage("Could not find matches for user/player.").queue();
             }
         } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
 
-    private static void notifyInterpret(TextChannel channel, String type) {
-        channel.sendMessage("Interpreted as: " + type).queue();
+    private void notifyInterpret(String type) {
+        embed.appendDescription("\nInterpreted as: " + type);
     }
 
-    private static void notifyPlayer(TextChannel channel, OfflinePlayer player) {
+    private void notifyPlayer(OfflinePlayer player) {
         if (player != null) {
-            channel.sendMessage("Player: " + player.getName() + " " + player.getUniqueId()).queue();
+            embed.appendDescription("\nPlayer: " + player.getName() + " " + player.getUniqueId());
         } else {
-            channel.sendMessage("Player: null").queue();
+            embed.appendDescription("\nPlayer: Not Found");
         }
     }
 
-    private static void notifyDiscord(TextChannel channel, String discordId) {
+    private void notifyDiscord(String discordId) {
         User user = DiscordUtil.getUserById(discordId);
         String discordInfo = (user != null ? " (" + user.getName() + "#" + user.getDiscriminator() + ")" : "") + " " + discordId;
-        channel.sendMessage("Discord:" + discordInfo).queue();
+        embed.appendDescription("\nDiscord:" + discordInfo);
+    }
+
+    private void sendEmbed() {
+        channel.sendMessage(embed.build()).queue();
     }
 
     @Override
