@@ -36,7 +36,6 @@ public class Linked extends DiscordCommand {
             } else {
                 String target = args[0];
                 String joinedTarget = String.join(" ", args);
-
                 if (args.length == 1 && target.length() == 32 || target.length() == 36) {
                     //Target is UUID
                     notifyInterpret("UUID");
@@ -60,7 +59,6 @@ public class Linked extends DiscordCommand {
                         OfflinePlayer player = Bukkit.getOnlinePlayers().stream()
                                 .filter(p -> p.getName().equalsIgnoreCase(target))
                                 .findFirst().orElse(null);
-
                         if (player == null) {
                             player = Arrays.stream(Bukkit.getOfflinePlayers())
                                     .filter(p -> p.getName() != null && p.getName().equalsIgnoreCase(target))
@@ -83,12 +81,10 @@ public class Linked extends DiscordCommand {
                             return;
                         }
                     }
-
                     if (joinedTarget.contains("#") || (joinedTarget.length() >= 2 && joinedTarget.length() <= 32 + 5)) {
                         //Target is probably a Discord name
                         String targetUsername = joinedTarget.contains("#") ? joinedTarget.split("#")[0] : joinedTarget;
                         String discriminator = joinedTarget.contains("#") ? joinedTarget.split("#")[1] : "";
-
                         Set<User> matches = DiscordUtil.getJda().getGuilds().stream()
                                 .flatMap(guild -> guild.getMembers().stream())
                                 .filter(member -> member.getUser().getName().equalsIgnoreCase(targetUsername)
@@ -96,7 +92,6 @@ public class Linked extends DiscordCommand {
                                 .map(Member::getUser)
                                 .filter(user -> user.getDiscriminator().contains(discriminator))
                                 .collect(Collectors.toSet());
-
                         if (matches.size() >= 1) {
                             notifyInterpret("Discord name");
                             matches.stream().limit(5).forEach(user -> {
@@ -122,21 +117,21 @@ public class Linked extends DiscordCommand {
     }
 
     private void notifyInterpret(String type) {
-        embed.appendDescription("\nInterpreted as: " + type);
+        embed.appendDescription("\n`Interpreted as:` " + type);
     }
 
     private void notifyPlayer(OfflinePlayer player) {
         if (player != null) {
-            embed.appendDescription("\nPlayer: " + player.getName() + " " + player.getUniqueId());
+            embed.appendDescription("\n`Player:` " + player.getName() + " " + player.getUniqueId());
         } else {
-            embed.appendDescription("\nPlayer: Not Found");
+            embed.appendDescription("\n`Player:` Not Found");
         }
     }
 
     private void notifyDiscord(String discordId) {
         User user = DiscordUtil.getUserById(discordId);
         String discordInfo = (user != null ? " (" + user.getName() + "#" + user.getDiscriminator() + ")" : "") + " " + discordId;
-        embed.appendDescription("\nDiscord:" + discordInfo);
+        embed.appendDescription("\n`Discord:`" + discordInfo);
     }
 
     private void sendEmbed() {

@@ -10,11 +10,10 @@ import github.scarsz.discordsrv.api.events.DiscordReadyEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import github.scarsz.discordsrv.util.DiscordUtil;
 import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
+import github.vaporrrr.btediscordaddon.commands.DiscordCommandManager;
+import github.vaporrrr.btediscordaddon.schematics.Schematics;
 import github.vaporrrr.btediscordaddon.stats.MinecraftStats;
 import github.vaporrrr.btediscordaddon.stats.TeamStats;
-import github.vaporrrr.btediscordaddon.commands.DiscordCommandManager;
-import github.vaporrrr.btediscordaddon.schematics.Download;
-import github.vaporrrr.btediscordaddon.schematics.Upload;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;
@@ -23,14 +22,12 @@ import java.util.concurrent.TimeUnit;
 
 public class DiscordListener {
     private final BTEDiscordAddon bteDiscordAddon;
-    private final Upload upload;
-    private final Download download;
+    private final Schematics schematics;
     private final DiscordCommandManager discordCommandManager;
 
     public DiscordListener(BTEDiscordAddon bteDiscordAddon) {
         this.bteDiscordAddon = bteDiscordAddon;
-        this.upload = new Upload(this.bteDiscordAddon);
-        this.download = new Download(this.bteDiscordAddon);
+        this.schematics = new Schematics(bteDiscordAddon);
         this.discordCommandManager = new DiscordCommandManager(bteDiscordAddon);
     }
 
@@ -56,20 +53,26 @@ public class DiscordListener {
     @Subscribe(priority = ListenerPriority.MONITOR)
     public void discordMessageReceived(DiscordGuildMessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
-        if (event.getChannel().getId().equals(bteDiscordAddon.getConfig().getString("UploadSchematicsChannelID"))) {
-            upload.execute(event);
+        if (event.getChannel().getId().equals(bteDiscordAddon.getConfig().getString("Schematics.Upload.ChannelID"))) {
+            schematics.upload(event);
             return;
         }
-        if (event.getChannel().getId().equals(bteDiscordAddon.getConfig().getString("DownloadSchematicsChannelID"))) {
-            download.execute(event);
+        if (event.getChannel().getId().equals(bteDiscordAddon.getConfig().getString("Schematics.Download.ChannelID"))) {
+            schematics.download(event);
             return;
         }
-        if (event.getChannel().getId().equals(bteDiscordAddon.getConfig().getString("LinkAccountChannelID"))) {
-            try {
-                event.getChannel().sendMessage(DiscordSRV.getPlugin().getAccountLinkManager().process(event.getMessage().getContentRaw(), event.getAuthor().getId())).complete().delete().completeAfter(bteDiscordAddon.getConfig().getInt("DelayBeforeDeleteLinkAccountMessageInSeconds"), TimeUnit.SECONDS);
-                event.getMessage().delete().queue();
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (event.getChannel().getId().equals(bteDiscordAddon.getConfig().getString("Linking.ChannelID"))) {
+            String response = DiscordSRV.getPlugin().getAccountLinkManager().process(event.getMessage().getContentRaw(), event.getAuthor().getId());
+            int delay = bteDiscordAddon.getConfig().getInt("Linking.DelayBeforeDeleteMsgInSeconds");
+            if (delay <= 0) {
+                event.getChannel().sendMessage(response).queue();
+            } else {
+                try {
+                    event.getChannel().sendMessage(response).complete().delete().completeAfter(delay, TimeUnit.SECONDS);
+                    event.getMessage().delete().queue();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return;
         }

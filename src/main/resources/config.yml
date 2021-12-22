@@ -15,6 +15,9 @@ ServerStatus:
     Offline: 962d2d
 AutoAfkInSeconds: 30
 DiscordCommandsPrefix: $
+Linking:
+  ChannelID: 000000000000000000
+  DelayBeforeDeleteMsgInSeconds: 5
 MinecraftCommands:
   afk:
     CooldownInSeconds: 10
@@ -34,10 +37,12 @@ DiscordCommands:
     Permissions:
       Roles:
         - 000000000000000000
-UploadSchematicsChannelID: 00000000000000000
-DownloadSchematicsChannelID: 00000000000000000
-LinkAccountChannelID: 00000000000000000
-DelayBeforeDeleteLinkAccountMessageInSeconds: 5
+Schematics:
+  Upload:
+    ChannelID: 00000000000000000
+    MaxSizeInKB: 8192
+  Download:
+    ChannelID: 00000000000000000
 Stats:
   Minecraft:
     Enabled: true
