@@ -15,7 +15,7 @@ public class Reload implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
-        if (!commandSender.hasPermission("bted.admin.reload") || !commandSender.isOp()) {
+        if (!commandSender.hasPermission("bted.admin.reload") && !commandSender.isOp()) {
             commandSender.sendMessage(ChatColor.RED + "You do not have permission to use that command.");
             return true;
         }
