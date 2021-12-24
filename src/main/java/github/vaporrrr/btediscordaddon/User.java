@@ -33,7 +33,7 @@ public class User {
 
     public void setAfk(boolean isAfk) {
         this.isAfk = isAfk;
-        player.sendMessage(ChatColor.GRAY + "You are now " + (isAfk ? "" : "not ") + "afk.");
+        player.sendMessage(ChatColor.GRAY + "You are " + (isAfk ? "now" : "no longer") + " afk.");
         notifyEveryone();
     }
 
@@ -62,7 +62,7 @@ public class User {
     private void notifyEveryone() {
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (!p.getUniqueId().equals(player.getUniqueId())) {
-                p.sendMessage(ChatColor.GRAY + "" + ChatColor.BOLD + player.getName() + ChatColor.RESET + ChatColor.GRAY + " is now " + (isAfk ? "" : "not ") + "afk");
+                p.sendMessage(ChatColor.GRAY + "" + ChatColor.BOLD + player.getName() + ChatColor.RESET + ChatColor.GRAY + " is " + (isAfk ? "now" : "no longer") + " afk");
             }
         }
     }

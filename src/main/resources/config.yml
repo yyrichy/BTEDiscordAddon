@@ -34,6 +34,7 @@ DiscordCommands:
         - 000000000000000000
   online:
     Enabled: true
+    Title: "Minecraft Server"
     Permissions:
       Roles:
         - 000000000000000000

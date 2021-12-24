@@ -15,7 +15,7 @@ public class Online extends DiscordCommand {
         ArrayList<String> playerList = bteDiscordAddon.getUserManager().playerList();
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(Color.WHITE);
-        embed.setTitle("Minecraft Server");
+        embed.setTitle(bteDiscordAddon.getConfig().getString("DiscordCommands." + getName() + ".Title"));
         if (playerList.size() == 0) {
             embed.setDescription("No Players Online");
         } else {

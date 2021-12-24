@@ -21,7 +21,10 @@ public class Schematics {
     }
 
     public void upload(DiscordGuildMessageReceivedEvent event) {
-        if (worldEdit == null) worldEdit = Bukkit.getPluginManager().getPlugin("WorldEdit");
+        if (worldEdit == null) {
+            bteDiscordAddon.getLogger().warning("WorldEdit is not installed, cannot upload schematics.");
+            return;
+        }
         File schematicsFolder = new File(worldEdit.getDataFolder() + File.separator + "schematics");
         try {
             boolean folderMade = true;
@@ -60,7 +63,10 @@ public class Schematics {
     }
 
     public void download(DiscordGuildMessageReceivedEvent event) {
-        if (worldEdit == null) worldEdit = Bukkit.getPluginManager().getPlugin("WorldEdit");
+        if (worldEdit == null) {
+            bteDiscordAddon.getLogger().warning("WorldEdit is not installed, cannot download schematics.");
+            return;
+        }
         File schematicsFolder = new File(worldEdit.getDataFolder() + File.separator + "schematics");
         String name = event.getMessage().getContentRaw();
         try {
