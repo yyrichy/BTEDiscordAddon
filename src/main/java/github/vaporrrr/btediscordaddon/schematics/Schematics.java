@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Schematics {
-    private Plugin worldEdit;
+    private final Plugin worldEdit;
     private final BTEDiscordAddon bteDiscordAddon;
 
     public Schematics(BTEDiscordAddon bteDiscordAddon) {
