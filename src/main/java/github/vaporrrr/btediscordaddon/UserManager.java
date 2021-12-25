@@ -36,14 +36,14 @@ public class UserManager {
     private String format(User user) {
         String format = bteDiscordAddon.getConfig().getString("ServerStatus.NameFormat");
         UUID UUID = user.getPlayer().getUniqueId();
-        format = format.replace("%player_name%", user.getPlayer().getName());
-        format = format.replace("%player_name_with_afk_status%", getFormattedMinecraftUsername(user));
+        format = format.replace("$player_name$", user.getPlayer().getName());
+        format = format.replace("$player_name_with_afk_status$", getFormattedMinecraftUsername(user));
         String id = getDiscordIDFromUUID(UUID);
         if (id != null) {
-            format = format.replace("%btedaddon_user_mention%", getDiscordMentionFromID(id));
-            format = format.replace("%btedaddon_user_tag%", getDiscordTagFromID(id));
-            format = format.replace("%btedaddon_user_username%", getDiscordUsernameFromID(id));
-            format = format.replace("%btedaddon_user_id%", id);
+            format = format.replace("$discord_mention$", getDiscordMentionFromID(id));
+            format = format.replace("$discord_tag$", getDiscordTagFromID(id));
+            format = format.replace("$discord_username$", getDiscordUsernameFromID(id));
+            format = format.replace("$discord_id$", id);
         }
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             format = PlaceholderAPI.setPlaceholders(user.getPlayer(), format);

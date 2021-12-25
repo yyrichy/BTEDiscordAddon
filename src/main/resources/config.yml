@@ -1,14 +1,15 @@
 # In order to set up the Discord bot's message, use the command "$setup" in Discord.
 # It will create a new message that will be edited with the status of the Minecraft Server.
 # Make sure the bot has permission "EMBED_LINKS", "SEND_MESSAGES" and "VIEW_CHANNEL"
-# NameFormat Default placeholders: %player_name% %player_name_with_afk_status% %btedaddon_user_mention% %btedaddon_user_tag% %btedaddon_user_username% %btedaddon_user_id% (PlaceHolder API is supported)
+# ServerStatus.NameFormat Default placeholders: https://github.com/vaporrrr/BTEDiscordAddon (PlaceHolder API is supported)
+# Stats.Minecraft.Description Default placeholders: https://github.com/vaporrrr/BTEDiscordAddon (PlaceHolder API is supported)
 ServerStatus:
   Title: "Minecraft Server"
   IconURL: "https://i.imgur.com/dhYpMGQ.gif"
   ChannelID: 000000000000000000
   MessageID: 000000000000000000
   OfflineMessage: "Sorry for the inconvenience."
-  NameFormat: "%player_name_with_afk_status% %btedaddon_user_mention%"
+  NameFormat: "$player_name_with_afk_status$ $discord_mention$"
   Colors:
     PlayersOnline: a1ee33
     NoPlayersOnline: a1ee33
@@ -50,8 +51,13 @@ Stats:
     IntervalInSeconds: 120
     ChannelID: 00000000000000000
     MessageID: 00000000000000000
+    Description:
+      - "**Last Updated**:  <t:$unix$:R>"
+      - "**Unique Players Joined**: `$unique_players_joined$`"
+      - "**Linked Players**: `$linked_players$`"
+      - "**Memory**: $memory$"
+      - "**Uptime**: $uptime$"
     GroupNames:
-      - Builder
       - Default
   Team:
     Enabled: true

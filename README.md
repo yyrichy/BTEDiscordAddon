@@ -8,8 +8,21 @@ Add features through DiscordSRV API. Tested on 1.12.2 and 1.18.1, native 1.12.2
 - Log Discord account link and unlink
 - Link account (DiscordSRV) through channel instead of DMs
 - Upload and download schematics through Discord channel (Majority of code from [RudeYeti](https://github.com/RudeYeti))
-- PlaceholderAPI support in server status message
-- Default placeholders in server status message: 
+- PlaceholderAPI support in Server Status message and Stats messages
+
+Default Placeholders:
+<details>
+    <summary>Server Status Message</summary>
+    $player_name$ $player_name_with_afk_status$ $discord_mention$ $discord_tag$ $discord_username> $discord_id$
+</details>
+<details>
+    <summary>Minecraft Stats Message</summary>
+    $unix$ $unique_players_joined$ $linked_players$ $memory$ $uptime$
+</details>
+<details>
+    <summary>Team Stats Message</summary>
+    SOON
+</details>
 
 ## WIP:
 - `(prefix)linked` equivalent of `/discord linked` (needs to be remade)
