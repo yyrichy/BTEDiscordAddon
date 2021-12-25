@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -83,7 +84,7 @@ public class Schematics {
             potentialFiles.add(new File(schematicsFolder, name + ".schem"));
             ArrayList<File> files = new ArrayList<>();
             for (File file : potentialFiles) {
-                if (file.exists() && !file.isAbsolute() && file.length() < 8388608) {
+                if (file.exists() && inBaseDirectory(schematicsFolder, file) && file.length() < 8388608) {
                     files.add(file);
                 }
             }
@@ -106,5 +107,11 @@ public class Schematics {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static boolean inBaseDirectory(File base, File user) {
+        URI parentURI = base.toURI();
+        URI childURI = user.toURI();
+        return !parentURI.relativize(childURI).isAbsolute();
     }
 }
