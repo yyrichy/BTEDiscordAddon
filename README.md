@@ -5,6 +5,7 @@ Add features through DiscordSRV API. Tested on 1.12.2 and 1.18.1, native 1.12.2
 - Server status message in Discord, edited with # of players and list of players
 - Placeholders for Discord usernames, IDs, etc. (Placeholder options: %username% %discord-mention% %discord-tag% %discord-username% %discord-id%)
 - `(prefix)setup` sets status message
+- `(prefix)online` lists online players
 - Log Discord account link and unlink
 - Link account (DiscordSRV) through channel instead of DMs
 - Upload and download schematics through Discord channel (Majority of code from [RudeYeti](https://github.com/RudeYeti))
@@ -33,8 +34,8 @@ Default Placeholders:
 
 ## Requires: 
 - DiscordSRV
-- WorldEdit (Will be made soft depend)
-- LuckPerms (Will be made soft depend)
 
 ## Soft Depend (Optional):
 - PlaceholderAPI
+- LuckPerms (For getting group size)
+- WorldEdit (For schematic download and upload channels)
