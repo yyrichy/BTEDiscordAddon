@@ -12,16 +12,17 @@ Add features through DiscordSRV API. Tested on 1.12.2 and 1.18.1, native 1.12.2
 
 Default Placeholders:
 <details>
-    <summary>Server Status Message</summary>
+    <summary>Server Status</summary>
     $player_name$ $player_name_with_afk_status$ $discord_mention$ $discord_tag$ $discord_username> $discord_id$
 </details>
 <details>
-    <summary>Minecraft Stats Message</summary>
+    <summary>Minecraft Stats</summary>
     $unix$ $unique_players_joined$ $linked_players$ $memory$ $uptime$
 </details>
 <details>
-    <summary>Team Stats Message</summary>
-    SOON
+    <summary>Team Stats</summary>
+    $unix$ $guild_age_unix$ $guild_member_count$ $guild_category_count$ $guild_channel_voice_count$ $guild_channel_text_count$
+    $guild_channel_store_count$ $guild_channel_count$ $guild_role_count$ $guild_emote_count$ $guild_boost_count$ $guild_booster_count$
 </details>
 
 ## WIP:

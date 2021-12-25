@@ -7,50 +7,71 @@ import github.scarsz.discordsrv.dependencies.jda.api.entities.Guild;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Role;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import github.scarsz.discordsrv.util.DiscordUtil;
-import org.bukkit.plugin.Plugin;
+import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
+import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Bukkit;
 
 import java.util.List;
 import java.util.TimerTask;
 
 public class TeamStats extends TimerTask {
-    private final Plugin plugin;
+    private final BTEDiscordAddon bteDiscordAddon;
     private final int interval;
     private static final JDA jda = DiscordUtil.getJda();
     private EmbedBuilder embed = new EmbedBuilder();
 
-    public TeamStats(Plugin plugin, int interval) {
-        this.plugin = plugin;
+    public TeamStats(BTEDiscordAddon bteDiscordAddon, int interval) {
+        this.bteDiscordAddon = bteDiscordAddon;
         this.interval = interval;
     }
 
     @Override
     public void run() {
-        final long unixTime = System.currentTimeMillis() / 1000L;
-        Guild mainGuild = DiscordSRV.getPlugin().getMainGuild();
-        List<String> roles = plugin.getConfig().getStringList("Stats.Team.RoleIDS");
-
         embed = new EmbedBuilder();
         embed.setTitle("Team Statistics");
-        add("Last Updated", "<t:" + unixTime + ":R>");
-        add("Guild Members", "`" + mainGuild.getMembers().size() + "`");
+        Guild mainGuild = DiscordSRV.getPlugin().getMainGuild();
+        for (String value : bteDiscordAddon.getConfig().getStringList("Stats.Team.Description")) {
+            add(format(value));
+        }
+        List<String> roles = bteDiscordAddon.getConfig().getStringList("Stats.Team.RoleIDS");
         for (String roleID : roles) {
             Role role = mainGuild.getRoleById(roleID);
             if (role == null) {
-                plugin.getLogger().warning("Could not find role " + roleID);
+                bteDiscordAddon.getLogger().warning("Could not find role " + roleID);
             } else {
-                embed.addField(role.getName() + " Role Size", "`" + mainGuild.getMembersWithRoles(role).size() + "`", false);
+                add("**" + role.getName() + " Role Size**: `" + mainGuild.getMembersWithRoles(role).size() + "`");
             }
         }
         embed.setFooter("Updated every " + interval + " seconds");
-        TextChannel channel = jda.getTextChannelById(plugin.getConfig().getString("Stats.Team.ChannelID"));
+        TextChannel channel = jda.getTextChannelById(bteDiscordAddon.getConfig().getString("Stats.Team.ChannelID"));
         if (channel != null) {
-            channel.editMessageById(plugin.getConfig().getString("Stats.Team.MessageID"), embed.build()).queue();
+            channel.editMessageById(bteDiscordAddon.getConfig().getString("Stats.Team.MessageID"), embed.build()).queue();
         } else {
-            plugin.getLogger().warning("TextChannel from Stats.Team.ChannelID could not be found");
+            bteDiscordAddon.getLogger().warning("TextChannel from Stats.Team.ChannelID could not be found");
         }
     }
 
-    private void add(String name, String value) {
-        embed.appendDescription("\n**" + name + "**: " + value);
+    private void add(String value) {
+        embed.appendDescription("\n" + value);
+    }
+
+    private String format(String value) {
+        Guild mainGuild = DiscordSRV.getPlugin().getMainGuild();
+        value = value.replace("$unix$", Long.toString(System.currentTimeMillis() / 1000L));
+        value = value.replace("$guild_age_unix$", Long.toString(mainGuild.getTimeCreated().toEpochSecond()));
+        value = value.replace("$guild_member_count$", Integer.toString(mainGuild.getMemberCount()));
+        value = value.replace("$guild_category_count$", Integer.toString(mainGuild.getCategories().size()));
+        value = value.replace("$guild_channel_voice_count$", Integer.toString(mainGuild.getVoiceChannels().size()));
+        value = value.replace("$guild_channel_text_count$", Integer.toString(mainGuild.getTextChannels().size()));
+        value = value.replace("$guild_channel_store_count$", Integer.toString(mainGuild.getStoreChannels().size()));
+        value = value.replace("$guild_channel_count$", Integer.toString(mainGuild.getChannels().size()));
+        value = value.replace("$guild_role_count$", Integer.toString(mainGuild.getRoles().size()));
+        value = value.replace("$guild_emote_count$", Integer.toString(mainGuild.getEmotes().size()));
+        value = value.replace("$guild_boost_count$", Integer.toString(mainGuild.getBoostCount()));
+        value = value.replace("$guild_booster_count$", Integer.toString(mainGuild.getBoosters().size()));
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            value = PlaceholderAPI.setPlaceholders(null, value);
+        }
+        return value;
     }
 }
