@@ -68,14 +68,14 @@ Stats:
     Description:
       - "**Last Updated**: <t:$unix$:R>"
       - "**Guild Created**: <t:$guild_age_unix$:R>"
-      - "**Member Count**: `$guild_member_count$`"
+      - "**Member Count**: `$guild_member_count$`/`$guild_member_max$`"
       - "**Category Count**: `$guild_category_count$`"
       - "**Voice Channel Count**: `$guild_channel_voice_count$`"
       - "**Text Channel Count**: `$guild_channel_text_count$`"
       - "**Store Channel Count**: `$guild_channel_store_count$`"
       - "**Channel Count**: `$guild_channel_count$`"
       - "**Role Count**: `$guild_role_count$`"
-      - "**Emote Count**: `$guild_emote_count$`"
+      - "**Emote Count**: `$guild_emote_count$`/`$guild_emote_max$`"
       - "**Boost Count**: `$guild_boost_count$`"
       - "**Booster Count**: `$guild_booster_count$`"
     RoleIDS:

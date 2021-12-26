@@ -60,6 +60,7 @@ public class TeamStats extends TimerTask {
         value = value.replace("$unix$", Long.toString(System.currentTimeMillis() / 1000L));
         value = value.replace("$guild_age_unix$", Long.toString(mainGuild.getTimeCreated().toEpochSecond()));
         value = value.replace("$guild_member_count$", Integer.toString(mainGuild.getMemberCount()));
+        value = value.replace("$guild_member_max$", Integer.toString(mainGuild.getMaxMembers()));
         value = value.replace("$guild_category_count$", Integer.toString(mainGuild.getCategories().size()));
         value = value.replace("$guild_channel_voice_count$", Integer.toString(mainGuild.getVoiceChannels().size()));
         value = value.replace("$guild_channel_text_count$", Integer.toString(mainGuild.getTextChannels().size()));
@@ -67,6 +68,7 @@ public class TeamStats extends TimerTask {
         value = value.replace("$guild_channel_count$", Integer.toString(mainGuild.getChannels().size()));
         value = value.replace("$guild_role_count$", Integer.toString(mainGuild.getRoles().size()));
         value = value.replace("$guild_emote_count$", Integer.toString(mainGuild.getEmotes().size()));
+        value = value.replace("$guild_emote_max$", Integer.toString(mainGuild.getMaxEmotes()));
         value = value.replace("$guild_boost_count$", Integer.toString(mainGuild.getBoostCount()));
         value = value.replace("$guild_booster_count$", Integer.toString(mainGuild.getBoosters().size()));
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {

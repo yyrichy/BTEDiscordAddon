@@ -22,8 +22,8 @@ Default Placeholders:
 </details>
 <details>
     <summary>Team Stats</summary>
-    $unix$ $guild_age_unix$ $guild_member_count$ $guild_category_count$ $guild_channel_voice_count$ $guild_channel_text_count$
-    $guild_channel_store_count$ $guild_channel_count$ $guild_role_count$ $guild_emote_count$ $guild_boost_count$ $guild_booster_count$
+    $unix$ $guild_age_unix$ $guild_member_count$ $guild_member_max$ $guild_category_count$ $guild_channel_voice_count$ $guild_channel_text_count$
+    $guild_channel_store_count$ $guild_channel_count$ $guild_role_count$ $guild_emote_count$ $guild_emote_max$ $guild_boost_count$ $guild_booster_count$
 </details>
 
 ## WIP:
