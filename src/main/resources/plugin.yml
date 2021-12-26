@@ -6,11 +6,11 @@ version: ${project.version}
 author: VapoR
 commands:
   bted-update:
-    description: Updates the Server Status embed in Discord
+    description: Updates the Server Status and Stats embeds in Discord
     usage: /bted-update
     permission: bted.admin.update
   bted-reload:
-    description: Reloads Config and updates Server Status message
+    description: Reloads config, updates Server Status and Stats embeds in Discord
     usage: /bted-reload
     permission: bted.admin.config
   afk:

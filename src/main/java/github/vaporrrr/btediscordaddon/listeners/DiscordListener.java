@@ -12,12 +12,9 @@ import github.scarsz.discordsrv.util.DiscordUtil;
 import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import github.vaporrrr.btediscordaddon.commands.DiscordCommandManager;
 import github.vaporrrr.btediscordaddon.schematics.Schematics;
-import github.vaporrrr.btediscordaddon.stats.MinecraftStats;
-import github.vaporrrr.btediscordaddon.stats.TeamStats;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;
-import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 public class DiscordListener {
@@ -37,16 +34,11 @@ public class DiscordListener {
         bteDiscordAddon.getServerStatus().setJDA(DiscordUtil.getJda());
         bteDiscordAddon.getServerStatus().update();
         FileConfiguration config = bteDiscordAddon.getConfig();
-        Timer t = new Timer();
         if (config.getBoolean("Stats.Minecraft.Enabled")) {
-            int mcInterval = bteDiscordAddon.getConfig().getInt("Stats.Minecraft.IntervalInSeconds");
-            MinecraftStats mTask = new MinecraftStats(bteDiscordAddon, mcInterval);
-            t.scheduleAtFixedRate(mTask, 0, mcInterval * 1000L);
+            bteDiscordAddon.restartStats();
         }
         if (config.getBoolean("Stats.Team.Enabled")) {
-            int teamInterval = bteDiscordAddon.getConfig().getInt("Stats.Team.IntervalInSeconds");
-            TeamStats tTask = new TeamStats(bteDiscordAddon, teamInterval);
-            t.scheduleAtFixedRate(tTask, 0, teamInterval * 1000L);
+            bteDiscordAddon.restartStats();
         }
     }
 

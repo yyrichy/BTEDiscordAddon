@@ -19,13 +19,11 @@ import java.util.concurrent.TimeUnit;
 public class MinecraftStats extends TimerTask {
     private final Plugin bteDiscordAddon;
     private static final JDA jda = DiscordUtil.getJda();
-    private final int interval;
     private EmbedBuilder embed = new EmbedBuilder();
     private LP luckPerms = null;
 
-    public MinecraftStats(BTEDiscordAddon bteDiscordAddon, int interval) {
+    public MinecraftStats(BTEDiscordAddon bteDiscordAddon) {
         this.bteDiscordAddon = bteDiscordAddon;
-        this.interval = interval;
         if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null) {
             this.luckPerms = new LP();
         }
@@ -53,7 +51,7 @@ public class MinecraftStats extends TimerTask {
                 bteDiscordAddon.getLogger().warning("Stats.Minecraft.GroupNames is not empty, but dependency LuckPerms could not be found. Install LuckPerms.");
             }
         }
-        embed.setFooter("Updated every " + interval + " seconds");
+        embed.setFooter("Updated every " + bteDiscordAddon.getConfig().getInt("Stats.Minecraft.IntervalInSeconds") + " seconds");
         TextChannel channel = jda.getTextChannelById(bteDiscordAddon.getConfig().getString("Stats.Minecraft.ChannelID"));
         if (channel != null) {
             channel.editMessageById(bteDiscordAddon.getConfig().getString("Stats.Minecraft.MessageID"), embed.build()).queue();

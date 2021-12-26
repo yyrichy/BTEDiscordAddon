@@ -15,14 +15,12 @@ import java.util.List;
 import java.util.TimerTask;
 
 public class TeamStats extends TimerTask {
-    private final BTEDiscordAddon bteDiscordAddon;
-    private final int interval;
     private static final JDA jda = DiscordUtil.getJda();
+    private final BTEDiscordAddon bteDiscordAddon;
     private EmbedBuilder embed = new EmbedBuilder();
 
-    public TeamStats(BTEDiscordAddon bteDiscordAddon, int interval) {
+    public TeamStats(BTEDiscordAddon bteDiscordAddon) {
         this.bteDiscordAddon = bteDiscordAddon;
-        this.interval = interval;
     }
 
     @Override
@@ -42,7 +40,7 @@ public class TeamStats extends TimerTask {
                 add("**" + role.getName() + " Role Size**: `" + mainGuild.getMembersWithRoles(role).size() + "`");
             }
         }
-        embed.setFooter("Updated every " + interval + " seconds");
+        embed.setFooter("Updated every " + bteDiscordAddon.getConfig().getInt("Stats.Team.IntervalInSeconds") + " seconds");
         TextChannel channel = jda.getTextChannelById(bteDiscordAddon.getConfig().getString("Stats.Team.ChannelID"));
         if (channel != null) {
             channel.editMessageById(bteDiscordAddon.getConfig().getString("Stats.Team.MessageID"), embed.build()).queue();
