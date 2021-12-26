@@ -54,7 +54,7 @@ Stats:
     MessageID: 00000000000000000
     Description:
       - "**Last Updated**: <t:$unix$:R>"
-      - "**Unique Players Joined**:`$unique_players_joined$`"
+      - "**Unique Players Joined**: `$unique_players_joined$`"
       - "**Linked Players**: `$linked_players$`"
       - "**Memory**: $memory$"
       - "**Uptime**: $uptime$"
