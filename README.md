@@ -14,16 +14,23 @@ Add features through DiscordSRV API. Tested on 1.12.2 and 1.18.1, native 1.12.2
 Default Placeholders:
 <details>
     <summary>Server Status</summary>
+
     $player_name$ $player_name_with_afk_status$ $discord_mention$ $discord_tag$ $discord_username> $discord_id$
 </details>
 <details>
     <summary>Minecraft Stats</summary>
+
     $unix$ $unique_players_joined$ $linked_players$ $memory$ $uptime$
 </details>
 <details>
     <summary>Team Stats</summary>
+
     $unix$ $guild_age_unix$ $guild_member_count$ $guild_member_max$ $guild_category_count$ $guild_channel_voice_count$ $guild_channel_text_count$
     $guild_channel_store_count$ $guild_channel_count$ $guild_role_count$ $guild_emote_count$ $guild_emote_max$ $guild_boost_count$ $guild_booster_count$
+
+    (Following requires BTE website API key from https://github.com/BuildTheEarth/build-team-api): 
+    $bte_team_member_count$ $bte_team_leader_count$ $bte_team_co-leader_count$ $bte_team_reviewer_count$ $bte_team_builder_count$ $bte_team_leader_list$ 
+    $bte_team_co-leader_list$ $bte_team_reviewer_list$ $bte_team_builder_list$
 </details>
 
 ## WIP:

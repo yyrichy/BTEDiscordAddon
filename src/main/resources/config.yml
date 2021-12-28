@@ -65,6 +65,7 @@ Stats:
     IntervalInSeconds: 300
     ChannelID: 00000000000000000
     MessageID: 00000000000000000
+    BTEWebsiteAPIKey: ""
     Description:
       - "**Last Updated**: <t:$unix$:R>"
       - "**Guild Created**: <t:$guild_age_unix$:R>"

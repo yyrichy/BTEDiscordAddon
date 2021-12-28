@@ -64,7 +64,7 @@ public class MinecraftStats extends TimerTask {
         embed.appendDescription("\n" + value);
     }
 
-    private String format(String value) {
+    private static String format(String value) {
         Runtime r = Runtime.getRuntime();
         long usedMemory = (r.totalMemory() - r.freeMemory()) / 1048576;
         long maxMemory = r.maxMemory() / 1048576;
