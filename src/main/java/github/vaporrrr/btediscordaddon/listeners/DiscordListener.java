@@ -3,16 +3,12 @@ package github.vaporrrr.btediscordaddon.listeners;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.api.ListenerPriority;
 import github.scarsz.discordsrv.api.Subscribe;
-import github.scarsz.discordsrv.api.events.AccountLinkedEvent;
-import github.scarsz.discordsrv.api.events.AccountUnlinkedEvent;
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.api.events.DiscordReadyEvent;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import github.scarsz.discordsrv.util.DiscordUtil;
 import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import github.vaporrrr.btediscordaddon.commands.DiscordCommandManager;
 import github.vaporrrr.btediscordaddon.schematics.Schematics;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -62,7 +58,6 @@ public class DiscordListener {
             }
             return;
         }
-        if (event.getMessage().getContentRaw().length() < 2) return;
         if (!event.getMessage().getContentRaw().substring(0, 1).equals(bteDiscordAddon.getConfig().getString("DiscordCommandsPrefix"))) {
             return;
         }
@@ -70,31 +65,5 @@ public class DiscordListener {
         String command = args[0].substring(1);
         args = Arrays.copyOfRange(args, 1, args.length);
         discordCommandManager.executeCommand(event, command, args);
-    }
-
-    @Subscribe
-    public void accountsLinked(AccountLinkedEvent event) {
-        TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("links");
-
-        // null if the channel isn't specified in the config.yml
-        if (textChannel != null) {
-            textChannel.sendMessage(event.getPlayer().getName() + " (" + event.getPlayer().getUniqueId() + ") has linked their associated Discord account: "
-                    + (event.getUser() != null ? event.getUser().getName() : "<not available>") + " (" + (event.getUser() != null ? event.getUser().getId() : "<not available>") + ")").queue();
-        } else {
-            bteDiscordAddon.getLogger().warning("Channel called \"links\" could not be found in the DiscordSRV configuration");
-        }
-    }
-
-    @Subscribe
-    public void accountUnlinked(AccountUnlinkedEvent event) {
-        TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("unlinks");
-
-        // null if the channel isn't specified in the config.yml
-        if (textChannel != null) {
-            textChannel.sendMessage(event.getPlayer().getName() + " (" + event.getPlayer().getUniqueId() + ") has unlinked their associated Discord account: "
-                    + (event.getDiscordUser() != null ? event.getDiscordUser().getName() : "<not available>") + " (" + event.getDiscordId() + ")").queue();
-        } else {
-            bteDiscordAddon.getLogger().warning("Channel called \"unlinks\" could not be found in the DiscordSRV configuration");
-        }
     }
 }
