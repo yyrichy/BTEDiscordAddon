@@ -68,6 +68,14 @@ Stats:
     BTEWebsiteAPIKey: ""
     Description:
       - "**Last Updated**: <t:$unix$:R>"
+      - "**-- BTE Website --**"
+      - "**Members**: `$bte_team_members$`"
+      - "**Leaders**: `$bte_team_leaders$`"
+      - "**Co-Leaders**: `$bte_team_co-leaders$`"
+      - "**Reviewers**: `$bte_team_reviewers$`"
+      - "**Builders**: `$bte_team_builders$`"
+      - "**Team/Project Locations**: `$bte_team_locations$`/`$bte_project_locations$`"
+      - "**Pending Applications**: `$bte_team_applications_pending$`"
       - "**-- Discord --**"
       - "**Guild Created**: <t:$guild_age_unix$:R>"
       - "**Members**: `$guild_members$`/`$guild_member_max$`"
@@ -80,13 +88,5 @@ Stats:
       - "**Emotes**: `$guild_emotes$`/`$guild_emote_max$`"
       - "**Boosts**: `$guild_boosts$`"
       - "**Boosters**: `$guild_boosters$`"
-      - "**-- BTE Website --**"
-      - "**Members**: `$bte_team_members$`"
-      - "**Leaders**: `$bte_team_leaders$`"
-      - "**Co-Leaders**: `$bte_team_co-leaders$`"
-      - "**Reviewers**: `$bte_team_reviewers$`"
-      - "**Builders**: `$bte_team_builders$`"
-      - "**Team/Project Locations**: `$bte_team_locations$`/`$bte_project_locations$`"
-      - "**Pending Applications**: `$bte_team_applications_pending$`"
     RoleIDS:
       - 00000000000000000
