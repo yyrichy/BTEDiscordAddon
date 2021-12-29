@@ -1,11 +1,7 @@
 package github.vaporrrr.btediscordaddon.stats;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
-import github.scarsz.discordsrv.dependencies.jda.api.JDA;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Guild;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Role;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
@@ -13,6 +9,7 @@ import github.scarsz.discordsrv.util.DiscordUtil;
 import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -24,9 +21,20 @@ import java.util.List;
 import java.util.TimerTask;
 
 public class TeamStats extends TimerTask {
-    private static final JDA jda = DiscordUtil.getJda();
     private final BTEDiscordAddon bteDiscordAddon;
     private EmbedBuilder embed = new EmbedBuilder();
+    private int projectLocations = -1;
+    private int teamLocations = -1;
+    private int pendingApplications = -1;
+    private int websiteMembers = -1;
+    private int leaders = -1;
+    private int coLeaders = -1;
+    private int reviewers = -1;
+    private int builders = -1;
+    private final ArrayList<String> leaderList = new ArrayList<>();
+    private final ArrayList<String> coLeaderList = new ArrayList<>();
+    private final ArrayList<String> reviewerList = new ArrayList<>();
+    private final ArrayList<String> builderList = new ArrayList<>();
 
     public TeamStats(BTEDiscordAddon bteDiscordAddon) {
         this.bteDiscordAddon = bteDiscordAddon;
@@ -37,6 +45,52 @@ public class TeamStats extends TimerTask {
         embed = new EmbedBuilder();
         embed.setTitle("Team Statistics");
         Guild mainGuild = DiscordSRV.getPlugin().getMainGuild();
+        reset();
+        JSONObject totalLocations = getRequest("map/data/locations", null);
+        if (totalLocations != null) {
+            projectLocations = totalLocations.getJSONArray("locations").length();
+        }
+        String key = bteDiscordAddon.getConfig().getString("Stats.Team.BTEWebsiteAPIKey");
+        if (key != null && !key.isEmpty()) {
+            JSONObject locations = getRequest("api/v1/locations", key);
+            if (locations != null) {
+                teamLocations = locations.getJSONArray("locations").length();
+            }
+            JSONObject pending = getRequest("api/v1/applications/pending", key);
+            if (pending != null) {
+                pendingApplications = pending.getJSONArray("applications").length();
+            }
+            JSONObject members = getRequest("api/v1/members", key);
+            if (members != null) {
+                websiteMembers = 0;
+                leaders = 0;
+                coLeaders = 0;
+                reviewers = 0;
+                builders = 0;
+                websiteMembers = members.getJSONArray("members").length();
+                for (int i = 0; i < members.getJSONArray("members").length(); i++) {
+                    JSONObject member = members.getJSONArray("members").getJSONObject(i);
+                    switch (member.getString("role")) {
+                        case "leader":
+                            leaders++;
+                            leaderList.add(member.getString("discordTag"));
+                            break;
+                        case "co-leader":
+                            coLeaders++;
+                            coLeaderList.add(member.getString("discordTag"));
+                            break;
+                        case "reviewer":
+                            reviewers++;
+                            reviewerList.add(member.getString("discordTag"));
+                            break;
+                        case "builder":
+                            builders++;
+                            builderList.add(member.getString("discordTag"));
+                            break;
+                    }
+                }
+            }
+        }
         for (String value : bteDiscordAddon.getConfig().getStringList("Stats.Team.Description")) {
             add(format(value));
         }
@@ -50,7 +104,7 @@ public class TeamStats extends TimerTask {
             }
         }
         embed.setFooter("Updated every " + bteDiscordAddon.getConfig().getInt("Stats.Team.IntervalInSeconds") + " seconds");
-        TextChannel channel = jda.getTextChannelById(bteDiscordAddon.getConfig().getString("Stats.Team.ChannelID"));
+        TextChannel channel = DiscordUtil.getJda().getTextChannelById(bteDiscordAddon.getConfig().getString("Stats.Team.ChannelID"));
         if (channel != null) {
             channel.editMessageById(bteDiscordAddon.getConfig().getString("Stats.Team.MessageID"), embed.build()).queue();
         } else {
@@ -66,72 +120,37 @@ public class TeamStats extends TimerTask {
         Guild mainGuild = DiscordSRV.getPlugin().getMainGuild();
         value = value.replace("$unix$", Long.toString(System.currentTimeMillis() / 1000L));
         value = value.replace("$guild_age_unix$", Long.toString(mainGuild.getTimeCreated().toEpochSecond()));
-        value = value.replace("$guild_member_count$", Integer.toString(mainGuild.getMemberCount()));
+        value = value.replace("$guild_members$", Integer.toString(mainGuild.getMemberCount()));
         value = value.replace("$guild_member_max$", Integer.toString(mainGuild.getMaxMembers()));
-        value = value.replace("$guild_category_count$", Integer.toString(mainGuild.getCategories().size()));
-        value = value.replace("$guild_channel_voice_count$", Integer.toString(mainGuild.getVoiceChannels().size()));
-        value = value.replace("$guild_channel_text_count$", Integer.toString(mainGuild.getTextChannels().size()));
-        value = value.replace("$guild_channel_store_count$", Integer.toString(mainGuild.getStoreChannels().size()));
-        value = value.replace("$guild_channel_count$", Integer.toString(mainGuild.getChannels().size()));
-        value = value.replace("$guild_role_count$", Integer.toString(mainGuild.getRoles().size()));
-        value = value.replace("$guild_emote_count$", Integer.toString(mainGuild.getEmotes().size()));
+        value = value.replace("$guild_categories$", Integer.toString(mainGuild.getCategories().size()));
+        value = value.replace("$guild_channel_voice$", Integer.toString(mainGuild.getVoiceChannels().size()));
+        value = value.replace("$guild_channel_text$", Integer.toString(mainGuild.getTextChannels().size()));
+        value = value.replace("$guild_channel_store$", Integer.toString(mainGuild.getStoreChannels().size()));
+        value = value.replace("$guild_channels$", Integer.toString(mainGuild.getChannels().size()));
+        value = value.replace("$guild_roles$", Integer.toString(mainGuild.getRoles().size()));
+        value = value.replace("$guild_emotes$", Integer.toString(mainGuild.getEmotes().size()));
         value = value.replace("$guild_emote_max$", Integer.toString(mainGuild.getMaxEmotes()));
-        value = value.replace("$guild_boost_count$", Integer.toString(mainGuild.getBoostCount()));
-        value = value.replace("$guild_booster_count$", Integer.toString(mainGuild.getBoosters().size()));
-        JsonObject totalLocations = getRequest("map/data/locations", null);
-        if (totalLocations != null) {
-            value = value.replace("$bte_project_location_count$", Integer.toString(totalLocations.getAsJsonArray("locations").size()));
+        value = value.replace("$guild_boosts$", Integer.toString(mainGuild.getBoostCount()));
+        value = value.replace("$guild_boosters$", Integer.toString(mainGuild.getBoosters().size()));
+        value = value.replace("$bte_project_locations$", Integer.toString(projectLocations));
+        value = value.replace("$bte_team_locations$", Integer.toString(teamLocations));
+        value = value.replace("$bte_team_applications_pending$", Integer.toString(pendingApplications));
+        value = value.replace("$bte_team_members$", Integer.toString(websiteMembers));
+        value = value.replace("$bte_team_leaders$", Integer.toString(leaders));
+        value = value.replace("$bte_team_co-leaders$", Integer.toString(coLeaders));
+        value = value.replace("$bte_team_reviewers$", Integer.toString(reviewers));
+        value = value.replace("$bte_team_builders$", Integer.toString(builders));
+        if (!leaderList.isEmpty()) {
+            value = value.replace("$bte_team_leader_list$", String.join("\n", leaderList));
         }
-        String key = bteDiscordAddon.getConfig().getString("Stats.Team.BTEWebsiteAPIKey");
-        if (key != null && !key.isEmpty()) {
-            JsonObject locations = getRequest("api/v1/locations", key);
-            if (locations != null) {
-                value = value.replace("$bte_team_location_count$", Integer.toString(locations.getAsJsonArray("locations").size()));
-            }
-            JsonObject pending = getRequest("api/v1/applications/pending", key);
-            if (pending != null) {
-                value = value.replace("$bte_team_applications_pending_count$", Integer.toString(pending.getAsJsonArray("applications").size()));
-            }
-            JsonObject members = getRequest("api/v1/members", key);
-            if (members != null) {
-                value = value.replace("$bte_team_member_count$", Integer.toString(members.getAsJsonArray("members").size()));
-                int leaders = 0;
-                int coLeaders = 0;
-                int reviewers = 0;
-                int builders = 0;
-                ArrayList<String> leaderList = new ArrayList<>();
-                ArrayList<String> coLeaderList = new ArrayList<>();
-                ArrayList<String> reviewerList = new ArrayList<>();
-                ArrayList<String> builderList = new ArrayList<>();
-                for (JsonElement member : members.getAsJsonArray("members")) {
-                    switch (member.getAsJsonObject().get("role").getAsString()) {
-                        case "leader":
-                            leaders++;
-                            leaderList.add(member.getAsJsonObject().get("discordTag").getAsString());
-                            break;
-                        case "co-leader":
-                            coLeaders++;
-                            coLeaderList.add(member.getAsJsonObject().get("discordTag").getAsString());
-                            break;
-                        case "reviewer":
-                            reviewers++;
-                            reviewerList.add(member.getAsJsonObject().get("discordTag").getAsString());
-                            break;
-                        case "builder":
-                            builders++;
-                            builderList.add(member.getAsJsonObject().get("discordTag").getAsString());
-                            break;
-                    }
-                }
-                value = value.replace("$bte_team_leader_count$", Integer.toString(leaders));
-                value = value.replace("$bte_team_co-leader_count$", Integer.toString(coLeaders));
-                value = value.replace("$bte_team_reviewer_count$", Integer.toString(reviewers));
-                value = value.replace("$bte_team_builder_count$", Integer.toString(builders));
-                value = value.replace("$bte_team_leader_list$", String.join("\n", leaderList));
-                value = value.replace("$bte_team_co-leader_list$", String.join("\n", coLeaderList));
-                value = value.replace("$bte_team_reviewer_list$", String.join("\n", reviewerList));
-                value = value.replace("$bte_team_builder_list$", String.join("\n", builderList));
-            }
+        if (!coLeaderList.isEmpty()) {
+            value = value.replace("$bte_team_co-leader_list$", String.join("\n", coLeaderList));
+        }
+        if (!reviewerList.isEmpty()) {
+            value = value.replace("$bte_team_reviewer_list$", String.join("\n", reviewerList));
+        }
+        if (!builderList.isEmpty()) {
+            value = value.replace("$bte_team_builder_list$", String.join("\n", builderList));
         }
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             value = PlaceholderAPI.setPlaceholders(null, value);
@@ -139,7 +158,7 @@ public class TeamStats extends TimerTask {
         return value;
     }
 
-    private JsonObject getRequest(String endpoint, String key) {
+    private JSONObject getRequest(String endpoint, String key) {
         try {
             String URL = "https://buildtheearth.net/" + endpoint;
             URL url = new URL(URL);
@@ -150,7 +169,14 @@ public class TeamStats extends TimerTask {
             }
             con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36");
             con.setRequestMethod("GET");
-            JsonObject jsonObject = null;
+            int code = con.getResponseCode();
+            if (code < 200 || code > 299) {
+                bteDiscordAddon.getLogger().warning("Request to https://buildtheearth.net/" + endpoint + " not successful. Response code: " + code);
+                if (code == 401) {
+                    bteDiscordAddon.getLogger().warning("Invalid API key.");
+                }
+                return null;
+            }
             StringBuilder response = new StringBuilder();
             try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8))) {
                 String responseLine;
@@ -158,17 +184,26 @@ public class TeamStats extends TimerTask {
                     response.append(responseLine.trim());
                 }
             }
-            int code = con.getResponseCode();
-            if (code >= 200 && code <= 299) {
-                jsonObject = JsonParser.parseString(response.toString()).getAsJsonObject();
-            } else {
-                bteDiscordAddon.getLogger().warning("Request to https://buildtheearth.net/" + endpoint + " not successful. Response code: " + code);
-            }
-            return jsonObject;
+            return new JSONObject(response.toString());
         } catch (Exception e) {
             e.printStackTrace();
             bteDiscordAddon.getLogger().warning("Unexpected exception making GET request to https://buildtheearth.net/" + endpoint);
             return null;
         }
+    }
+
+    public void reset() {
+        projectLocations = -1;
+        teamLocations = -1;
+        pendingApplications = -1;
+        websiteMembers = -1;
+        leaders = -1;
+        coLeaders = -1;
+        reviewers = -1;
+        builders = -1;
+        leaderList.clear();
+        coLeaderList.clear();
+        reviewerList.clear();
+        builderList.clear();
     }
 }

@@ -33,13 +33,7 @@ public class DiscordListener {
         bteDiscordAddon.getLogger().info("Discord Ready!");
         bteDiscordAddon.getServerStatus().setJDA(DiscordUtil.getJda());
         bteDiscordAddon.getServerStatus().update();
-        FileConfiguration config = bteDiscordAddon.getConfig();
-        if (config.getBoolean("Stats.Minecraft.Enabled")) {
-            bteDiscordAddon.restartStats();
-        }
-        if (config.getBoolean("Stats.Team.Enabled")) {
-            bteDiscordAddon.restartStats();
-        }
+        bteDiscordAddon.startStats();
     }
 
     @Subscribe(priority = ListenerPriority.MONITOR)

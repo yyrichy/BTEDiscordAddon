@@ -58,7 +58,7 @@ public class ServerStatus {
         String messageIDPath = "ServerStatus.MessageID";
         TextChannel channel = jda.getTextChannelById(bteDiscordAddon.getConfig().getString(channelIDPath));
         if (channel == null) {
-            logSevere("TextChanel from " + channelIDPath + " does not exist.");
+            logSevere("TextChannel from " + channelIDPath + " does not exist.");
             return;
         }
         try {

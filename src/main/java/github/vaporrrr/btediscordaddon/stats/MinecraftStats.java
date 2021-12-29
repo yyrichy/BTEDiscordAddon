@@ -2,7 +2,6 @@ package github.vaporrrr.btediscordaddon.stats;
 
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
-import github.scarsz.discordsrv.dependencies.jda.api.JDA;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import github.scarsz.discordsrv.util.DiscordUtil;
 import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
@@ -18,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 
 public class MinecraftStats extends TimerTask {
     private final Plugin bteDiscordAddon;
-    private static final JDA jda = DiscordUtil.getJda();
     private EmbedBuilder embed = new EmbedBuilder();
     private LP luckPerms = null;
 
@@ -52,7 +50,7 @@ public class MinecraftStats extends TimerTask {
             }
         }
         embed.setFooter("Updated every " + bteDiscordAddon.getConfig().getInt("Stats.Minecraft.IntervalInSeconds") + " seconds");
-        TextChannel channel = jda.getTextChannelById(bteDiscordAddon.getConfig().getString("Stats.Minecraft.ChannelID"));
+        TextChannel channel = DiscordUtil.getJda().getTextChannelById(bteDiscordAddon.getConfig().getString("Stats.Minecraft.ChannelID"));
         if (channel != null) {
             channel.editMessageById(bteDiscordAddon.getConfig().getString("Stats.Minecraft.MessageID"), embed.build()).queue();
         } else {
