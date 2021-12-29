@@ -132,14 +132,22 @@ public class TeamStats extends TimerTask {
         value = value.replace("$guild_emote_max$", Integer.toString(mainGuild.getMaxEmotes()));
         value = value.replace("$guild_boosts$", Integer.toString(mainGuild.getBoostCount()));
         value = value.replace("$guild_boosters$", Integer.toString(mainGuild.getBoosters().size()));
-        value = value.replace("$bte_project_locations$", Integer.toString(projectLocations));
-        value = value.replace("$bte_team_locations$", Integer.toString(teamLocations));
-        value = value.replace("$bte_team_applications_pending$", Integer.toString(pendingApplications));
-        value = value.replace("$bte_team_members$", Integer.toString(websiteMembers));
-        value = value.replace("$bte_team_leaders$", Integer.toString(leaders));
-        value = value.replace("$bte_team_co-leaders$", Integer.toString(coLeaders));
-        value = value.replace("$bte_team_reviewers$", Integer.toString(reviewers));
-        value = value.replace("$bte_team_builders$", Integer.toString(builders));
+        if (projectLocations != -1) {
+            value = value.replace("$bte_project_locations$", Integer.toString(projectLocations));
+        }
+        if (teamLocations != -1) {
+            value = value.replace("$bte_team_locations$", Integer.toString(teamLocations));
+        }
+        if (pendingApplications != -1) {
+            value = value.replace("$bte_team_applications_pending$", Integer.toString(pendingApplications));
+        }
+        if (websiteMembers != -1) {
+            value = value.replace("$bte_team_members$", Integer.toString(websiteMembers));
+            value = value.replace("$bte_team_leaders$", Integer.toString(leaders));
+            value = value.replace("$bte_team_co-leaders$", Integer.toString(coLeaders));
+            value = value.replace("$bte_team_reviewers$", Integer.toString(reviewers));
+            value = value.replace("$bte_team_builders$", Integer.toString(builders));
+        }
         if (!leaderList.isEmpty()) {
             value = value.replace("$bte_team_leader_list$", String.join("\n", leaderList));
         }
@@ -174,6 +182,8 @@ public class TeamStats extends TimerTask {
                 bteDiscordAddon.getLogger().warning("Request to https://buildtheearth.net/" + endpoint + " not successful. Response code: " + code);
                 if (code == 401) {
                     bteDiscordAddon.getLogger().warning("Invalid API key.");
+                } else if (code == 404) {
+                    bteDiscordAddon.getLogger().warning(endpoint + " endpoint not found.");
                 }
                 return null;
             }

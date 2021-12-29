@@ -68,6 +68,7 @@ Stats:
     BTEWebsiteAPIKey: ""
     Description:
       - "**Last Updated**: <t:$unix$:R>"
+      - "**-- Discord --**"
       - "**Guild Created**: <t:$guild_age_unix$:R>"
       - "**Members**: `$guild_members$`/`$guild_member_max$`"
       - "**Categories**: `$guild_categories$`"
@@ -79,7 +80,7 @@ Stats:
       - "**Emotes**: `$guild_emotes$`/`$guild_emote_max$`"
       - "**Boosts**: `$guild_boosts$`"
       - "**Boosters**: `$guild_boosters$`"
-      - "**- BTE Website -**"
+      - "**-- BTE Website --**"
       - "**Members**: `$bte_team_members$`"
       - "**Leaders**: `$bte_team_leaders$`"
       - "**Co-Leaders**: `$bte_team_co-leaders$`"
