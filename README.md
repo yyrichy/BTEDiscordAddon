@@ -3,7 +3,7 @@ Add features through DiscordSRV API. Tested on 1.12.2 and 1.18.1, native 1.12.2
 
 ## Features:
 - Server status message in Discord, edited with # of players and list of players
-- Placeholders for Discord usernames, IDs, etc. (Placeholder options: %username% %discord-mention% %discord-tag% %discord-username% %discord-id%)
+- Placeholders and PlaceholderAPI support for Server Status and Statistics messages
 - `(prefix)setup` sets status message
 - `(prefix)online` lists online players
 - `(prefix)linked` equivalent of `/discord linked`
