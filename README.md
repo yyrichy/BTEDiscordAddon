@@ -6,8 +6,10 @@ Add features through DiscordSRV API. Tested on 1.12.2 and 1.18.1, native 1.12.2
 - Placeholders for Discord usernames, IDs, etc. (Placeholder options: %username% %discord-mention% %discord-tag% %discord-username% %discord-id%)
 - `(prefix)setup` sets status message
 - `(prefix)online` lists online players
-- Log Discord account link and unlink
-- Link account (DiscordSRV) through channel instead of DMs
+- `(prefix)linked` equivalent of `/discord linked`
+- Custom-made AFK system
+- Statistics messages with Discord, Minecraft (Uses LuckPerms for group stats), and BTE website stats
+- Link MC <-> Discord account (DiscordSRV) through channel instead of DMs
 - Upload and download schematics through Discord channel (Majority of code from [RudeYeti](https://github.com/RudeYeti))
 - PlaceholderAPI support in Server Status message and Stats messages
 
@@ -35,10 +37,7 @@ Default Placeholders:
 </details>
 
 ## WIP:
-- `(prefix)linked` equivalent of `/discord linked` (needs to be remade)
-- Statistics messages with Discord, Minecraft (Uses LuckPerms for group stats), and BTE website stats
-- Rewrite (Partly complete)
-- Custom-made AFK system (Essentials AFK acts weirdly when a player first joins) (Mostly complete)
+- MC command that lists players and their afk status
 
 ## Requires: 
 - DiscordSRV
