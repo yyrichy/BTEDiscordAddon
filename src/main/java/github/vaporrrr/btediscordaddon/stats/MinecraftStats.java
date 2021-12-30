@@ -71,7 +71,7 @@ public class MinecraftStats extends TimerTask {
         long days = TimeUnit.MILLISECONDS.toDays(milliseconds);
         long hours = TimeUnit.MILLISECONDS.toHours(milliseconds) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(milliseconds));
         long minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds));
-        value = value.replace("$unix$", Long.toString(System.currentTimeMillis() / 1000L));
+        value = value.replace("$current_unix$", Long.toString(System.currentTimeMillis() / 1000L));
         value = value.replace("$unique_players_joined$", Integer.toString(Bukkit.getOfflinePlayers().length));
         value = value.replace("$linked_players$", Integer.toString(DiscordSRV.getPlugin().getAccountLinkManager().getLinkedAccountCount()));
         value = value.replace("$memory$", String.format("`%.2f", memory) + "`% | `" + usedMemory + "`/`" + maxMemory + "` MB");

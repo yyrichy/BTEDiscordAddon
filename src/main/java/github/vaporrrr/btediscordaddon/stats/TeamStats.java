@@ -118,7 +118,7 @@ public class TeamStats extends TimerTask {
 
     private String format(String value) {
         Guild mainGuild = DiscordSRV.getPlugin().getMainGuild();
-        value = value.replace("$unix$", Long.toString(System.currentTimeMillis() / 1000L));
+        value = value.replace("$current_unix$", Long.toString(System.currentTimeMillis() / 1000L));
         value = value.replace("$guild_age_unix$", Long.toString(mainGuild.getTimeCreated().toEpochSecond()));
         value = value.replace("$guild_members$", Integer.toString(mainGuild.getMemberCount()));
         value = value.replace("$guild_member_max$", Integer.toString(mainGuild.getMaxMembers()));
