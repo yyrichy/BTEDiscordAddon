@@ -1,4 +1,4 @@
-package github.vaporrrr.btediscordaddon;
+package com.github.vaporrrr.btediscordaddon;
 
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.objects.managers.AccountLinkManager;

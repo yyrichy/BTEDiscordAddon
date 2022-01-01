@@ -1,9 +1,9 @@
-package github.vaporrrr.btediscordaddon.commands.discord;
+package com.github.vaporrrr.btediscordaddon.commands.discord;
 
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
-import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
-import github.vaporrrr.btediscordaddon.commands.DiscordCommand;
+import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
+import com.github.vaporrrr.btediscordaddon.commands.DiscordCommand;
 import org.bukkit.Bukkit;
 
 import java.awt.*;

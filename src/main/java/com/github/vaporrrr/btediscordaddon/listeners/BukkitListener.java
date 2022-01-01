@@ -1,9 +1,9 @@
-package github.vaporrrr.btediscordaddon.listeners;
+package com.github.vaporrrr.btediscordaddon.listeners;
 
-import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
-import github.vaporrrr.btediscordaddon.ServerStatus;
-import github.vaporrrr.btediscordaddon.User;
-import github.vaporrrr.btediscordaddon.UserManager;
+import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
+import com.github.vaporrrr.btediscordaddon.ServerStatus;
+import com.github.vaporrrr.btediscordaddon.User;
+import com.github.vaporrrr.btediscordaddon.UserManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

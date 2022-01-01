@@ -1,13 +1,13 @@
-package github.vaporrrr.btediscordaddon;
+package com.github.vaporrrr.btediscordaddon;
 
+import com.github.vaporrrr.btediscordaddon.commands.minecraft.Afk;
+import com.github.vaporrrr.btediscordaddon.commands.minecraft.Reload;
+import com.github.vaporrrr.btediscordaddon.commands.minecraft.Update;
 import github.scarsz.discordsrv.DiscordSRV;
-import github.vaporrrr.btediscordaddon.commands.minecraft.Afk;
-import github.vaporrrr.btediscordaddon.commands.minecraft.Reload;
-import github.vaporrrr.btediscordaddon.commands.minecraft.Update;
-import github.vaporrrr.btediscordaddon.listeners.BukkitListener;
-import github.vaporrrr.btediscordaddon.listeners.DiscordListener;
-import github.vaporrrr.btediscordaddon.stats.MinecraftStats;
-import github.vaporrrr.btediscordaddon.stats.TeamStats;
+import com.github.vaporrrr.btediscordaddon.listeners.BukkitListener;
+import com.github.vaporrrr.btediscordaddon.listeners.DiscordListener;
+import com.github.vaporrrr.btediscordaddon.stats.MinecraftStats;
+import com.github.vaporrrr.btediscordaddon.stats.TeamStats;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Timer;

@@ -1,8 +1,10 @@
-package github.vaporrrr.btediscordaddon.commands;
+package com.github.vaporrrr.btediscordaddon.commands;
 
+import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
+import com.github.vaporrrr.btediscordaddon.commands.discord.Linked;
+import com.github.vaporrrr.btediscordaddon.commands.discord.Online;
+import com.github.vaporrrr.btediscordaddon.commands.discord.Setup;
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
-import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
-import github.vaporrrr.btediscordaddon.commands.discord.*;
 
 import java.util.HashMap;
 

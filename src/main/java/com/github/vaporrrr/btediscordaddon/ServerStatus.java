@@ -1,4 +1,4 @@
-package github.vaporrrr.btediscordaddon;
+package com.github.vaporrrr.btediscordaddon;
 
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.JDA;

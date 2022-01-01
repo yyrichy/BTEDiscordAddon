@@ -1,14 +1,14 @@
-package github.vaporrrr.btediscordaddon.listeners;
+package com.github.vaporrrr.btediscordaddon.listeners;
 
+import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
+import com.github.vaporrrr.btediscordaddon.commands.DiscordCommandManager;
+import com.github.vaporrrr.btediscordaddon.schematics.Schematics;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.api.ListenerPriority;
 import github.scarsz.discordsrv.api.Subscribe;
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.api.events.DiscordReadyEvent;
 import github.scarsz.discordsrv.util.DiscordUtil;
-import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
-import github.vaporrrr.btediscordaddon.commands.DiscordCommandManager;
-import github.vaporrrr.btediscordaddon.schematics.Schematics;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;

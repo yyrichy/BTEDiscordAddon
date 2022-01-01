@@ -1,8 +1,8 @@
-package github.vaporrrr.btediscordaddon.commands;
+package com.github.vaporrrr.btediscordaddon.commands;
 
+import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Member;
-import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public abstract class DiscordCommand {

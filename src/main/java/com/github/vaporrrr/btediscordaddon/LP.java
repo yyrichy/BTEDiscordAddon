@@ -1,4 +1,4 @@
-package github.vaporrrr.btediscordaddon;
+package com.github.vaporrrr.btediscordaddon;
 
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;

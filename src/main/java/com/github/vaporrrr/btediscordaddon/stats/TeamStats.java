@@ -1,12 +1,12 @@
-package github.vaporrrr.btediscordaddon.stats;
+package com.github.vaporrrr.btediscordaddon.stats;
 
+import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Guild;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Role;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import github.scarsz.discordsrv.util.DiscordUtil;
-import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.json.JSONObject;

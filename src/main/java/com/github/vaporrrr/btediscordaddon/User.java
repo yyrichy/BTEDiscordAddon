@@ -1,4 +1,4 @@
-package github.vaporrrr.btediscordaddon;
+package com.github.vaporrrr.btediscordaddon;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

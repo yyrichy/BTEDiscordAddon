@@ -1,6 +1,6 @@
-package github.vaporrrr.btediscordaddon.commands.minecraft;
+package com.github.vaporrrr.btediscordaddon.commands.minecraft;
 
-import github.vaporrrr.btediscordaddon.BTEDiscordAddon;
+import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
