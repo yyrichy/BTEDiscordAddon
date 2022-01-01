@@ -15,12 +15,14 @@ public class Reload implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
-        if (!commandSender.hasPermission("bted.admin.reload") || !commandSender.isOp()) {
+        if (!commandSender.hasPermission("bted.admin.reload") && !commandSender.isOp()) {
             commandSender.sendMessage(ChatColor.RED + "You do not have permission to use that command.");
             return true;
         }
         bteDiscordAddon.reloadConfig();
-        commandSender.sendMessage("Config Reloaded");
+        bteDiscordAddon.getServerStatus().update();
+        bteDiscordAddon.restartStats();
+        commandSender.sendMessage("Config reloaded, Server Status updated, Stats restarted.");
         return true;
     }
 }
