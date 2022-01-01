@@ -42,10 +42,9 @@ public class TeamStats extends TimerTask {
 
     @Override
     public void run() {
-        embed = new EmbedBuilder();
+        reset();
         embed.setTitle("Team Statistics");
         Guild mainGuild = DiscordSRV.getPlugin().getMainGuild();
-        reset();
         JSONObject totalLocations = getRequest("map/data/locations", null);
         if (totalLocations != null) {
             projectLocations = totalLocations.getJSONArray("locations").length();
@@ -203,6 +202,7 @@ public class TeamStats extends TimerTask {
     }
 
     public void reset() {
+        embed = new EmbedBuilder();
         projectLocations = -1;
         teamLocations = -1;
         pendingApplications = -1;
