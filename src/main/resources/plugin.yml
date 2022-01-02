@@ -17,6 +17,10 @@ commands:
     description: Toggles afk status
     usage: /afk
     permission: bted.command.afk
+  online:
+    description: Lists online players
+    usage: /online
+    permmission: bted.command.online
 permissions:
   bted.*:
     description: Wildcard
@@ -39,5 +43,8 @@ permissions:
     description: All general commands
     children:
       bted.command.afk: true
+      bted.command.online: true
   bted.command.afk:
     description: Allows usage of /afk
+  bted.command.online:
+    description: Allows usage of /online

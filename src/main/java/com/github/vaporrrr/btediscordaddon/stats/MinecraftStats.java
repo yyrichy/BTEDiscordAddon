@@ -1,14 +1,12 @@
 package com.github.vaporrrr.btediscordaddon.stats;
 
 import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
-import com.github.vaporrrr.btediscordaddon.LP;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import github.scarsz.discordsrv.util.DiscordUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 
 import java.lang.management.ManagementFactory;
 import java.util.List;
@@ -16,15 +14,11 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class MinecraftStats extends TimerTask {
-    private final Plugin bteDiscordAddon;
+    private final BTEDiscordAddon bteDiscordAddon;
     private EmbedBuilder embed = new EmbedBuilder();
-    private LP luckPerms = null;
 
     public MinecraftStats(BTEDiscordAddon bteDiscordAddon) {
         this.bteDiscordAddon = bteDiscordAddon;
-        if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null) {
-            this.luckPerms = new LP();
-        }
     }
 
     @Override
@@ -36,9 +30,9 @@ public class MinecraftStats extends TimerTask {
         }
         List<String> groupNames = bteDiscordAddon.getConfig().getStringList("Stats.Minecraft.GroupNames");
         if (!groupNames.isEmpty()) {
-            if (luckPerms != null) {
+            if (bteDiscordAddon.getLuckPerms() != null) {
                 for (String name : groupNames) {
-                    int groupSize = luckPerms.getGroupSize(name);
+                    int groupSize = bteDiscordAddon.getLuckPerms().getGroupSize(name);
                     if (groupSize == -1) {
                         bteDiscordAddon.getLogger().warning("Could not get group size of group " + name);
                     } else {
