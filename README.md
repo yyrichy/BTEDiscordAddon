@@ -1,19 +1,51 @@
 # BTEDiscordAddon (1.12 - 1.18)
 Add features through DiscordSRV API. Tested on 1.12.2 and 1.18.1, native 1.12.2
 
+## Requires:
+- [DiscordSRV](https://www.spigotmc.org/resources/discordsrv.18494/)
+
+## Soft Depend (Optional):
+- [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/)
+- [LuckPerms](https://luckperms.net/)
+- [WorldEdit](https://dev.bukkit.org/projects/worldedit) (For schematic download and upload channels)
+
 ## Features:
 - Server status message in Discord, edited with # of players and list of players
 - Placeholders and PlaceholderAPI support for Server Status and Statistics messages
 - `(prefix)setup` sets status message
 - `(prefix)online` lists online players
 - `(prefix)linked` equivalent of `/discord linked`
+- MC command that lists players and their afk status (gets groups from LuckPerms)
 - Custom-made AFK system
 - Statistics messages with Discord, Minecraft (Uses LuckPerms for group stats), and BTE website stats
 - Link MC <-> Discord account (DiscordSRV) through channel instead of DMs
 - Upload and download schematics through Discord channel (Majority of code from [RudeYeti](https://github.com/RudeYeti))
 - PlaceholderAPI support in Server Status message and Stats messages
 
-Default Placeholders:
+## Minecraft Commands:
+### /afk
+Description: Toggle player's afk status  
+Permission: bted.command.afk
+### /online
+Description: Lists online players  
+Permission: bted.command.online
+### /bted-update
+Description: Updates the Server Status and Stats embeds in Discord  
+Permission: bted.admin.update
+### /bted-reload
+Description: Reloads config, updates Server Status and Stats embeds in Discord  
+Permission: bted.admin.reload
+
+## Discord Commands:
+Permissions can be set by specifying Discord role IDs in the config.yml under `DiscordCommands.commandname.Permissions.Roles`. In the future permissions based on user IDs, Discord permissions, etc., may be added.
+### /linked
+Description: Equivalent to DiscordSRV's `/discord linked`. Gets player's linked account info from UUID, Discord ID, Minecraft player name, or Discord name.
+### /online
+Description: Lists online players
+### /setup
+Description: Sets up the Server Status embed
+
+## Default Placeholders:
 <details>
     <summary>Server Status</summary>
 
@@ -65,14 +97,3 @@ Default Placeholders:
     $bte_team_reviewer_list$
     $bte_team_builder_list$
 </details>
-
-## WIP:
-- MC command that lists players and their afk status
-
-## Requires: 
-- DiscordSRV
-
-## Soft Depend (Optional):
-- PlaceholderAPI
-- LuckPerms (For getting group size)
-- WorldEdit (For schematic download and upload channels)

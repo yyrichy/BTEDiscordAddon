@@ -14,7 +14,7 @@ commands:
     usage: /bted-reload
     permission: bted.admin.config
   afk:
-    description: Toggles afk status
+    description: Toggles player's afk status
     usage: /afk
     permission: bted.command.afk
   online:
