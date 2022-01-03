@@ -53,7 +53,7 @@ Stats:
     ChannelID: 00000000000000000
     MessageID: 00000000000000000
     Description:
-      - "**Last Updated**: <t:$unix$:R>"
+      - "**Last Updated**: <t:$current_unix$:R>"
       - "**Unique Players Joined**: `$unique_players_joined$`"
       - "**Linked Players**: `$linked_players$`"
       - "**Memory**: $memory$"
@@ -67,7 +67,7 @@ Stats:
     MessageID: 00000000000000000
     BTEWebsiteAPIKey: ""
     Description:
-      - "**Last Updated**: <t:$unix$:R>"
+      - "**Last Updated**: <t:$current_unix$:R>"
       - "**-- BTE Website --**"
       - "**Members**: `$bte_team_members$`"
       - "**Leaders**: `$bte_team_leaders$`"

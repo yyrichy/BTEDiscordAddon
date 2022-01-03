@@ -59,7 +59,7 @@ Description: Sets up the Server Status embed
 <details>
     <summary>Minecraft Stats</summary>
 
-    $unix$
+    $current_unix$
     $unique_players_joined$
     $linked_players$
     $memory$
@@ -68,7 +68,7 @@ Description: Sets up the Server Status embed
 <details>
     <summary>Team Stats</summary>
 
-    $unix$
+    $current_unix$
     $guild_age_unix$
     $guild_members$
     $guild_member_max$
