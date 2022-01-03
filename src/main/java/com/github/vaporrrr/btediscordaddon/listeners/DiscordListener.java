@@ -58,10 +58,12 @@ public class DiscordListener {
             }
             return;
         }
-        if (!event.getMessage().getContentRaw().substring(0, 1).equals(bteDiscordAddon.getConfig().getString("DiscordCommandsPrefix"))) {
+        String content = event.getMessage().getContentRaw();
+        if (content.length < 2) return;
+        if (!content.substring(0, 1).equals(bteDiscordAddon.getConfig().getString("DiscordCommandsPrefix"))) {
             return;
         }
-        String[] args = event.getMessage().getContentRaw().split(" ");
+        String[] args = content.split(" ");
         String command = args[0].substring(1);
         args = Arrays.copyOfRange(args, 1, args.length);
         discordCommandManager.executeCommand(event, command, args);
