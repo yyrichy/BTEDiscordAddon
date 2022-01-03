@@ -59,7 +59,7 @@ public class DiscordListener {
             return;
         }
         String content = event.getMessage().getContentRaw();
-        if (content.length < 2) return;
+        if (content.length() < 2) return;
         if (!content.substring(0, 1).equals(bteDiscordAddon.getConfig().getString("DiscordCommandsPrefix"))) {
             return;
         }
