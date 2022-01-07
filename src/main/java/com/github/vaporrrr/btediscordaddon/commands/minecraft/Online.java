@@ -19,7 +19,7 @@
 package com.github.vaporrrr.btediscordaddon.commands.minecraft;
 
 import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
-import com.github.vaporrrr.btediscordaddon.LP;
+import com.github.vaporrrr.btediscordaddon.luckperms.LP;
 import com.github.vaporrrr.btediscordaddon.User;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

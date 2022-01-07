@@ -44,7 +44,7 @@ public class MinecraftStats extends TimerTask {
         embed = new EmbedBuilder();
         embed.setTitle("Minecraft Server Statistics");
         for (String value : bteDiscordAddon.getConfig().getStringList("Stats.Minecraft.Description")) {
-            add(format(value));
+            append(format(value));
         }
         List<String> groupNames = bteDiscordAddon.getConfig().getStringList("Stats.Minecraft.GroupNames");
         if (!groupNames.isEmpty()) {
@@ -54,7 +54,7 @@ public class MinecraftStats extends TimerTask {
                     if (groupSize == -1) {
                         bteDiscordAddon.getLogger().warning("Could not get group size of group " + name);
                     } else {
-                        add("**" + name + " Group Size**: `" + groupSize + "`");
+                        append("**" + name + " Group Size**: `" + groupSize + "`");
                     }
                 }
             } else {
@@ -70,7 +70,7 @@ public class MinecraftStats extends TimerTask {
         }
     }
 
-    private void add(String value) {
+    private void append(String value) {
         embed.appendDescription("\n" + value);
     }
 

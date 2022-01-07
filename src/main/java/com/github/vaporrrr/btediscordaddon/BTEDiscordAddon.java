@@ -22,6 +22,7 @@ import com.github.vaporrrr.btediscordaddon.commands.minecraft.Afk;
 import com.github.vaporrrr.btediscordaddon.commands.minecraft.Online;
 import com.github.vaporrrr.btediscordaddon.commands.minecraft.Reload;
 import com.github.vaporrrr.btediscordaddon.commands.minecraft.Update;
+import com.github.vaporrrr.btediscordaddon.luckperms.LP;
 import github.scarsz.discordsrv.DiscordSRV;
 import com.github.vaporrrr.btediscordaddon.listeners.BukkitListener;
 import com.github.vaporrrr.btediscordaddon.listeners.DiscordListener;
