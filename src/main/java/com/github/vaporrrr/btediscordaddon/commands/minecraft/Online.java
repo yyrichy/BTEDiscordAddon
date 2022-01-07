@@ -54,7 +54,7 @@ public class Online implements CommandExecutor {
                 playerList.add((user.isAfk() ? "[AFK]" : "") + user.getPlayer().getName());
             }
             playerList.sort(String.CASE_INSENSITIVE_ORDER);
-            commandSender.sendMessage(ChatColor.BOLD + "" + ChatColor.GOLD + Bukkit.getOnlinePlayers().size() +  "Online Players:");
+            commandSender.sendMessage(ChatColor.BOLD + "" + ChatColor.YELLOW + Bukkit.getOnlinePlayers().size() +  "Online Players:");
             for (String player : playerList) {
                 commandSender.sendMessage(ChatColor.GRAY + " - " + player);
             }
@@ -67,10 +67,10 @@ public class Online implements CommandExecutor {
                 }
                 playerMap.get(group).add((user.isAfk() ? "[AFK]" : "") + user.getPlayer().getName());
             }
-            commandSender.sendMessage(ChatColor.BOLD + "" + ChatColor.GOLD + Bukkit.getOnlinePlayers().size() + " Online Players:");
+            commandSender.sendMessage(ChatColor.GOLD.toString() + ChatColor.BOLD + Bukkit.getOnlinePlayers().size() + " Online Players:");
             for (Map.Entry<String, ArrayList<String>> entry : playerMap.entrySet()) {
                 entry.getValue().sort(String.CASE_INSENSITIVE_ORDER);
-                commandSender.sendMessage(ChatColor.YELLOW + entry.getKey().toUpperCase() + " (" + entry.getValue().size() + "):");
+                commandSender.sendMessage(ChatColor.GOLD + entry.getKey().substring(0, 1).toUpperCase() + entry.getKey().substring(1).toLowerCase() + " (" + entry.getValue().size() + "):");
                 for (String player : entry.getValue()) {
                     commandSender.sendMessage(ChatColor.GRAY + " - " + player);
                 }
