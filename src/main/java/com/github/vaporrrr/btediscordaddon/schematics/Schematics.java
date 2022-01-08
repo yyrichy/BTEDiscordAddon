@@ -102,7 +102,7 @@ public class Schematics {
             potentialFiles.add(new File(schematicsFolder, name + ".schem"));
             ArrayList<File> files = new ArrayList<>();
             for (File file : potentialFiles) {
-                if (file.exists() && inBaseDirectory(schematicsFolder, file) && file.length() < 8388608) {
+                if (file.exists() && inBaseDirectory(schematicsFolder, file) && file.length() < Message.MAX_FILE_SIZE) {
                     files.add(file);
                 }
             }
