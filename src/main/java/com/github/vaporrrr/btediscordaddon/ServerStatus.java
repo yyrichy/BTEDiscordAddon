@@ -71,11 +71,6 @@ public class ServerStatus {
             bteDiscordAddon.severe("TextChannel from " + channelIDPath + " does not exist.");
             return;
         }
-        try {
-            channel.editMessageById(bteDiscordAddon.config().getString(messageIDPath), embed.build()).queue();
-        } catch (Exception e) {
-            bteDiscordAddon.severe("Could not edit message " + messageIDPath + " in #" + channel.getName());
-            e.printStackTrace();
-        }
+        channel.retrieveMessageById(bteDiscordAddon.config().getString(messageIDPath)).queue((message) -> message.editMessage(embed.build()).queue(), (failure) -> bteDiscordAddon.severe("Could not edit message " + messageIDPath + " in #" + channel.getName()));
     }
 }

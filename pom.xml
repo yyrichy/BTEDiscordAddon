@@ -69,11 +69,6 @@
             <artifactId>json</artifactId>
             <version>20211205</version>
         </dependency>
-        <dependency>
-            <groupId>github.scarsz</groupId>
-            <artifactId>configuralize</artifactId>
-            <version>1.4.0</version>
-        </dependency>
     </dependencies>
 
     <build>

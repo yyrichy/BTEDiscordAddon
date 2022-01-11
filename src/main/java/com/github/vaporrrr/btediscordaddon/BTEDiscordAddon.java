@@ -24,6 +24,7 @@ import com.github.vaporrrr.btediscordaddon.commands.minecraft.Reload;
 import com.github.vaporrrr.btediscordaddon.commands.minecraft.Update;
 import com.github.vaporrrr.btediscordaddon.luckperms.LP;
 import github.scarsz.configuralize.DynamicConfig;
+import github.scarsz.configuralize.Language;
 import github.scarsz.discordsrv.DiscordSRV;
 import com.github.vaporrrr.btediscordaddon.listeners.BukkitListener;
 import com.github.vaporrrr.btediscordaddon.listeners.DiscordListener;
@@ -37,7 +38,7 @@ import java.io.IOException;
 import java.util.Timer;
 
 public class BTEDiscordAddon extends JavaPlugin {
-    private final DynamicConfig config = new DynamicConfig();
+    private final DynamicConfig config;
     private final DiscordListener discordSRVListener = new DiscordListener(this);
     private final UserManager userManager = new UserManager(this);
     private final ServerStatus serverStatus = new ServerStatus(this);
@@ -47,11 +48,12 @@ public class BTEDiscordAddon extends JavaPlugin {
     private LP luckPerms = null;
     private final File configFile = new File(getDataFolder(), "config.yml");
 
-    @Override
-    public void onEnable() {
-        getLogger().info("Enabled!");
-
+    public BTEDiscordAddon() {
+        super();
+        getDataFolder().mkdirs();
+        config = new DynamicConfig();
         config.addSource(BTEDiscordAddon.class, "config", configFile);
+        config.setLanguage(Language.EN);
         try {
             config.saveAllDefaults();
         } catch (IOException e) {
@@ -62,6 +64,11 @@ public class BTEDiscordAddon extends JavaPlugin {
         } catch (Exception e) {
             throw new RuntimeException("Unable to load config");
         }
+    }
+
+    @Override
+    public void onEnable() {
+        getLogger().info("Enabled!");
 
         if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null) {
             this.luckPerms = new LP();
@@ -121,11 +128,11 @@ public class BTEDiscordAddon extends JavaPlugin {
     }
 
     public void startStats() {
-        if (getConfig().getBoolean("Stats.Minecraft.Enabled")) {
+        if (config.getBoolean("Stats.Minecraft.Enabled")) {
             mcStats = new MinecraftStats(this);
             t.scheduleAtFixedRate(mcStats, 0, config.getInt("Stats.Minecraft.IntervalInSeconds") * 1000L);
         }
-        if (getConfig().getBoolean("Stats.Team.Enabled")) {
+        if (config.getBoolean("Stats.Team.Enabled")) {
             teamStats = new TeamStats(this);
             t.scheduleAtFixedRate(teamStats, 0, config.getInt("Stats.Team.IntervalInSeconds") * 1000L);
         }

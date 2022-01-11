@@ -64,7 +64,7 @@ public class MinecraftStats extends TimerTask {
         embed.setFooter("Updated every " + bteDiscordAddon.config().getInt("Stats.Minecraft.IntervalInSeconds") + " seconds");
         TextChannel channel = DiscordUtil.getJda().getTextChannelById(bteDiscordAddon.config().getString("Stats.Minecraft.ChannelID"));
         if (channel != null) {
-            channel.editMessageById(bteDiscordAddon.config().getString("Stats.Minecraft.MessageID"), embed.build()).queue();
+            channel.retrieveMessageById(bteDiscordAddon.config().getString("Stats.Minecraft.MessageID")).queue((message) -> message.editMessage(embed.build()).queue(), (failure) -> bteDiscordAddon.severe("Could not edit message Stats.Minecraft.MessageID in #" + channel.getName()));
         } else {
             bteDiscordAddon.getLogger().warning("TextChannel from Stats.Minecraft.ChannelID could not be found");
         }

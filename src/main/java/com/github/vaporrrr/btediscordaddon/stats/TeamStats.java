@@ -112,6 +112,7 @@ public class TeamStats extends TimerTask {
             add(format(value));
         }
         List<String> roles = bteDiscordAddon.config().getStringList("Stats.Team.RoleIDS");
+
         for (String roleID : roles) {
             Role role = mainGuild.getRoleById(roleID);
             if (role == null) {
@@ -123,7 +124,7 @@ public class TeamStats extends TimerTask {
         embed.setFooter("Updated every " + bteDiscordAddon.config().getInt("Stats.Team.IntervalInSeconds") + " seconds");
         TextChannel channel = DiscordUtil.getJda().getTextChannelById(bteDiscordAddon.config().getString("Stats.Team.ChannelID"));
         if (channel != null) {
-            channel.editMessageById(bteDiscordAddon.config().getString("Stats.Team.MessageID"), embed.build()).queue();
+            channel.retrieveMessageById(bteDiscordAddon.config().getString("Stats.Team.MessageID")).queue((message) -> message.editMessage(embed.build()).queue(), (failure) -> bteDiscordAddon.severe("Could not edit message Stats.Team.MessageID in #" + channel.getName()));
         } else {
             bteDiscordAddon.warn("TextChannel from Stats.Team.ChannelID could not be found");
         }
