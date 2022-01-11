@@ -22,23 +22,23 @@ import com.github.vaporrrr.btediscordaddon.commands.minecraft.Afk;
 import com.github.vaporrrr.btediscordaddon.commands.minecraft.Online;
 import com.github.vaporrrr.btediscordaddon.commands.minecraft.Reload;
 import com.github.vaporrrr.btediscordaddon.commands.minecraft.Update;
-import com.github.vaporrrr.btediscordaddon.luckperms.LP;
-import github.scarsz.configuralize.DynamicConfig;
-import github.scarsz.configuralize.Language;
-import github.scarsz.discordsrv.DiscordSRV;
 import com.github.vaporrrr.btediscordaddon.listeners.BukkitListener;
 import com.github.vaporrrr.btediscordaddon.listeners.DiscordListener;
+import com.github.vaporrrr.btediscordaddon.luckperms.LP;
 import com.github.vaporrrr.btediscordaddon.stats.MinecraftStats;
 import com.github.vaporrrr.btediscordaddon.stats.TeamStats;
+import de.leonhard.storage.Config;
+import de.leonhard.storage.LightningBuilder;
+import de.leonhard.storage.internal.settings.DataType;
+import de.leonhard.storage.internal.settings.ReloadSettings;
+import github.scarsz.discordsrv.DiscordSRV;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Timer;
 
 public class BTEDiscordAddon extends JavaPlugin {
-    private final DynamicConfig config;
+    private final Config config;
     private final DiscordListener discordSRVListener = new DiscordListener(this);
     private final UserManager userManager = new UserManager(this);
     private final ServerStatus serverStatus = new ServerStatus(this);
@@ -46,30 +46,19 @@ public class BTEDiscordAddon extends JavaPlugin {
     private MinecraftStats mcStats = new MinecraftStats(this);
     private TeamStats teamStats = new TeamStats(this);
     private LP luckPerms = null;
-    private final File configFile = new File(getDataFolder(), "config.yml");
 
     public BTEDiscordAddon() {
         super();
-        getDataFolder().mkdirs();
-        config = new DynamicConfig();
-        config.addSource(BTEDiscordAddon.class, "config", configFile);
-        config.setLanguage(Language.EN);
-        try {
-            config.saveAllDefaults();
-        } catch (IOException e) {
-            throw new RuntimeException("Unable to save all default config files.");
-        }
-        try {
-            config.loadAll();
-        } catch (Exception e) {
-            throw new RuntimeException("Unable to load config");
-        }
+        config = LightningBuilder
+                .fromDirectory(getDataFolder())
+                .setDataType(DataType.SORTED)
+                .setReloadSettings(ReloadSettings.MANUALLY)
+                .createConfig();
     }
 
     @Override
     public void onEnable() {
         getLogger().info("Enabled!");
-
         if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null) {
             this.luckPerms = new LP();
         }
@@ -97,16 +86,12 @@ public class BTEDiscordAddon extends JavaPlugin {
         return luckPerms;
     }
 
-    public DynamicConfig config() {
+    public Config config() {
         return config;
     }
 
     public void reloadConfig() {
-        try {
-            config().loadAll();
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to load config", e);
-        }
+        config.forceReload();
     }
 
     public void info(String message) {

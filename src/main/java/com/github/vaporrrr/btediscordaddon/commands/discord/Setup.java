@@ -27,7 +27,12 @@ public class Setup extends DiscordCommand {
     @Override
     public void execute(BTEDiscordAddon bteDiscordAddon, DiscordGuildMessageReceivedEvent event, String[] args) {
         EmbedBuilder embed = new EmbedBuilder();
-        embed.setDescription("Edit ServerStatus.ChannelID and ServersStatus.MessageID to the location of this message. Type " + bteDiscordAddon.config().getStringElse("DiscordCommandsPrefix", "<PREFIX>") + getName() + " again to change the location.");
+        embed.setDescription("ServerStatus embed should be edited here. Type " + bteDiscordAddon.config().getOrDefault("DiscordCommandsPrefix", "<PREFIX>") + getName() + " again to change the location.");
+        event.getChannel().sendMessage(embed.build()).queue((message) -> {
+            bteDiscordAddon.config().set("ServerStatus.ChannelID", message.getChannel().getId());
+            bteDiscordAddon.config().set("ServerStatus.MessageID", message.getId());
+            bteDiscordAddon.getServerStatus().update();
+        });
     }
 
     @Override

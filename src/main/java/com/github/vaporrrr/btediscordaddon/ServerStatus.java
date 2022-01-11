@@ -18,7 +18,7 @@
 
 package com.github.vaporrrr.btediscordaddon;
 
-import github.scarsz.configuralize.DynamicConfig;
+import de.leonhard.storage.Config;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.JDA;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
@@ -40,7 +40,7 @@ public class ServerStatus {
     }
 
     public void update() {
-        DynamicConfig config = bteDiscordAddon.config();
+        Config config = bteDiscordAddon.config();
         ArrayList<String> playerList = bteDiscordAddon.getUserManager().playerList();
         EmbedBuilder embed = new EmbedBuilder();
         embed.setAuthor(config.getString("ServerStatus.Title"), null, config.getString("ServerStatus.IconURL"));
@@ -55,7 +55,7 @@ public class ServerStatus {
     }
 
     public void shutdown() {
-        DynamicConfig config = bteDiscordAddon.config();
+        Config config = bteDiscordAddon.config();
         EmbedBuilder embed = new EmbedBuilder();
         embed.setAuthor(config.getString("ServerStatus.Title"), null, config.getString("ServerStatus.IconURL"));
         embed.addField("Server Offline", config.getString("ServerStatus.OfflineMessage"), false);

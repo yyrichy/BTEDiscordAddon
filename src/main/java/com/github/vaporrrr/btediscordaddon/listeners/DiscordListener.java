@@ -21,7 +21,7 @@ package com.github.vaporrrr.btediscordaddon.listeners;
 import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import com.github.vaporrrr.btediscordaddon.commands.DiscordCommandManager;
 import com.github.vaporrrr.btediscordaddon.schematics.Schematics;
-import github.scarsz.configuralize.DynamicConfig;
+import de.leonhard.storage.Config;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.api.ListenerPriority;
 import github.scarsz.discordsrv.api.Subscribe;
@@ -54,7 +54,7 @@ public class DiscordListener {
     @Subscribe(priority = ListenerPriority.MONITOR)
     public void discordMessageReceived(DiscordGuildMessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
-        DynamicConfig config = bteDiscordAddon.config();
+        Config config = bteDiscordAddon.config();
         if (event.getChannel().getId().equals(config.getString("Schematics.Upload.ChannelID"))) {
             schematics.upload(event);
             return;
