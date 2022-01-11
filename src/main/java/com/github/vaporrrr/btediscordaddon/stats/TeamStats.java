@@ -67,7 +67,7 @@ public class TeamStats extends TimerTask {
         if (totalLocations != null) {
             projectLocations = totalLocations.getJSONArray("locations").length();
         }
-        String key = bteDiscordAddon.getConfig().getString("Stats.Team.BTEWebsiteAPIKey");
+        String key = bteDiscordAddon.config().getString("Stats.Team.BTEWebsiteAPIKey");
         if (key != null && !key.isEmpty()) {
             JSONObject locations = getRequest("api/v1/locations", key);
             if (locations != null) {
@@ -108,24 +108,24 @@ public class TeamStats extends TimerTask {
                 }
             }
         }
-        for (String value : bteDiscordAddon.getConfig().getStringList("Stats.Team.Description")) {
+        for (String value : bteDiscordAddon.config().getStringList("Stats.Team.Description")) {
             add(format(value));
         }
-        List<String> roles = bteDiscordAddon.getConfig().getStringList("Stats.Team.RoleIDS");
+        List<String> roles = bteDiscordAddon.config().getStringList("Stats.Team.RoleIDS");
         for (String roleID : roles) {
             Role role = mainGuild.getRoleById(roleID);
             if (role == null) {
-                bteDiscordAddon.getLogger().warning("Could not find role " + roleID);
+                bteDiscordAddon.warn("Could not find role " + roleID);
             } else {
                 add("**" + role.getName() + " Role Size**: `" + mainGuild.getMembersWithRoles(role).size() + "`");
             }
         }
-        embed.setFooter("Updated every " + bteDiscordAddon.getConfig().getInt("Stats.Team.IntervalInSeconds") + " seconds");
-        TextChannel channel = DiscordUtil.getJda().getTextChannelById(bteDiscordAddon.getConfig().getString("Stats.Team.ChannelID"));
+        embed.setFooter("Updated every " + bteDiscordAddon.config().getInt("Stats.Team.IntervalInSeconds") + " seconds");
+        TextChannel channel = DiscordUtil.getJda().getTextChannelById(bteDiscordAddon.config().getString("Stats.Team.ChannelID"));
         if (channel != null) {
-            channel.editMessageById(bteDiscordAddon.getConfig().getString("Stats.Team.MessageID"), embed.build()).queue();
+            channel.editMessageById(bteDiscordAddon.config().getString("Stats.Team.MessageID"), embed.build()).queue();
         } else {
-            bteDiscordAddon.getLogger().warning("TextChannel from Stats.Team.ChannelID could not be found");
+            bteDiscordAddon.warn("TextChannel from Stats.Team.ChannelID could not be found");
         }
     }
 
@@ -196,11 +196,11 @@ public class TeamStats extends TimerTask {
             con.setRequestMethod("GET");
             int code = con.getResponseCode();
             if (code < 200 || code > 299) {
-                bteDiscordAddon.getLogger().warning("Request to https://buildtheearth.net/" + endpoint + " not successful. Response code: " + code);
+                bteDiscordAddon.warn("Request to https://buildtheearth.net/" + endpoint + " not successful. Response code: " + code);
                 if (code == 401) {
-                    bteDiscordAddon.getLogger().warning("Invalid API key.");
+                    bteDiscordAddon.warn("Invalid API key.");
                 } else if (code == 404) {
-                    bteDiscordAddon.getLogger().warning(endpoint + " endpoint not found.");
+                    bteDiscordAddon.warn(endpoint + " endpoint not found.");
                 }
                 return null;
             }
@@ -214,7 +214,7 @@ public class TeamStats extends TimerTask {
             return new JSONObject(response.toString());
         } catch (Exception e) {
             e.printStackTrace();
-            bteDiscordAddon.getLogger().warning("Unexpected exception making GET request to https://buildtheearth.net/" + endpoint);
+            bteDiscordAddon.warn("Unexpected exception making GET request to https://buildtheearth.net/" + endpoint);
             return null;
         }
     }

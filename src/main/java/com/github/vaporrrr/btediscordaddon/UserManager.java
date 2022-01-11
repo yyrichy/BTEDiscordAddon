@@ -52,7 +52,7 @@ public class UserManager {
     }
 
     private String format(User user) {
-        String format = bteDiscordAddon.getConfig().getString("ServerStatus.NameFormat");
+        String format = bteDiscordAddon.config().getString("ServerStatus.NameFormat");
         UUID UUID = user.getPlayer().getUniqueId();
         format = format.replace("$player_name$", user.getPlayer().getName());
         format = format.replace("$player_name_with_afk_status$", getFormattedMinecraftUsername(user));
@@ -71,7 +71,7 @@ public class UserManager {
 
     public void add(Player player) {
         userMap.put(player.getUniqueId(), new User(player, false));
-        userMap.get(player.getUniqueId()).startAfkTimer(bteDiscordAddon.getConfig().getInt("AutoAfkInSeconds"), bteDiscordAddon.getServerStatus());
+        userMap.get(player.getUniqueId()).startAfkTimer(bteDiscordAddon.config().getInt("AutoAfkInSeconds"), bteDiscordAddon.getServerStatus());
     }
 
     public void remove(Player player) {
@@ -89,7 +89,7 @@ public class UserManager {
         setAfk(player, !isAfk);
         //No ! since in previous line afk is reversed
         if (isAfk) {
-            user.startAfkTimer(bteDiscordAddon.getConfig().getInt("AutoAfkInSeconds"), bteDiscordAddon.getServerStatus());
+            user.startAfkTimer(bteDiscordAddon.config().getInt("AutoAfkInSeconds"), bteDiscordAddon.getServerStatus());
         } else {
             user.cancelAfkTask();
         }
@@ -99,7 +99,7 @@ public class UserManager {
         User user = userMap.get(player.getUniqueId());
         user.setAfk(isAfk);
         if (!isAfk) {
-            user.startAfkTimer(bteDiscordAddon.getConfig().getInt("AutoAfkInSeconds"), bteDiscordAddon.getServerStatus());
+            user.startAfkTimer(bteDiscordAddon.config().getInt("AutoAfkInSeconds"), bteDiscordAddon.getServerStatus());
         } else {
             user.cancelAfkTask();
         }

@@ -89,7 +89,7 @@ public class BukkitListener implements Listener {
     }
 
     private void checkAndStartTimer(Player player) {
-        int interval = bteDiscordAddon.getConfig().getInt("AutoAfkInSeconds");
+        int interval = bteDiscordAddon.config().getInt("AutoAfkInSeconds");
         if (interval < 1) {
             return;
         }

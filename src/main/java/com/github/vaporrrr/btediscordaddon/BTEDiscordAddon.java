@@ -23,6 +23,7 @@ import com.github.vaporrrr.btediscordaddon.commands.minecraft.Online;
 import com.github.vaporrrr.btediscordaddon.commands.minecraft.Reload;
 import com.github.vaporrrr.btediscordaddon.commands.minecraft.Update;
 import com.github.vaporrrr.btediscordaddon.luckperms.LP;
+import github.scarsz.configuralize.DynamicConfig;
 import github.scarsz.discordsrv.DiscordSRV;
 import com.github.vaporrrr.btediscordaddon.listeners.BukkitListener;
 import com.github.vaporrrr.btediscordaddon.listeners.DiscordListener;
@@ -31,9 +32,12 @@ import com.github.vaporrrr.btediscordaddon.stats.TeamStats;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Timer;
 
 public class BTEDiscordAddon extends JavaPlugin {
+    private final DynamicConfig config = new DynamicConfig();
     private final DiscordListener discordSRVListener = new DiscordListener(this);
     private final UserManager userManager = new UserManager(this);
     private final ServerStatus serverStatus = new ServerStatus(this);
@@ -41,12 +45,24 @@ public class BTEDiscordAddon extends JavaPlugin {
     private MinecraftStats mcStats = new MinecraftStats(this);
     private TeamStats teamStats = new TeamStats(this);
     private LP luckPerms = null;
+    private final File configFile = new File(getDataFolder(), "config.yml");
 
     @Override
     public void onEnable() {
         getLogger().info("Enabled!");
-        getConfig().options().copyDefaults(true);
-        saveConfig();
+
+        config.addSource(BTEDiscordAddon.class, "config", configFile);
+        try {
+            config.saveAllDefaults();
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to save all default config files.");
+        }
+        try {
+            config.loadAll();
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to load config");
+        }
+
         if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null) {
             this.luckPerms = new LP();
         }
@@ -74,6 +90,30 @@ public class BTEDiscordAddon extends JavaPlugin {
         return luckPerms;
     }
 
+    public DynamicConfig config() {
+        return config;
+    }
+
+    public void reloadConfig() {
+        try {
+            config().loadAll();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load config", e);
+        }
+    }
+
+    public void info(String message) {
+        getLogger().info(message);
+    }
+
+    public void warn(String message) {
+        getLogger().warning(message);
+    }
+
+    public void severe(String message) {
+        getLogger().severe(message);
+    }
+
     public void restartStats() {
         mcStats.cancel();
         teamStats.cancel();
@@ -83,11 +123,11 @@ public class BTEDiscordAddon extends JavaPlugin {
     public void startStats() {
         if (getConfig().getBoolean("Stats.Minecraft.Enabled")) {
             mcStats = new MinecraftStats(this);
-            t.scheduleAtFixedRate(mcStats, 0, getConfig().getInt("Stats.Minecraft.IntervalInSeconds") * 1000L);
+            t.scheduleAtFixedRate(mcStats, 0, config.getInt("Stats.Minecraft.IntervalInSeconds") * 1000L);
         }
         if (getConfig().getBoolean("Stats.Team.Enabled")) {
             teamStats = new TeamStats(this);
-            t.scheduleAtFixedRate(teamStats, 0, getConfig().getInt("Stats.Team.IntervalInSeconds") * 1000L);
+            t.scheduleAtFixedRate(teamStats, 0, config.getInt("Stats.Team.IntervalInSeconds") * 1000L);
         }
     }
 }

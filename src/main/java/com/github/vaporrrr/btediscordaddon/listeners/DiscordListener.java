@@ -21,6 +21,7 @@ package com.github.vaporrrr.btediscordaddon.listeners;
 import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import com.github.vaporrrr.btediscordaddon.commands.DiscordCommandManager;
 import com.github.vaporrrr.btediscordaddon.schematics.Schematics;
+import github.scarsz.configuralize.DynamicConfig;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.api.ListenerPriority;
 import github.scarsz.discordsrv.api.Subscribe;
@@ -44,7 +45,7 @@ public class DiscordListener {
 
     @Subscribe
     public void discordReadyEvent(DiscordReadyEvent event) {
-        bteDiscordAddon.getLogger().info("Discord Ready!");
+        bteDiscordAddon.info("Discord Ready!");
         bteDiscordAddon.getServerStatus().setJDA(DiscordUtil.getJda());
         bteDiscordAddon.getServerStatus().update();
         bteDiscordAddon.startStats();
@@ -53,17 +54,18 @@ public class DiscordListener {
     @Subscribe(priority = ListenerPriority.MONITOR)
     public void discordMessageReceived(DiscordGuildMessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
-        if (event.getChannel().getId().equals(bteDiscordAddon.getConfig().getString("Schematics.Upload.ChannelID"))) {
+        DynamicConfig config = bteDiscordAddon.config();
+        if (event.getChannel().getId().equals(config.getString("Schematics.Upload.ChannelID"))) {
             schematics.upload(event);
             return;
         }
-        if (event.getChannel().getId().equals(bteDiscordAddon.getConfig().getString("Schematics.Download.ChannelID"))) {
+        if (event.getChannel().getId().equals(config.getString("Schematics.Download.ChannelID"))) {
             schematics.download(event);
             return;
         }
-        if (event.getChannel().getId().equals(bteDiscordAddon.getConfig().getString("Linking.ChannelID"))) {
+        if (event.getChannel().getId().equals(config.getString("Linking.ChannelID"))) {
             String response = DiscordSRV.getPlugin().getAccountLinkManager().process(event.getMessage().getContentRaw(), event.getAuthor().getId());
-            int delay = bteDiscordAddon.getConfig().getInt("Linking.DelayBeforeDeleteMsgInSeconds");
+            int delay = config.getInt("Linking.DelayBeforeDeleteMsgInSeconds");
             if (delay <= 0) {
                 event.getChannel().sendMessage(response).queue();
             } else {
@@ -78,7 +80,7 @@ public class DiscordListener {
         }
         String content = event.getMessage().getContentRaw();
         if (content.length() < 2) return;
-        if (!content.substring(0, 1).equals(bteDiscordAddon.getConfig().getString("DiscordCommandsPrefix"))) {
+        if (!content.substring(0, 1).equals(config.getString("DiscordCommandsPrefix"))) {
             return;
         }
         String[] args = content.split(" ");

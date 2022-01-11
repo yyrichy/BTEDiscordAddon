@@ -43,10 +43,10 @@ public class MinecraftStats extends TimerTask {
     public void run() {
         embed = new EmbedBuilder();
         embed.setTitle("Minecraft Server Statistics");
-        for (String value : bteDiscordAddon.getConfig().getStringList("Stats.Minecraft.Description")) {
+        for (String value : bteDiscordAddon.config().getStringList("Stats.Minecraft.Description")) {
             append(format(value));
         }
-        List<String> groupNames = bteDiscordAddon.getConfig().getStringList("Stats.Minecraft.GroupNames");
+        List<String> groupNames = bteDiscordAddon.config().getStringList("Stats.Minecraft.GroupNames");
         if (!groupNames.isEmpty()) {
             if (bteDiscordAddon.getLuckPerms() != null) {
                 for (String name : groupNames) {
@@ -61,10 +61,10 @@ public class MinecraftStats extends TimerTask {
                 bteDiscordAddon.getLogger().warning("Stats.Minecraft.GroupNames is not empty, but dependency LuckPerms could not be found. Install LuckPerms.");
             }
         }
-        embed.setFooter("Updated every " + bteDiscordAddon.getConfig().getInt("Stats.Minecraft.IntervalInSeconds") + " seconds");
-        TextChannel channel = DiscordUtil.getJda().getTextChannelById(bteDiscordAddon.getConfig().getString("Stats.Minecraft.ChannelID"));
+        embed.setFooter("Updated every " + bteDiscordAddon.config().getInt("Stats.Minecraft.IntervalInSeconds") + " seconds");
+        TextChannel channel = DiscordUtil.getJda().getTextChannelById(bteDiscordAddon.config().getString("Stats.Minecraft.ChannelID"));
         if (channel != null) {
-            channel.editMessageById(bteDiscordAddon.getConfig().getString("Stats.Minecraft.MessageID"), embed.build()).queue();
+            channel.editMessageById(bteDiscordAddon.config().getString("Stats.Minecraft.MessageID"), embed.build()).queue();
         } else {
             bteDiscordAddon.getLogger().warning("TextChannel from Stats.Minecraft.ChannelID could not be found");
         }

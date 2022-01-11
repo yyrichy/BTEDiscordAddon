@@ -41,7 +41,7 @@ public class Schematics {
 
     public void upload(DiscordGuildMessageReceivedEvent event) {
         if (worldEdit == null) {
-            bteDiscordAddon.getLogger().warning("WorldEdit is not installed, cannot upload schematics.");
+            bteDiscordAddon.warn("WorldEdit is not installed, cannot upload schematics.");
             return;
         }
         File schematicsFolder = new File(worldEdit.getDataFolder() + File.separator + "schematics");
@@ -69,7 +69,7 @@ public class Schematics {
                 errorMessage(event, fileName + " already exists.");
                 return;
             }
-            int maxFileSize = bteDiscordAddon.getConfig().getInt("Schematics.Upload.MaxFileSizeInKB");
+            int maxFileSize = bteDiscordAddon.config().getInt("Schematics.Upload.MaxFileSizeInKB");
             if (file.length() > maxFileSize * 1024L) {
                 errorMessage(event, "File size is greater than " + maxFileSize + " KB.");
                 return;
@@ -83,7 +83,7 @@ public class Schematics {
 
     public void download(DiscordGuildMessageReceivedEvent event) {
         if (worldEdit == null) {
-            bteDiscordAddon.getLogger().warning("WorldEdit is not installed, cannot download schematics.");
+            bteDiscordAddon.warn("WorldEdit is not installed, cannot download schematics.");
             return;
         }
         File schematicsFolder = new File(worldEdit.getDataFolder() + File.separator + "schematics");
