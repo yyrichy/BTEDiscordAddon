@@ -19,13 +19,12 @@
 package com.github.vaporrrr.btediscordaddon.stats;
 
 import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
+import com.github.vaporrrr.btediscordaddon.util.MessageUtil;
 import de.leonhard.storage.Yaml;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Guild;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Role;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
-import github.scarsz.discordsrv.util.DiscordUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.json.JSONObject;
@@ -119,12 +118,7 @@ public class TeamStats extends TimerTask {
             }
         }
         embed.setFooter("Updated every " + config.getInt("Stats.Team.IntervalInSeconds") + " seconds");
-        TextChannel channel = DiscordUtil.getJda().getTextChannelById(config.getString("Stats.Team.ChannelID"));
-        if (channel != null) {
-            channel.retrieveMessageById(config.getString("Stats.Team.MessageID")).queue((message) -> message.editMessage(embed.build()).queue(), (failure) -> BTEDiscordAddon.severe("Could not edit message Stats.Team.MessageID in #" + channel.getName()));
-        } else {
-            BTEDiscordAddon.warn("TextChannel from Stats.Team.ChannelID could not be found");
-        }
+        MessageUtil.editMessageFromConfig("Stats.Team.ChannelID", "Stats.Team.MessageID", embed.build(), "TeamStats");
     }
 
     private void add(String value) {

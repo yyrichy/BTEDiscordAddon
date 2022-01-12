@@ -18,22 +18,15 @@
 
 package com.github.vaporrrr.btediscordaddon;
 
+import com.github.vaporrrr.btediscordaddon.util.MessageUtil;
 import de.leonhard.storage.Config;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
-import github.scarsz.discordsrv.dependencies.jda.api.JDA;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import org.bukkit.Bukkit;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class ServerStatus {
-    private JDA jda;
-
-    public void setJDA(JDA jda) {
-        this.jda = jda;
-    }
-
     public void update() {
         Config config = BTEDiscordAddon.config();
         ArrayList<String> playerList = BTEDiscordAddon.getPlugin().getUserManager().playerList();
@@ -46,7 +39,7 @@ public class ServerStatus {
             embed.addField(playerList.size() + "/" + Bukkit.getMaxPlayers() + " Player(s) Online", String.join("\n", playerList), false);
             embed.setColor(Color.decode("#" + config.getString("ServerStatus.Colors.PlayersOnline")));
         }
-        editStatus(embed);
+        MessageUtil.editMessageFromConfig("ServerStatus.ChannelID", "ServerStatus.MessageID", embed.build(), "ServerStatus Update");
     }
 
     public void shutdown() {
@@ -55,17 +48,6 @@ public class ServerStatus {
         embed.setAuthor(config.getString("ServerStatus.Title"), null, config.getString("ServerStatus.IconURL"));
         embed.addField("Server Offline", config.getString("ServerStatus.OfflineMessage"), false);
         embed.setColor(Color.decode("#" + config.getString("ServerStatus.Colors.Offline")));
-        editStatus(embed);
-    }
-
-    private void editStatus(EmbedBuilder embed) {
-        String channelIDPath = "ServerStatus.ChannelID";
-        String messageIDPath = "ServerStatus.MessageID";
-        TextChannel channel = jda.getTextChannelById(BTEDiscordAddon.config().getString(channelIDPath));
-        if (channel == null) {
-            BTEDiscordAddon.severe("TextChannel from " + channelIDPath + " does not exist.");
-            return;
-        }
-        channel.retrieveMessageById(BTEDiscordAddon.config().getString(messageIDPath)).queue((message) -> message.editMessage(embed.build()).queue(), (failure) -> BTEDiscordAddon.severe("Could not edit message " + messageIDPath + " in #" + channel.getName()));
+        MessageUtil.editMessageFromConfig("ServerStatus.ChannelID", "ServerStatus.MessageID", embed.build(), "ServerStatus Shutdown");
     }
 }

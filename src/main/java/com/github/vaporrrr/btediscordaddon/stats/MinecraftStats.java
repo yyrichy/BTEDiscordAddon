@@ -19,11 +19,10 @@
 package com.github.vaporrrr.btediscordaddon.stats;
 
 import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
+import com.github.vaporrrr.btediscordaddon.util.MessageUtil;
 import de.leonhard.storage.Config;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
-import github.scarsz.discordsrv.util.DiscordUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 
@@ -33,15 +32,15 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class MinecraftStats extends TimerTask {
-    private EmbedBuilder embed = new EmbedBuilder();
+    private final EmbedBuilder embed = new EmbedBuilder();
 
     @Override
     public void run() {
         Config config = BTEDiscordAddon.config();
-        embed = new EmbedBuilder();
+        embed.clear();
         embed.setTitle("Minecraft Server Statistics");
         for (String value : config.getStringList("Stats.Minecraft.Description")) {
-            append(format(value));
+            add(format(value));
         }
         List<String> groupNames = config.getStringList("Stats.Minecraft.GroupNames");
         if (!groupNames.isEmpty()) {
@@ -51,7 +50,7 @@ public class MinecraftStats extends TimerTask {
                     if (groupSize == -1) {
                         BTEDiscordAddon.warn("Could not get group size of group " + name);
                     } else {
-                        append("**" + name + " Group Size**: `" + groupSize + "`");
+                        add("**" + name + " Group Size**: `" + groupSize + "`");
                     }
                 }
             } else {
@@ -59,15 +58,10 @@ public class MinecraftStats extends TimerTask {
             }
         }
         embed.setFooter("Updated every " + config.getInt("Stats.Minecraft.IntervalInSeconds") + " seconds");
-        TextChannel channel = DiscordUtil.getJda().getTextChannelById(config.getString("Stats.Minecraft.ChannelID"));
-        if (channel != null) {
-            channel.retrieveMessageById(config.getString("Stats.Minecraft.MessageID")).queue((message) -> message.editMessage(embed.build()).queue(), (failure) -> BTEDiscordAddon.severe("Could not edit message Stats.Minecraft.MessageID in #" + channel.getName()));
-        } else {
-            BTEDiscordAddon.warn("TextChannel from Stats.Minecraft.ChannelID could not be found");
-        }
+        MessageUtil.editMessageFromConfig("Stats.Minecraft.ChannelID", "Stats.Minecraft.MessageID", embed.build(), "MinecraftStats");
     }
 
-    private void append(String value) {
+    private void add(String value) {
         embed.appendDescription("\n" + value);
     }
 

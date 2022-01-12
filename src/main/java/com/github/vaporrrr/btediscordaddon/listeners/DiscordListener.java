@@ -27,7 +27,6 @@ import github.scarsz.discordsrv.api.ListenerPriority;
 import github.scarsz.discordsrv.api.Subscribe;
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.api.events.DiscordReadyEvent;
-import github.scarsz.discordsrv.util.DiscordUtil;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -44,7 +43,6 @@ public class DiscordListener {
     @Subscribe
     public void discordReadyEvent(DiscordReadyEvent event) {
         BTEDiscordAddon.info("Discord Ready!");
-        BTEDiscordAddon.getPlugin().getServerStatus().setJDA(DiscordUtil.getJda());
         BTEDiscordAddon.getPlugin().getServerStatus().update();
         BTEDiscordAddon.getPlugin().startStats();
     }
