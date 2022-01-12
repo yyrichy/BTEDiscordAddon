@@ -32,10 +32,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Schematics {
     private final Plugin worldEdit;
-    private final BTEDiscordAddon bteDiscordAddon;
 
     public Schematics() {
-        this.bteDiscordAddon = BTEDiscordAddon.getPlugin();
         this.worldEdit = Bukkit.getPluginManager().getPlugin("WorldEdit");
     }
 

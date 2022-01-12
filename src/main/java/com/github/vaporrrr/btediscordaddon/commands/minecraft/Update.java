@@ -25,11 +25,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class Update implements CommandExecutor {
-    private final BTEDiscordAddon bteDiscordAddon;
-
-    public Update() {
-        this.bteDiscordAddon = BTEDiscordAddon.getPlugin();
-    }
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
@@ -37,8 +32,8 @@ public class Update implements CommandExecutor {
             commandSender.sendMessage(ChatColor.RED + "You do not have permission to use that command.");
             return true;
         }
-        bteDiscordAddon.getServerStatus().update();
-        bteDiscordAddon.restartStats();
+        BTEDiscordAddon.getPlugin().getServerStatus().update();
+        BTEDiscordAddon.getPlugin().restartStats();
         commandSender.sendMessage("Updated.");
         return true;
     }

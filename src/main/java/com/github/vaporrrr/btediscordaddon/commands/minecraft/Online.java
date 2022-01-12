@@ -30,11 +30,6 @@ import org.bukkit.command.CommandSender;
 import java.util.*;
 
 public class Online implements CommandExecutor {
-    private final BTEDiscordAddon bteDiscordAddon;
-
-    public Online() {
-        this.bteDiscordAddon = BTEDiscordAddon.getPlugin();
-    }
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
@@ -46,8 +41,8 @@ public class Online implements CommandExecutor {
             commandSender.sendMessage(ChatColor.GOLD + "No players online.");
             return true;
         }
-        LP luckPerms = bteDiscordAddon.getLuckPerms();
-        HashMap<UUID, User> userMap = bteDiscordAddon.getUserManager().getUserMap();
+        LP luckPerms = BTEDiscordAddon.getPlugin().getLuckPerms();
+        HashMap<UUID, User> userMap = BTEDiscordAddon.getPlugin().getUserManager().getUserMap();
         if (luckPerms == null) {
             ArrayList<String> playerList = new ArrayList<>();
             for (User user : userMap.values()) {

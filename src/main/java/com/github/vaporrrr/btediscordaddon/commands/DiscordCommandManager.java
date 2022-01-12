@@ -27,11 +27,9 @@ import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import java.util.HashMap;
 
 public class DiscordCommandManager {
-    private final BTEDiscordAddon bteDiscordAddon;
     private final HashMap<String, DiscordCommand> discordCommands = new HashMap<>();
 
     public DiscordCommandManager() {
-        this.bteDiscordAddon = BTEDiscordAddon.getPlugin();
         Linked linked = new Linked();
         discordCommands.put(linked.getName(), linked);
         Setup setup = new Setup();
@@ -41,14 +39,17 @@ public class DiscordCommandManager {
     }
 
     public void executeCommand(DiscordGuildMessageReceivedEvent event, String command, String[] args) {
+        BTEDiscordAddon.info(command);
         DiscordCommand discordCommand = discordCommands.get(command);
         if (discordCommand != null) {
+            BTEDiscordAddon.info("not null cmd");
             if (discordCommand.hasPermission(event.getMember())) {
-                if (discordCommand.getArguments() != null && args.length < discordCommand.getArguments().length) {
-                    event.getChannel().sendMessage("Usage: " + bteDiscordAddon.getConfig().getString("DiscordCommandsPrefix") + discordCommand.getName() + " " + String.join(" ", discordCommand.getArguments())).queue();
-                    return;
+                BTEDiscordAddon.info("has perms");
+                if (discordCommand.getArguments() == null || args.length >= discordCommand.getArguments().length) {
+                    discordCommand.execute(event, args);
+                } else {
+                    event.getChannel().sendMessage("Usage: " + BTEDiscordAddon.config().getOrDefault("DiscordCommandsPrefix", "<PREFIX>") + discordCommand.getName() + " " + String.join(" ", discordCommand.getArguments())).queue();
                 }
-                discordCommand.execute(event, args);
             }
         }
     }

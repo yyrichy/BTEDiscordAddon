@@ -29,12 +29,15 @@ import com.github.vaporrrr.btediscordaddon.stats.MinecraftStats;
 import com.github.vaporrrr.btediscordaddon.stats.TeamStats;
 import de.leonhard.storage.Config;
 import de.leonhard.storage.LightningBuilder;
+import de.leonhard.storage.internal.settings.ConfigSettings;
 import de.leonhard.storage.internal.settings.DataType;
 import de.leonhard.storage.internal.settings.ReloadSettings;
 import github.scarsz.discordsrv.DiscordSRV;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.Timer;
 
 public class BTEDiscordAddon extends JavaPlugin {
@@ -49,11 +52,15 @@ public class BTEDiscordAddon extends JavaPlugin {
 
     public BTEDiscordAddon() {
         super();
+        InputStream is = getClassLoader().getResourceAsStream("config.yml");
         config = LightningBuilder
-                .fromDirectory(getDataFolder())
+                .fromFile(new File(getDataFolder(), "config.yml"))
+                .addInputStream(is)
                 .setDataType(DataType.SORTED)
+                .setConfigSettings(ConfigSettings.PRESERVE_COMMENTS)
                 .setReloadSettings(ReloadSettings.MANUALLY)
-                .createConfig();
+                .createConfig()
+                .addDefaultsFromInputStream(is);
     }
 
     @Override
@@ -121,7 +128,7 @@ public class BTEDiscordAddon extends JavaPlugin {
             mcStats = new MinecraftStats();
             t.scheduleAtFixedRate(getPlugin().mcStats, 0, config().getInt("Stats.Minecraft.IntervalInSeconds") * 1000L);
         }
-        if (config.getBoolean("Stats.Team.Enabled")) {
+        if (config().getBoolean("Stats.Team.Enabled")) {
             teamStats = new TeamStats();
             t.scheduleAtFixedRate(teamStats, 0, config().getInt("Stats.Team.IntervalInSeconds") * 1000L);
         }

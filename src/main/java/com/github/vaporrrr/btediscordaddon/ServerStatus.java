@@ -28,12 +28,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class ServerStatus {
-    private final BTEDiscordAddon bteDiscordAddon;
     private JDA jda;
-
-    public ServerStatus() {
-        this.bteDiscordAddon = BTEDiscordAddon.getPlugin();
-    }
 
     public void setJDA(JDA jda) {
         this.jda = jda;
@@ -41,7 +36,7 @@ public class ServerStatus {
 
     public void update() {
         Config config = BTEDiscordAddon.config();
-        ArrayList<String> playerList = bteDiscordAddon.getUserManager().playerList();
+        ArrayList<String> playerList = BTEDiscordAddon.getPlugin().getUserManager().playerList();
         EmbedBuilder embed = new EmbedBuilder();
         embed.setAuthor(config.getString("ServerStatus.Title"), null, config.getString("ServerStatus.IconURL"));
         if (playerList.size() == 0) {

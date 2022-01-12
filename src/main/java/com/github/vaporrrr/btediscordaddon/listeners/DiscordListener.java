@@ -33,12 +33,10 @@ import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class DiscordListener {
-    private final BTEDiscordAddon bteDiscordAddon;
     private final Schematics schematics;
     private final DiscordCommandManager discordCommandManager;
 
     public DiscordListener() {
-        this.bteDiscordAddon = BTEDiscordAddon.getPlugin();
         this.schematics = new Schematics();
         this.discordCommandManager = new DiscordCommandManager();
     }
@@ -46,9 +44,9 @@ public class DiscordListener {
     @Subscribe
     public void discordReadyEvent(DiscordReadyEvent event) {
         BTEDiscordAddon.info("Discord Ready!");
-        bteDiscordAddon.getServerStatus().setJDA(DiscordUtil.getJda());
-        bteDiscordAddon.getServerStatus().update();
-        bteDiscordAddon.startStats();
+        BTEDiscordAddon.getPlugin().getServerStatus().setJDA(DiscordUtil.getJda());
+        BTEDiscordAddon.getPlugin().getServerStatus().update();
+        BTEDiscordAddon.getPlugin().startStats();
     }
 
     @Subscribe(priority = ListenerPriority.MONITOR)
@@ -79,6 +77,8 @@ public class DiscordListener {
             return;
         }
         String content = event.getMessage().getContentRaw();
+        BTEDiscordAddon.info(content);
+        BTEDiscordAddon.info(config.getString("DiscordCommandsPrefix"));
         if (content.length() < 2) return;
         if (!content.substring(0, 1).equals(config.getString("DiscordCommandsPrefix"))) {
             return;

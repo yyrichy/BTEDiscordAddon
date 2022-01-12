@@ -30,12 +30,7 @@ import java.util.UUID;
 
 public class UserManager {
     private final HashMap<UUID, User> userMap = new HashMap<>();
-    private final BTEDiscordAddon bteDiscordAddon;
     private final DiscordSRV discordSRV = DiscordSRV.getPlugin();
-
-    public UserManager() {
-        this.bteDiscordAddon = BTEDiscordAddon.getPlugin();
-    }
 
     public HashMap<UUID, User> getUserMap() {
         return userMap;
@@ -43,7 +38,7 @@ public class UserManager {
 
     public ArrayList<String> playerList() {
         ArrayList<String> playerList = new ArrayList<>();
-        HashMap<UUID, User> userMap = bteDiscordAddon.getUserManager().getUserMap();
+        HashMap<UUID, User> userMap = BTEDiscordAddon.getPlugin().getUserManager().getUserMap();
         for (User user : userMap.values()) {
             playerList.add(format(user));
         }

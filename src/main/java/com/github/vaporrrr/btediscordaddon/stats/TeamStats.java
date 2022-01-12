@@ -19,7 +19,7 @@
 package com.github.vaporrrr.btediscordaddon.stats;
 
 import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
-import de.leonhard.storage.Config;
+import de.leonhard.storage.Yaml;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Guild;
@@ -40,7 +40,6 @@ import java.util.List;
 import java.util.TimerTask;
 
 public class TeamStats extends TimerTask {
-    private final BTEDiscordAddon bteDiscordAddon;
     private EmbedBuilder embed = new EmbedBuilder();
     private int projectLocations = -1;
     private int teamLocations = -1;
@@ -55,14 +54,10 @@ public class TeamStats extends TimerTask {
     private final ArrayList<String> reviewerList = new ArrayList<>();
     private final ArrayList<String> builderList = new ArrayList<>();
 
-    public TeamStats() {
-        this.bteDiscordAddon = BTEDiscordAddon.getPlugin();
-    }
-
     @Override
     public void run() {
         reset();
-        Config config = BTEDiscordAddon.config();
+        Yaml config = BTEDiscordAddon.config();
         embed.setTitle("Team Statistics");
         Guild mainGuild = DiscordSRV.getPlugin().getMainGuild();
         JSONObject totalLocations = getRequest("map/data/locations", null);

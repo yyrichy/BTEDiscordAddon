@@ -25,11 +25,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class Reload implements CommandExecutor {
-    private final BTEDiscordAddon bteDiscordAddon;
-
-    public Reload() {
-        this.bteDiscordAddon = BTEDiscordAddon.getPlugin();
-    }
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
@@ -37,6 +32,7 @@ public class Reload implements CommandExecutor {
             commandSender.sendMessage(ChatColor.RED + "You do not have permission to use that command.");
             return true;
         }
+        BTEDiscordAddon bteDiscordAddon = BTEDiscordAddon.getPlugin();
         bteDiscordAddon.reloadConfig();
         bteDiscordAddon.getServerStatus().update();
         bteDiscordAddon.restartStats();

@@ -29,12 +29,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class Afk implements CommandExecutor {
-    private final BTEDiscordAddon bteDiscordAddon;
     private final HashMap<UUID, Long> cooldownMap = new HashMap<>();
-
-    public Afk() {
-        this.bteDiscordAddon = BTEDiscordAddon.getPlugin();
-    }
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
@@ -60,8 +55,8 @@ public class Afk implements CommandExecutor {
         } else {
             cooldownMap.put(player.getUniqueId(), System.currentTimeMillis());
         }
-        bteDiscordAddon.getUserManager().toggleAfk(player);
-        bteDiscordAddon.getServerStatus().update();
+        BTEDiscordAddon.getPlugin().getUserManager().toggleAfk(player);
+        BTEDiscordAddon.getPlugin().getServerStatus().update();
         return true;
     }
 }
