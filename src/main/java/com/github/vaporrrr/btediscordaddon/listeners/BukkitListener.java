@@ -29,15 +29,13 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.*;
 
 public class BukkitListener implements Listener {
-    private final BTEDiscordAddon bteDiscordAddon;
     private final UserManager userManager;
     private final ServerStatus serverStatus;
     private long lastCheck;
 
-    public BukkitListener(BTEDiscordAddon bteDiscordAddon) {
-        this.bteDiscordAddon = bteDiscordAddon;
-        this.userManager = bteDiscordAddon.getUserManager();
-        this.serverStatus = bteDiscordAddon.getServerStatus();
+    public BukkitListener() {
+        this.userManager = BTEDiscordAddon.getPlugin().getUserManager();
+        this.serverStatus = BTEDiscordAddon.getPlugin().getServerStatus();
         this.lastCheck = System.currentTimeMillis();
     }
 
@@ -89,7 +87,7 @@ public class BukkitListener implements Listener {
     }
 
     private void checkAndStartTimer(Player player) {
-        int interval = bteDiscordAddon.config().getInt("AutoAfkInSeconds");
+        int interval = BTEDiscordAddon.config().getInt("AutoAfkInSeconds");
         if (interval < 1) {
             return;
         }
@@ -99,7 +97,7 @@ public class BukkitListener implements Listener {
             user.cancelAfkTask();
             serverStatus.update();
         } else {
-            user.startAfkTimer(interval, bteDiscordAddon.getServerStatus());
+            user.startAfkTimer(interval);
         }
         lastCheck = System.currentTimeMillis();
     }

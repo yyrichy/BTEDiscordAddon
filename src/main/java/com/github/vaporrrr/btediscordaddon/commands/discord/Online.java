@@ -29,11 +29,11 @@ import java.util.ArrayList;
 
 public class Online extends DiscordCommand {
     @Override
-    public void execute(BTEDiscordAddon bteDiscordAddon, DiscordGuildMessageReceivedEvent event, String[] args) {
-        ArrayList<String> playerList = bteDiscordAddon.getUserManager().playerList();
+    public void execute(DiscordGuildMessageReceivedEvent event, String[] args) {
+        ArrayList<String> playerList = BTEDiscordAddon.getPlugin().getUserManager().playerList();
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(Color.WHITE);
-        embed.setTitle(bteDiscordAddon.config().getOrDefault("DiscordCommands." + getName() + ".Title", "Minecraft Server"));
+        embed.setTitle(BTEDiscordAddon.config().getOrDefault("DiscordCommands." + getName() + ".Title", "Minecraft Server"));
         if (playerList.size() == 0) {
             embed.setDescription("No Players Online");
         } else {

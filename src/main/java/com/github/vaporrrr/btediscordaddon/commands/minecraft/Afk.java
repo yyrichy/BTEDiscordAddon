@@ -32,8 +32,8 @@ public class Afk implements CommandExecutor {
     private final BTEDiscordAddon bteDiscordAddon;
     private final HashMap<UUID, Long> cooldownMap = new HashMap<>();
 
-    public Afk(BTEDiscordAddon bteDiscordAddon) {
-        this.bteDiscordAddon = bteDiscordAddon;
+    public Afk() {
+        this.bteDiscordAddon = BTEDiscordAddon.getPlugin();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class Afk implements CommandExecutor {
         Player player = (Player) commandSender;
         if (cooldownMap.containsKey(player.getUniqueId())) {
             long last = cooldownMap.get(player.getUniqueId());
-            long cooldown = bteDiscordAddon.config().getInt("MinecraftCommands.afk.CooldownInSeconds") * 1000L;
+            long cooldown = BTEDiscordAddon.config().getInt("MinecraftCommands.afk.CooldownInSeconds") * 1000L;
             long elapsed = System.currentTimeMillis() - last;
             if (elapsed < cooldown) {
                 commandSender.sendMessage(ChatColor.RED + "Please wait " + (int) ((cooldown - elapsed) / 1000) + " seconds before using this command again.");

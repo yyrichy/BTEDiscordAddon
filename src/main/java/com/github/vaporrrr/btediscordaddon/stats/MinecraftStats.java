@@ -19,6 +19,7 @@
 package com.github.vaporrrr.btediscordaddon.stats;
 
 import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
+import de.leonhard.storage.Config;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
@@ -35,18 +36,19 @@ public class MinecraftStats extends TimerTask {
     private final BTEDiscordAddon bteDiscordAddon;
     private EmbedBuilder embed = new EmbedBuilder();
 
-    public MinecraftStats(BTEDiscordAddon bteDiscordAddon) {
-        this.bteDiscordAddon = bteDiscordAddon;
+    public MinecraftStats() {
+        this.bteDiscordAddon = BTEDiscordAddon.getPlugin();
     }
 
     @Override
     public void run() {
+        Config config = BTEDiscordAddon.config();
         embed = new EmbedBuilder();
         embed.setTitle("Minecraft Server Statistics");
-        for (String value : bteDiscordAddon.config().getStringList("Stats.Minecraft.Description")) {
+        for (String value : config.getStringList("Stats.Minecraft.Description")) {
             append(format(value));
         }
-        List<String> groupNames = bteDiscordAddon.config().getStringList("Stats.Minecraft.GroupNames");
+        List<String> groupNames = config.getStringList("Stats.Minecraft.GroupNames");
         if (!groupNames.isEmpty()) {
             if (bteDiscordAddon.getLuckPerms() != null) {
                 for (String name : groupNames) {
@@ -61,10 +63,10 @@ public class MinecraftStats extends TimerTask {
                 bteDiscordAddon.getLogger().warning("Stats.Minecraft.GroupNames is not empty, but dependency LuckPerms could not be found. Install LuckPerms.");
             }
         }
-        embed.setFooter("Updated every " + bteDiscordAddon.config().getInt("Stats.Minecraft.IntervalInSeconds") + " seconds");
-        TextChannel channel = DiscordUtil.getJda().getTextChannelById(bteDiscordAddon.config().getString("Stats.Minecraft.ChannelID"));
+        embed.setFooter("Updated every " + config.getInt("Stats.Minecraft.IntervalInSeconds") + " seconds");
+        TextChannel channel = DiscordUtil.getJda().getTextChannelById(config.getString("Stats.Minecraft.ChannelID"));
         if (channel != null) {
-            channel.retrieveMessageById(bteDiscordAddon.config().getString("Stats.Minecraft.MessageID")).queue((message) -> message.editMessage(embed.build()).queue(), (failure) -> bteDiscordAddon.severe("Could not edit message Stats.Minecraft.MessageID in #" + channel.getName()));
+            channel.retrieveMessageById(config.getString("Stats.Minecraft.MessageID")).queue((message) -> message.editMessage(embed.build()).queue(), (failure) -> BTEDiscordAddon.severe("Could not edit message Stats.Minecraft.MessageID in #" + channel.getName()));
         } else {
             bteDiscordAddon.getLogger().warning("TextChannel from Stats.Minecraft.ChannelID could not be found");
         }

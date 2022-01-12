@@ -32,8 +32,8 @@ import java.util.*;
 public class Online implements CommandExecutor {
     private final BTEDiscordAddon bteDiscordAddon;
 
-    public Online(BTEDiscordAddon bteDiscordAddon) {
-        this.bteDiscordAddon = bteDiscordAddon;
+    public Online() {
+        this.bteDiscordAddon = BTEDiscordAddon.getPlugin();
     }
 
     @Override

@@ -41,7 +41,7 @@ public class Linked extends DiscordCommand {
     private TextChannel channel;
 
     @Override
-    public void execute(BTEDiscordAddon bteDiscordAddon, DiscordGuildMessageReceivedEvent event, String[] args) {
+    public void execute(DiscordGuildMessageReceivedEvent event, String[] args) {
         /*
             Adapted from DiscordSRV's /discord linked
         */

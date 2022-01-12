@@ -31,8 +31,8 @@ public class ServerStatus {
     private final BTEDiscordAddon bteDiscordAddon;
     private JDA jda;
 
-    public ServerStatus(BTEDiscordAddon bteDiscordAddon) {
-        this.bteDiscordAddon = bteDiscordAddon;
+    public ServerStatus() {
+        this.bteDiscordAddon = BTEDiscordAddon.getPlugin();
     }
 
     public void setJDA(JDA jda) {
@@ -40,7 +40,7 @@ public class ServerStatus {
     }
 
     public void update() {
-        Config config = bteDiscordAddon.config();
+        Config config = BTEDiscordAddon.config();
         ArrayList<String> playerList = bteDiscordAddon.getUserManager().playerList();
         EmbedBuilder embed = new EmbedBuilder();
         embed.setAuthor(config.getString("ServerStatus.Title"), null, config.getString("ServerStatus.IconURL"));
@@ -55,7 +55,7 @@ public class ServerStatus {
     }
 
     public void shutdown() {
-        Config config = bteDiscordAddon.config();
+        Config config = BTEDiscordAddon.config();
         EmbedBuilder embed = new EmbedBuilder();
         embed.setAuthor(config.getString("ServerStatus.Title"), null, config.getString("ServerStatus.IconURL"));
         embed.addField("Server Offline", config.getString("ServerStatus.OfflineMessage"), false);
@@ -66,11 +66,11 @@ public class ServerStatus {
     private void editStatus(EmbedBuilder embed) {
         String channelIDPath = "ServerStatus.ChannelID";
         String messageIDPath = "ServerStatus.MessageID";
-        TextChannel channel = jda.getTextChannelById(bteDiscordAddon.config().getString(channelIDPath));
+        TextChannel channel = jda.getTextChannelById(BTEDiscordAddon.config().getString(channelIDPath));
         if (channel == null) {
-            bteDiscordAddon.severe("TextChannel from " + channelIDPath + " does not exist.");
+            BTEDiscordAddon.severe("TextChannel from " + channelIDPath + " does not exist.");
             return;
         }
-        channel.retrieveMessageById(bteDiscordAddon.config().getString(messageIDPath)).queue((message) -> message.editMessage(embed.build()).queue(), (failure) -> bteDiscordAddon.severe("Could not edit message " + messageIDPath + " in #" + channel.getName()));
+        channel.retrieveMessageById(BTEDiscordAddon.config().getString(messageIDPath)).queue((message) -> message.editMessage(embed.build()).queue(), (failure) -> BTEDiscordAddon.severe("Could not edit message " + messageIDPath + " in #" + channel.getName()));
     }
 }

@@ -19,16 +19,21 @@
 package com.github.vaporrrr.btediscordaddon.commands;
 
 import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
+import de.leonhard.storage.Config;
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Member;
 
 public abstract class DiscordCommand {
-    protected boolean hasPermission(BTEDiscordAddon bteDiscordAddon, Member member) {
-        if (!bteDiscordAddon.config().getBoolean("DiscordCommands." + getName() + ".Enabled")) return false;
-        return bteDiscordAddon.config().getStringList("DiscordCommands." + getName() + ".Permissions.Roles").stream().anyMatch(id -> member.getRoles().stream().anyMatch(r -> r.getId().equals(id)));
+    private static final String KEY = "DiscordCommands.";
+
+    protected boolean hasPermission(Member member) {
+        Config config = BTEDiscordAddon.config();
+        if (!config.getBoolean(KEY + "." + getName() + ".Enabled")) return false;
+        return config.getStringList(KEY + "." + getName() + ".Permissions.Roles").stream().anyMatch(id -> member.getRoles().stream().anyMatch(r -> r.getId().equals(id)))
+                || config.getStringList(KEY + "." + getName() + "Permissions.Users").stream().anyMatch(id -> id.equals(member.getId()));
     }
 
-    public abstract void execute(BTEDiscordAddon bteDiscordAddon, DiscordGuildMessageReceivedEvent event, String[] args);
+    public abstract void execute(DiscordGuildMessageReceivedEvent event, String[] args);
 
     public abstract String getName();
 

@@ -27,8 +27,8 @@ import org.bukkit.command.CommandSender;
 public class Update implements CommandExecutor {
     private final BTEDiscordAddon bteDiscordAddon;
 
-    public Update(BTEDiscordAddon bteDiscordAddon) {
-        this.bteDiscordAddon = bteDiscordAddon;
+    public Update() {
+        this.bteDiscordAddon = BTEDiscordAddon.getPlugin();
     }
 
     @Override

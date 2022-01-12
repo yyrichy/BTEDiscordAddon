@@ -27,8 +27,8 @@ import org.bukkit.command.CommandSender;
 public class Reload implements CommandExecutor {
     private final BTEDiscordAddon bteDiscordAddon;
 
-    public Reload(BTEDiscordAddon bteDiscordAddon) {
-        this.bteDiscordAddon = bteDiscordAddon;
+    public Reload() {
+        this.bteDiscordAddon = BTEDiscordAddon.getPlugin();
     }
 
     @Override

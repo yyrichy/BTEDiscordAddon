@@ -37,15 +37,15 @@ public class DiscordListener {
     private final Schematics schematics;
     private final DiscordCommandManager discordCommandManager;
 
-    public DiscordListener(BTEDiscordAddon bteDiscordAddon) {
-        this.bteDiscordAddon = bteDiscordAddon;
-        this.schematics = new Schematics(bteDiscordAddon);
-        this.discordCommandManager = new DiscordCommandManager(bteDiscordAddon);
+    public DiscordListener() {
+        this.bteDiscordAddon = BTEDiscordAddon.getPlugin();
+        this.schematics = new Schematics();
+        this.discordCommandManager = new DiscordCommandManager();
     }
 
     @Subscribe
     public void discordReadyEvent(DiscordReadyEvent event) {
-        bteDiscordAddon.info("Discord Ready!");
+        BTEDiscordAddon.info("Discord Ready!");
         bteDiscordAddon.getServerStatus().setJDA(DiscordUtil.getJda());
         bteDiscordAddon.getServerStatus().update();
         bteDiscordAddon.startStats();
@@ -54,7 +54,7 @@ public class DiscordListener {
     @Subscribe(priority = ListenerPriority.MONITOR)
     public void discordMessageReceived(DiscordGuildMessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
-        Config config = bteDiscordAddon.config();
+        Config config = BTEDiscordAddon.config();
         if (event.getChannel().getId().equals(config.getString("Schematics.Upload.ChannelID"))) {
             schematics.upload(event);
             return;

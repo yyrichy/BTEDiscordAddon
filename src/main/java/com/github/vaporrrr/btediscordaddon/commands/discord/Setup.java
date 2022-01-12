@@ -25,13 +25,13 @@ import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 
 public class Setup extends DiscordCommand {
     @Override
-    public void execute(BTEDiscordAddon bteDiscordAddon, DiscordGuildMessageReceivedEvent event, String[] args) {
+    public void execute(DiscordGuildMessageReceivedEvent event, String[] args) {
         EmbedBuilder embed = new EmbedBuilder();
-        embed.setDescription("ServerStatus embed should be edited here. Type " + bteDiscordAddon.config().getOrDefault("DiscordCommandsPrefix", "<PREFIX>") + getName() + " again to change the location.");
+        embed.setDescription("ServerStatus embed should be edited here. Type " + BTEDiscordAddon.config().getOrDefault("DiscordCommandsPrefix", "<PREFIX>") + getName() + " again to change the location.");
         event.getChannel().sendMessage(embed.build()).queue((message) -> {
-            bteDiscordAddon.config().set("ServerStatus.ChannelID", message.getChannel().getId());
-            bteDiscordAddon.config().set("ServerStatus.MessageID", message.getId());
-            bteDiscordAddon.getServerStatus().update();
+            BTEDiscordAddon.config().set("ServerStatus.ChannelID", message.getChannel().getId());
+            BTEDiscordAddon.config().set("ServerStatus.MessageID", message.getId());
+            BTEDiscordAddon.getPlugin().getServerStatus().update();
         });
     }
 

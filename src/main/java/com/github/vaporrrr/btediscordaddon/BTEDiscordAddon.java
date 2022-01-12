@@ -39,12 +39,12 @@ import java.util.Timer;
 
 public class BTEDiscordAddon extends JavaPlugin {
     private final Config config;
-    private final DiscordListener discordSRVListener = new DiscordListener(this);
-    private final UserManager userManager = new UserManager(this);
-    private final ServerStatus serverStatus = new ServerStatus(this);
+    private final DiscordListener discordSRVListener = new DiscordListener();
+    private final UserManager userManager = new UserManager();
+    private final ServerStatus serverStatus = new ServerStatus();
     private final Timer t = new Timer();
-    private MinecraftStats mcStats = new MinecraftStats(this);
-    private TeamStats teamStats = new TeamStats(this);
+    private MinecraftStats mcStats = new MinecraftStats();
+    private TeamStats teamStats = new TeamStats();
     private LP luckPerms = null;
 
     public BTEDiscordAddon() {
@@ -62,16 +62,28 @@ public class BTEDiscordAddon extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null) {
             this.luckPerms = new LP();
         }
-        getServer().getPluginManager().registerEvents(new BukkitListener(this), this);
-        getCommand("afk").setExecutor(new Afk(this));
-        getCommand("online").setExecutor(new Online(this));
-        getCommand("bted-reload").setExecutor(new Reload(this));
-        getCommand("bted-update").setExecutor(new Update(this));
+        getServer().getPluginManager().registerEvents(new BukkitListener(), this);
+        getCommand("afk").setExecutor(new Afk());
+        getCommand("online").setExecutor(new Online());
+        getCommand("bted-reload").setExecutor(new Reload());
+        getCommand("bted-update").setExecutor(new Update());
         DiscordSRV.api.subscribe(discordSRVListener);
     }
 
     public void onDisable() {
-        serverStatus.shutdown();
+        getServerStatus().shutdown();
+    }
+
+    public static BTEDiscordAddon getPlugin() {
+        return getPlugin(BTEDiscordAddon.class);
+    }
+
+    public static Config config() {
+        return getPlugin().config;
+    }
+
+    public void reloadConfig() {
+        config().forceReload();
     }
 
     public UserManager getUserManager() {
@@ -86,24 +98,16 @@ public class BTEDiscordAddon extends JavaPlugin {
         return luckPerms;
     }
 
-    public Config config() {
-        return config;
+    public static void info(String message) {
+        getPlugin().getLogger().info(message);
     }
 
-    public void reloadConfig() {
-        config.forceReload();
+    public static void warn(String message) {
+        getPlugin().getLogger().warning(message);
     }
 
-    public void info(String message) {
-        getLogger().info(message);
-    }
-
-    public void warn(String message) {
-        getLogger().warning(message);
-    }
-
-    public void severe(String message) {
-        getLogger().severe(message);
+    public static void severe(String message) {
+        getPlugin().getLogger().severe(message);
     }
 
     public void restartStats() {
@@ -113,13 +117,13 @@ public class BTEDiscordAddon extends JavaPlugin {
     }
 
     public void startStats() {
-        if (config.getBoolean("Stats.Minecraft.Enabled")) {
-            mcStats = new MinecraftStats(this);
-            t.scheduleAtFixedRate(mcStats, 0, config.getInt("Stats.Minecraft.IntervalInSeconds") * 1000L);
+        if (config().getBoolean("Stats.Minecraft.Enabled")) {
+            mcStats = new MinecraftStats();
+            t.scheduleAtFixedRate(getPlugin().mcStats, 0, config().getInt("Stats.Minecraft.IntervalInSeconds") * 1000L);
         }
         if (config.getBoolean("Stats.Team.Enabled")) {
-            teamStats = new TeamStats(this);
-            t.scheduleAtFixedRate(teamStats, 0, config.getInt("Stats.Team.IntervalInSeconds") * 1000L);
+            teamStats = new TeamStats();
+            t.scheduleAtFixedRate(teamStats, 0, config().getInt("Stats.Team.IntervalInSeconds") * 1000L);
         }
     }
 }

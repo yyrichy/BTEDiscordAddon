@@ -64,14 +64,14 @@ public class User {
         afkTimerTask.cancel();
     }
 
-    public void startAfkTimer(int interval, ServerStatus serverStatus) {
+    public void startAfkTimer(int interval) {
         if (interval < 1) return;
         afkTimerTask.cancel();
         afkTimerTask = new TimerTask() {
             @Override
             public void run() {
                 setAfk(true);
-                serverStatus.update();
+                BTEDiscordAddon.getPlugin().getServerStatus().update();
             }
         };
         t.schedule(afkTimerTask, interval * 1000L);
