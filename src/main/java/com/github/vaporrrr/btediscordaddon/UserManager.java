@@ -49,7 +49,7 @@ public class UserManager {
     private String format(User user) {
         String format = BTEDiscordAddon.config().getString("ServerStatus.NameFormat");
         UUID UUID = user.getPlayer().getUniqueId();
-        format = format.replace("$player_name$", user.getPlayer().getName());
+        format = format.replace("$player_name$", user.getPlayer().getName().replace("_", "\\_"));
         format = format.replace("$player_name_with_afk_status$", getFormattedMinecraftUsername(user));
         String id = getDiscordIDFromUUID(UUID);
         if (id != null) {
