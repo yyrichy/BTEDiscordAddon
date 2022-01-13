@@ -18,6 +18,7 @@
 
 package com.github.vaporrrr.btediscordaddon;
 
+import com.github.vaporrrr.btediscordaddon.util.MessageUtil;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.objects.managers.AccountLinkManager;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -49,8 +50,8 @@ public class UserManager {
     private String format(User user) {
         String format = BTEDiscordAddon.config().getString("ServerStatus.NameFormat");
         UUID UUID = user.getPlayer().getUniqueId();
-        format = format.replace("$player_name$", user.getPlayer().getName().replace("_", "\\_"));
-        format = format.replace("$player_name_with_afk_status$", getFormattedMinecraftUsername(user));
+        format = format.replace("$player_name$", MessageUtil.escapeMarkdown(user.getPlayer().getName()));
+        format = format.replace("$player_name_with_afk_status$", MessageUtil.escapeMarkdown(getFormattedMinecraftUsername(user)));
         String id = getDiscordIDFromUUID(UUID);
         if (id != null) {
             format = format.replace("$discord_mention$", getDiscordMentionFromID(id));
@@ -117,8 +118,7 @@ public class UserManager {
     }
 
     private String getFormattedMinecraftUsername(User user) {
-        String name = user.getPlayer().getName().replace("_", "\\_");
-        return user.isAfk() ? "[AFK]" + name : name;
+        return (user.isAfk() ? "[AFK]" : "") + user.getPlayer().getName();
     }
 
     private String getDiscordMentionFromID(String id) {

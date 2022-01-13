@@ -158,16 +158,16 @@ public class TeamStats extends TimerTask {
             value = value.replace("$bte_team_builders$", Integer.toString(builders));
         }
         if (!leaderList.isEmpty()) {
-            value = value.replace("$bte_team_leader_list$", String.join("\n", leaderList));
+            value = value.replace("$bte_team_leader_list$", MessageUtil.escapeMarkdown(String.join("\n", leaderList)));
         }
         if (!coLeaderList.isEmpty()) {
-            value = value.replace("$bte_team_co-leader_list$", String.join("\n", coLeaderList));
+            value = value.replace("$bte_team_co-leader_list$", MessageUtil.escapeMarkdown(String.join("\n", coLeaderList)));
         }
         if (!reviewerList.isEmpty()) {
-            value = value.replace("$bte_team_reviewer_list$", String.join("\n", reviewerList));
+            value = value.replace("$bte_team_reviewer_list$", MessageUtil.escapeMarkdown(String.join("\n", reviewerList)));
         }
         if (!builderList.isEmpty()) {
-            value = value.replace("$bte_team_builder_list$", String.join("\n", builderList));
+            value = value.replace("$bte_team_builder_list$", MessageUtil.escapeMarkdown(String.join("\n", builderList)));
         }
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             value = PlaceholderAPI.setPlaceholders(null, value);

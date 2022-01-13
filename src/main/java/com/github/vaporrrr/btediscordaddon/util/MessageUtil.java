@@ -32,4 +32,8 @@ public class MessageUtil {
     private static String procedureFormat(String procedure, String content) {
         return "(" + procedure + ") - " + content;
     }
+
+    public static String escapeMarkdown(String text) {
+        return text.replace("_", "\\_").replace("*", "\\*").replace("`", "\\`").replace("~", "\\~").replace("|", "\\|").replace(">", "\\>");
+    }
 }
