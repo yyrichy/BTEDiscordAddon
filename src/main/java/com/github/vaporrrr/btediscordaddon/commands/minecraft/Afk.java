@@ -56,7 +56,6 @@ public class Afk implements CommandExecutor {
             cooldownMap.put(player.getUniqueId(), System.currentTimeMillis());
         }
         BTEDiscordAddon.getPlugin().getUserManager().toggleAfk(player);
-        BTEDiscordAddon.getPlugin().getServerStatus().update();
         return true;
     }
 }

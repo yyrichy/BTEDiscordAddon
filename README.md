@@ -16,7 +16,7 @@ Add features through DiscordSRV API. Tested on 1.12.2 and 1.18.1, native 1.12.2
 - `(prefix)online` lists online players
 - `(prefix)linked` equivalent of `/discord linked`
 - MC command that lists players and their afk status (gets groups from LuckPerms)
-- Custom-made AFK system
+- Custom-made AFK system (Can be disabled/enabled) (Permission bted.afkauto to go afk/unafk automatically)
 - Statistics messages with Discord, Minecraft (Uses LuckPerms for group stats), and BTE website stats
 - Link MC <-> Discord account (DiscordSRV) through channel instead of DMs
 - Upload and download schematics through Discord channel (Majority of code from [RudeYeti](https://github.com/RudeYeti))

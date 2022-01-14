@@ -39,6 +39,9 @@ permissions:
     description: Allows usage of /bted-update
   bted.admin.reload:
     description: Allows usage of /bted-reload
+  bted.afkauto:
+    description: Can go afk/unafk automatically
+    default: true
   bted.command.*:
     description: All general commands
     children:

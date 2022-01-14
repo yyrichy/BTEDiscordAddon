@@ -31,32 +31,31 @@ import org.bukkit.event.player.*;
 public class BukkitListener implements Listener {
     private final UserManager userManager;
     private final ServerStatus serverStatus;
-    private long lastCheck;
+    private long lastMovementCheck;
 
     public BukkitListener() {
         this.userManager = BTEDiscordAddon.getPlugin().getUserManager();
         this.serverStatus = BTEDiscordAddon.getPlugin().getServerStatus();
-        this.lastCheck = System.currentTimeMillis();
+        this.lastMovementCheck = System.currentTimeMillis();
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         userManager.add(event.getPlayer());
-        serverStatus.update();
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         userManager.remove(event.getPlayer());
-        serverStatus.update();
     }
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        if (System.currentTimeMillis() - lastCheck < 500) {
+        if (System.currentTimeMillis() - lastMovementCheck < 500L) {
             return;
         }
         checkAndStartTimer(event.getPlayer());
+        lastMovementCheck = System.currentTimeMillis();
     }
 
     @EventHandler
@@ -88,17 +87,15 @@ public class BukkitListener implements Listener {
 
     private void checkAndStartTimer(Player player) {
         int interval = BTEDiscordAddon.config().getInt("AutoAfkInSeconds");
-        if (interval < 1) {
+        if (interval < 1 || !userManager.hasAfkAutoPermission(player)) {
             return;
         }
         User user = userManager.getUser(player);
         if (user.isAfk()) {
-            user.setAfk(false);
-            user.cancelAfkTask();
+            userManager.setAfk(user, false);
             serverStatus.update();
         } else {
             user.startAfkTimer(interval);
         }
-        lastCheck = System.currentTimeMillis();
     }
 }

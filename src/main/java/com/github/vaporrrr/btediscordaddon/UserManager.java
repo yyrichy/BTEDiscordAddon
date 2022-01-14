@@ -32,6 +32,7 @@ import java.util.UUID;
 public class UserManager {
     private final HashMap<UUID, User> userMap = new HashMap<>();
     private final DiscordSRV discordSRV = DiscordSRV.getPlugin();
+    private final ServerStatus serverStatus = BTEDiscordAddon.getPlugin().getServerStatus();
 
     public HashMap<UUID, User> getUserMap() {
         return userMap;
@@ -67,38 +68,41 @@ public class UserManager {
 
     public void add(Player player) {
         userMap.put(player.getUniqueId(), new User(player, false));
-        userMap.get(player.getUniqueId()).startAfkTimer(BTEDiscordAddon.config().getInt("AutoAfkInSeconds"));
+        if (hasAfkAutoPermission(player)) {
+            userMap.get(player.getUniqueId()).startAfkTimer(BTEDiscordAddon.config().getInt("AutoAfkInSeconds"));
+        }
+        serverStatus.update();
     }
 
     public void remove(Player player) {
         userMap.get(player.getUniqueId()).cancelAfkTimer();
         userMap.remove(player.getUniqueId());
+        serverStatus.update();
     }
 
     public User getUser(Player player) {
         return userMap.get(player.getUniqueId());
     }
 
-    public void toggleAfk(Player player) {
-        User user = userMap.get(player.getUniqueId());
-        boolean isAfk = user.isAfk();
-        setAfk(player, !isAfk);
-        //No ! since in previous line afk is reversed
-        if (isAfk) {
-            user.startAfkTimer(BTEDiscordAddon.config().getInt("AutoAfkInSeconds"));
-        } else {
-            user.cancelAfkTask();
-        }
+    public boolean hasAfkAutoPermission(Player player) {
+        return player.hasPermission("bted.afkauto");
     }
 
-    public void setAfk(Player player, boolean isAfk) {
+    public void toggleAfk(Player player) {
         User user = userMap.get(player.getUniqueId());
+        setAfk(user, !user.isAfk());
+    }
+
+    public void setAfk(User user, boolean isAfk) {
         user.setAfk(isAfk);
         if (!isAfk) {
-            user.startAfkTimer(BTEDiscordAddon.config().getInt("AutoAfkInSeconds"));
+            if (hasAfkAutoPermission(user.getPlayer())) {
+                user.startAfkTimer(BTEDiscordAddon.config().getInt("AutoAfkInSeconds"));
+            }
         } else {
             user.cancelAfkTask();
         }
+        serverStatus.update();
     }
 
     private String getDiscordTagFromID(String id) {
