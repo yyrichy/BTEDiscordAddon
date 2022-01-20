@@ -18,11 +18,8 @@
 
 package com.github.vaporrrr.btediscordaddon;
 
-import com.github.vaporrrr.btediscordaddon.util.MessageUtil;
-import github.scarsz.discordsrv.DiscordSRV;
-import github.scarsz.discordsrv.objects.managers.AccountLinkManager;
-import me.clip.placeholderapi.PlaceholderAPI;
-import org.bukkit.Bukkit;
+import com.github.vaporrrr.btediscordaddon.util.Placeholder;
+import github.scarsz.discordsrv.util.PlaceholderUtil;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -31,8 +28,6 @@ import java.util.UUID;
 
 public class UserManager {
     private final HashMap<UUID, User> userMap = new HashMap<>();
-    private final DiscordSRV discordSRV = DiscordSRV.getPlugin();
-    private final ServerStatus serverStatus = BTEDiscordAddon.getPlugin().getServerStatus();
 
     public HashMap<UUID, User> getUserMap() {
         return userMap;
@@ -50,19 +45,9 @@ public class UserManager {
 
     private String format(User user) {
         String format = BTEDiscordAddon.config().getString("ServerStatus.NameFormat");
-        UUID UUID = user.getPlayer().getUniqueId();
-        format = format.replace("$player_name$", MessageUtil.escapeMarkdown(user.getPlayer().getName()));
-        format = format.replace("$player_name_with_afk_status$", MessageUtil.escapeMarkdown(getFormattedMinecraftUsername(user)));
-        String id = getDiscordIDFromUUID(UUID);
-        if (id != null) {
-            format = format.replace("$discord_mention$", getDiscordMentionFromID(id));
-            format = format.replace("$discord_tag$", getDiscordTagFromID(id));
-            format = format.replace("$discord_username$", getDiscordUsernameFromID(id));
-            format = format.replace("$discord_id$", id);
-        }
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            format = PlaceholderAPI.setPlaceholders(user.getPlayer(), format);
-        }
+        Player player = user.getPlayer();
+        format = Placeholder.replacePlaceholdersToDiscord(format, player);
+        format = PlaceholderUtil.replacePlaceholdersToDiscord(format, player);
         return format;
     }
 
@@ -71,13 +56,13 @@ public class UserManager {
         if (hasAfkAutoPermission(player)) {
             userMap.get(player.getUniqueId()).startAfkTimer(BTEDiscordAddon.config().getInt("AutoAfkInSeconds"));
         }
-        serverStatus.update();
+        BTEDiscordAddon.getPlugin().getServerStatus().update();
     }
 
     public void remove(Player player) {
         userMap.get(player.getUniqueId()).cancelAfkTimer();
         userMap.remove(player.getUniqueId());
-        serverStatus.update();
+        BTEDiscordAddon.getPlugin().getServerStatus().update();
     }
 
     public User getUser(Player player) {
@@ -102,36 +87,6 @@ public class UserManager {
         } else {
             user.cancelAfkTask();
         }
-        serverStatus.update();
-    }
-
-    private String getDiscordTagFromID(String id) {
-        github.scarsz.discordsrv.dependencies.jda.api.entities.User user = getDiscordUserFromID(id);
-        if (user == null) return "";
-        return user.getAsTag();
-    }
-
-    private String getDiscordUsernameFromID(String id) {
-        github.scarsz.discordsrv.dependencies.jda.api.entities.User user = getDiscordUserFromID(id);
-        if (user == null) return "";
-        return user.getName();
-    }
-
-    private github.scarsz.discordsrv.dependencies.jda.api.entities.User getDiscordUserFromID(String id) {
-        return discordSRV.getJda().getUserById(id);
-    }
-
-    private String getFormattedMinecraftUsername(User user) {
-        return (user.isAfk() ? "[AFK]" : "") + user.getPlayer().getName();
-    }
-
-    private String getDiscordMentionFromID(String id) {
-        return "<@!" + id + ">";
-    }
-
-    private String getDiscordIDFromUUID(UUID UUID) {
-        AccountLinkManager accountLinkManager = discordSRV.getAccountLinkManager();
-        if (accountLinkManager == null) return null;
-        return accountLinkManager.getDiscordId(UUID);
+        BTEDiscordAddon.getPlugin().getServerStatus().update();
     }
 }

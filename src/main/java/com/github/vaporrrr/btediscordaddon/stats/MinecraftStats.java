@@ -20,16 +20,13 @@ package com.github.vaporrrr.btediscordaddon.stats;
 
 import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import com.github.vaporrrr.btediscordaddon.util.MessageUtil;
+import com.github.vaporrrr.btediscordaddon.util.Placeholder;
 import de.leonhard.storage.Config;
-import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
-import me.clip.placeholderapi.PlaceholderAPI;
-import org.bukkit.Bukkit;
+import github.scarsz.discordsrv.util.PlaceholderUtil;
 
-import java.lang.management.ManagementFactory;
 import java.util.List;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 public class MinecraftStats extends TimerTask {
     private final EmbedBuilder embed = new EmbedBuilder();
@@ -66,22 +63,8 @@ public class MinecraftStats extends TimerTask {
     }
 
     private static String format(String value) {
-        Runtime r = Runtime.getRuntime();
-        long usedMemory = (r.totalMemory() - r.freeMemory()) / 1048576;
-        long maxMemory = r.maxMemory() / 1048576;
-        float memory = ((float) usedMemory / (float) maxMemory) * 100;
-        long milliseconds = ManagementFactory.getRuntimeMXBean().getUptime();
-        long days = TimeUnit.MILLISECONDS.toDays(milliseconds);
-        long hours = TimeUnit.MILLISECONDS.toHours(milliseconds) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(milliseconds));
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds));
-        value = value.replace("$current_unix$", Long.toString(System.currentTimeMillis() / 1000L));
-        value = value.replace("$unique_players_joined$", Integer.toString(Bukkit.getOfflinePlayers().length));
-        value = value.replace("$linked_players$", Integer.toString(DiscordSRV.getPlugin().getAccountLinkManager().getLinkedAccountCount()));
-        value = value.replace("$memory$", String.format("`%.2f", memory) + "`% | `" + usedMemory + "`/`" + maxMemory + "` MB");
-        value = value.replace("$uptime$", String.format("`%d` Days `%02d` Hours `%02d` Minutes", days, hours, minutes));
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            value = PlaceholderAPI.setPlaceholders(null, value);
-        }
+        value = Placeholder.replacePlaceholdersToDiscord(value);
+        value = PlaceholderUtil.replacePlaceholdersToDiscord(value);
         return value;
     }
 }

@@ -19,8 +19,9 @@
 package com.github.vaporrrr.btediscordaddon.commands.minecraft;
 
 import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
-import com.github.vaporrrr.btediscordaddon.luckperms.LP;
 import com.github.vaporrrr.btediscordaddon.User;
+import github.scarsz.discordsrv.hooks.VaultHook;
+import github.scarsz.discordsrv.util.PluginUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -41,22 +42,11 @@ public class Online implements CommandExecutor {
             commandSender.sendMessage(ChatColor.GOLD + "No players online.");
             return true;
         }
-        LP luckPerms = BTEDiscordAddon.getPlugin().getLuckPerms();
         HashMap<UUID, User> userMap = BTEDiscordAddon.getPlugin().getUserManager().getUserMap();
-        if (luckPerms == null) {
-            ArrayList<String> playerList = new ArrayList<>();
-            for (User user : userMap.values()) {
-                playerList.add((user.isAfk() ? "[AFK]" : "") + user.getPlayer().getName());
-            }
-            playerList.sort(String.CASE_INSENSITIVE_ORDER);
-            commandSender.sendMessage(ChatColor.BOLD + "" + ChatColor.YELLOW + Bukkit.getOnlinePlayers().size() +  "Online Players:");
-            for (String player : playerList) {
-                commandSender.sendMessage(ChatColor.GRAY + " - " + player);
-            }
-        } else {
+        if (PluginUtil.pluginHookIsEnabled("vault")) {
             HashMap<String, ArrayList<String>> playerMap = new HashMap<>();
             for (User user : userMap.values()) {
-                String group = luckPerms.getPlayerGroup(user.getPlayer());
+                String group = VaultHook.getPrimaryGroup(user.getPlayer());
                 if (!playerMap.containsKey(group)) {
                     playerMap.put(group, new ArrayList<>());
                 }
@@ -69,6 +59,16 @@ public class Online implements CommandExecutor {
                 for (String player : entry.getValue()) {
                     commandSender.sendMessage(ChatColor.GRAY + " - " + player);
                 }
+            }
+        } else {
+            ArrayList<String> playerList = new ArrayList<>();
+            for (User user : userMap.values()) {
+                playerList.add((user.isAfk() ? "[AFK]" : "") + user.getPlayer().getName());
+            }
+            playerList.sort(String.CASE_INSENSITIVE_ORDER);
+            commandSender.sendMessage(ChatColor.BOLD + "" + ChatColor.YELLOW + Bukkit.getOnlinePlayers().size() +  "Online Players:");
+            for (String player : playerList) {
+                commandSender.sendMessage(ChatColor.GRAY + " - " + player);
             }
         }
         return true;
