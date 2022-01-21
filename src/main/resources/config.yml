@@ -71,8 +71,6 @@ Stats:
       - '**Linked Players**: `%bted_linked_players%`'
       - '**Memory**: %bted_memory%'
       - '**Uptime**: %bted_uptime%'
-    GroupNames:
-      - Default
   # BTEWebsiteAPIKey can be obtained from https://github.com/BuildTheEarth/build-team-api#getting-your-api-key
   Team:
     Enabled: true
@@ -103,5 +101,3 @@ Stats:
       - '**Boosts**: `%bted_guild_boosts%`'
       - '**Boosters**: `$%bted_guild_boosters%`'
       - '**Owner**: %bted_guild_owner_mention% (Status: %bted_guild_owner_status%)'
-    RoleIDS:
-      - '00000000000000000'

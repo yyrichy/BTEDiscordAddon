@@ -58,6 +58,7 @@ Surround with "%" on each side. Example `%time_now_unix%`
     bted_linked_players
     bted_memory
     bted_uptime
+    btd_luckperms_group_size_GROUPNAME
 </details>
 <details>
     <summary>Minecraft Player</summary>
@@ -119,6 +120,8 @@ Surround with "%" on each side. Example `%time_now_unix%`
     bted_guild_emote_max
     bted_guild_boosts
     bted_guild_boosters
+    bted_guild_role_size_ROLENAME
+    bted_guild_emoji_EMOJINAME
 
     bted_guild_owner_id
     bted_guild_owner_name

@@ -22,13 +22,9 @@ import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import com.github.vaporrrr.btediscordaddon.util.MessageUtil;
 import com.github.vaporrrr.btediscordaddon.util.Placeholder;
 import de.leonhard.storage.Config;
-import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.Guild;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.Role;
 import github.scarsz.discordsrv.util.PlaceholderUtil;
 
-import java.util.List;
 import java.util.TimerTask;
 
 public class TeamStats extends TimerTask {
@@ -39,16 +35,8 @@ public class TeamStats extends TimerTask {
         Config config = BTEDiscordAddon.config();
         embed.clear();
         embed.setTitle("Team Statistics");
-        Guild mainGuild = DiscordSRV.getPlugin().getMainGuild();
         for (String value : config.getStringList("Stats.Team.Description")) {
             add(format(value));
-        }
-        List<String> roles = config.getStringList("Stats.Team.RoleIDS");
-        for (String roleID : roles) {
-            Role role = mainGuild.getRoleById(roleID);
-            if (role != null) {
-                add("**" + role.getName() + " Role Size**: `" + mainGuild.getMembersWithRoles(role).size() + "`");
-            }
         }
         embed.setFooter("Updated every " + config.getInt("Stats.Team.IntervalInSeconds") + " seconds");
         MessageUtil.editMessageFromConfig("Stats.Team.ChannelID", "Stats.Team.MessageID", embed.build(), "TeamStats");

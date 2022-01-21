@@ -2,11 +2,9 @@ package com.github.vaporrrr.btediscordaddon.util;
 
 import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import com.github.vaporrrr.btediscordaddon.User;
+import com.github.vaporrrr.btediscordaddon.luckperms.LP;
 import github.scarsz.discordsrv.DiscordSRV;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.Activity;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.Guild;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.Member;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.Role;
+import github.scarsz.discordsrv.dependencies.jda.api.entities.*;
 import github.scarsz.discordsrv.util.DiscordUtil;
 import github.scarsz.discordsrv.util.MessageUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -58,14 +57,6 @@ public class Placeholder {
     }
 
     public static String request(Player player, String parameter) {
-        Runtime r = Runtime.getRuntime();
-        long usedMemory = (r.totalMemory() - r.freeMemory()) / 1048576;
-        long maxMemory = r.maxMemory() / 1048576;
-        float memory = ((float) usedMemory / (float) maxMemory) * 100;
-        long milliseconds = ManagementFactory.getRuntimeMXBean().getUptime();
-        long days = TimeUnit.MILLISECONDS.toDays(milliseconds);
-        long hours = TimeUnit.MILLISECONDS.toHours(milliseconds) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(milliseconds));
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds));
         switch (parameter) {
             case "time_now_unix":
                 return Long.toString(System.currentTimeMillis() / 1000L);
@@ -74,9 +65,23 @@ public class Placeholder {
             case "linked_players":
                 return Integer.toString(DiscordSRV.getPlugin().getAccountLinkManager().getLinkedAccountCount());
             case "memory":
-                return String.format("`%.2f", memory) + "`% | `" + usedMemory + "`/`" + maxMemory + "` MB";
+                Runtime r = Runtime.getRuntime();
+                long usedMemory = (r.totalMemory() - r.freeMemory()) / 1048576;
+                long maxMemory = r.maxMemory() / 1048576;
+                float percent = ((float) usedMemory / (float) maxMemory) * 100;
+                return String.format("`%.2f", percent) + "`% | `" + usedMemory + "`/`" + maxMemory + "` MB";
             case "uptime":
+                long milliseconds = ManagementFactory.getRuntimeMXBean().getUptime();
+                long days = TimeUnit.MILLISECONDS.toDays(milliseconds);
+                long hours = TimeUnit.MILLISECONDS.toHours(milliseconds) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(milliseconds));
+                long minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds));
                 return String.format("`%d` Days `%02d` Hours `%02d` Minutes", days, hours, minutes);
+        }
+        if (parameter.startsWith("luckperms_group_size")) {
+            String groupName = parameter.substring("luckperms_group_size_".length());
+            LP lp = BTEDiscordAddon.getPlugin().getLuckPerms();
+            if (lp == null) return "";
+            return lp.getGroupSize(groupName) != -1 ? String.valueOf(lp.getGroupSize(groupName)) : "";
         }
 
         String key = BTEDiscordAddon.config().getString("Stats.Team.BTEWebsiteAPIKey");
@@ -282,6 +287,22 @@ public class Placeholder {
                     return Integer.toString(mainGuild.getBoosters().size());
                 case "guild_owner_id":
                     return mainGuild.getOwnerId();
+            }
+            if (parameter.startsWith("guild_role_size")) {
+                String roleName = parameter.substring("guild_role_size_".length());
+                List<Role> roles = mainGuild.getRolesByName(roleName, true);
+                if (roles.isEmpty()) return "";
+                if (roles.size() > 1)
+                    BTEDiscordAddon.warn("There are multiple roles called " + roleName + ", totalling all of their members.");
+                return String.valueOf(mainGuild.getMembersWithRoles(roles).size());
+            }
+            if (parameter.startsWith("guild_emoji")) {
+                String emojiName = parameter.substring("guild_emoji_".length());
+                List<Emote> emotes = mainGuild.getEmotesByName(emojiName, true);
+                if (emotes.isEmpty()) return "";
+                if (emotes.size() > 1)
+                    BTEDiscordAddon.warn("There are multiple emotes called " + emotes + ", using the first one: " + emotes.get(0).getAsMention());
+                return emotes.get(0).getAsMention();
             }
             Member owner = mainGuild.getOwner();
             if (parameter.startsWith("guild_owner")) {

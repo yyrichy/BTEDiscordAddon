@@ -25,7 +25,6 @@ import de.leonhard.storage.Config;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.util.PlaceholderUtil;
 
-import java.util.List;
 import java.util.TimerTask;
 
 public class MinecraftStats extends TimerTask {
@@ -38,21 +37,6 @@ public class MinecraftStats extends TimerTask {
         embed.setTitle("Minecraft Server Statistics");
         for (String value : config.getStringList("Stats.Minecraft.Description")) {
             add(format(value));
-        }
-        List<String> groupNames = config.getStringList("Stats.Minecraft.GroupNames");
-        if (!groupNames.isEmpty()) {
-            if (BTEDiscordAddon.getPlugin().getLuckPerms() != null) {
-                for (String name : groupNames) {
-                    int groupSize = BTEDiscordAddon.getPlugin().getLuckPerms().getGroupSize(name);
-                    if (groupSize == -1) {
-                        BTEDiscordAddon.warn("Could not get group size of group " + name);
-                    } else {
-                        add("**" + name + " Group Size**: `" + groupSize + "`");
-                    }
-                }
-            } else {
-                BTEDiscordAddon.warn("Stats.Minecraft.GroupNames is not empty, but dependency LuckPerms could not be found. Install LuckPerms.");
-            }
         }
         embed.setFooter("Updated every " + config.getInt("Stats.Minecraft.IntervalInSeconds") + " seconds");
         MessageUtil.editMessageFromConfig("Stats.Minecraft.ChannelID", "Stats.Minecraft.MessageID", embed.build(), "MinecraftStats");

@@ -39,9 +39,4 @@ public class LP {
         NodeMatcher<InheritanceNode> matcher = NodeMatcher.key(InheritanceNode.builder(group).build());
         return luckPerms.getUserManager().searchAll(matcher).join().size();
     }
-
-    public String getPlayerGroup(Player player) {
-        User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
-        return user.getPrimaryGroup();
-    }
 }
