@@ -45,55 +45,113 @@ Description: Lists online players
 ### /setup
 Description: Sets up the Server Status embed
 
-## Default Placeholders:
-<details>
-    <summary>Server Status</summary>
+## Placeholders:
+(PlaceholderAPI supported)
 
-    $player_name$
-    $player_name_with_afk_status$
-    $discord_mention$
-    $discord_tag$
-    $discord_username$
-    $discord_id$
+### Default Placeholders
+Surround with "%" on each side. Example `%time_now_unix%`
+<details>
+    <summary>Minecraft Server</summary>
+
+    bted_time_now_unix
+    bted_unique_players_joined
+    bted_linked_players
+    bted_memory
+    bted_uptime
 </details>
 <details>
-    <summary>Minecraft Stats</summary>
+    <summary>Minecraft Player</summary>
 
-    $current_unix$
-    $unique_players_joined$
-    $linked_players$
-    $memory$
-    $uptime$
+    bted_player_name
+    bted_player_name_escape_markdown
+    bted_player_name_display
+    bted_player_UUID
+    bted_player_afk_status
+
+    (Below requires player to have Discord account linked)
+    bted_player_discord_id
+    bted_player_discord_name
+    bted_player_discord_tag
+    bted_player_discord_creation_unix
+    bted_player_discord_creation_date
+    bted_player_discord_join_unix
+    bted_player_discord_join_date
+    bted_player_discord_boost_unix
+    bted_player_discord_boost_date
+    bted_player_discord_mention
+    bted_player_discord_name_effective
+    bted_player_discord_nickname
+    bted_player_discord_status
+    bted_player_discord_game_name
+    bted_player_discord_game_url
+    bted_player_discord_role_id
+    bted_player_discord_role_name
+    bted_player_discord_role_mention
+    bted_player_discord_role_color_hex
 </details>
 <details>
-    <summary>Team Stats</summary>
+    <summary>Discord Guild</summary>
 
-    $current_unix$
-    $guild_age_unix$
-    $guild_members$
-    $guild_member_max$
-    $guild_categories$
-    $guild_channel_voice$
-    $guild_channel_text$
-    $guild_channel_store$
-    $guild_channels$
-    $guild_roles$
-    $guild_emotes$
-    $guild_emote_max$
-    $guild_boosts$
-    $guild_boosters$
+    bted_guild_name
+    bted_guild_id
+    bted_guild_decription
+    bted_guild_creation_unix
+    bted_guild_creation_date
+    bted_guild_banner_id
+    bted_guild_banner_url
+    bted_guild_icon_id
+    bted_guild_icon_url
+    bted_guild_splash_id
+    bted_guild_splash_url
+    bted_guild_region_name
+    bted_guild_region_emoji
+    bted_guild_region_key
+    bted_guild_vanity_code
+    bted_guild_members
+    bted_guild_member_max
+    bted_guild_categories
+    bted_guild_channel_voice
+    bted_guild_channel_text
+    bted_guild_channel_store
+    bted_guild_channels
+    bted_guild_roles
+    bted_guild_emotes
+    bted_guild_emote_max
+    bted_guild_boosts
+    bted_guild_boosters
 
-    $bte_project_locations$
-    (Following requires BTE website API key: https://github.com/BuildTheEarth/build-team-api)
-    $bte_team_locations$
-    $bte_team_applications_pending$
-    $bte_team_members$
-    $bte_team_leaders$
-    $bte_team_co-leaders$
-    $bte_team_reviewers$
-    $bte_team_builders$
-    $bte_team_leader_list$ 
-    $bte_team_co-leader_list$
-    $bte_team_reviewer_list$
-    $bte_team_builder_list$
+    bted_guild_owner_id
+    bted_guild_owner_name
+    bted_guild_owner_tag
+    bted_guild_owner_creation_unix
+    bted_guild_owner_cration_date
+    bted_guild_owner_join_unix
+    bted_guild_owner_join_date
+    bted_guild_owner_boost_unix
+    bted_guild_owner_boost_date
+    bted_guild_owner_mention
+    bted_guild_owner_name_effective
+    bted_guild_owner_nickname
+    bted_guild_owner_status
+    bted_guild_owner_game_name
+    bted_guild_owner_game_url
+</details>
+<details>
+    <summary>BuildTheEarth Website API</summary>
+
+    bted_website_locations_total
+
+    (Below require an API key: https://github.com/BuildTheEarth/build-team-api)
+    bted_website_locations_team
+    bted_website_applications_pending
+    bted_website_members
+    bted_website_leaders
+    bted_website_co-leaders
+    bted_website_reviewers
+    bted_website_builders
+    bted_website_leader_list
+    bted_website_co-leader_list
+    bted_website_reviewr_list
+    bted_website_builder_list
+    bted_website_member_list
 </details>

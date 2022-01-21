@@ -32,11 +32,11 @@ public class Reload implements CommandExecutor {
             commandSender.sendMessage(ChatColor.RED + "You do not have permission to use that command.");
             return true;
         }
+        commandSender.sendMessage("Reloading config, updating Server Status and Statistics embeds.");
         BTEDiscordAddon bteDiscordAddon = BTEDiscordAddon.getPlugin();
         bteDiscordAddon.reloadConfig();
         bteDiscordAddon.getServerStatus().update();
         bteDiscordAddon.restartStats();
-        commandSender.sendMessage("Config reloaded, Server Status updated, Stats restarted.");
         return true;
     }
 }

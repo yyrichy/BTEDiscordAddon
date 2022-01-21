@@ -46,9 +46,7 @@ public class TeamStats extends TimerTask {
         List<String> roles = config.getStringList("Stats.Team.RoleIDS");
         for (String roleID : roles) {
             Role role = mainGuild.getRoleById(roleID);
-            if (role == null) {
-                BTEDiscordAddon.warn("Could not find role " + roleID);
-            } else {
+            if (role != null) {
                 add("**" + role.getName() + " Role Size**: `" + mainGuild.getMembersWithRoles(role).size() + "`");
             }
         }

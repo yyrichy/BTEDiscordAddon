@@ -75,8 +75,6 @@ public class DiscordListener {
             return;
         }
         String content = event.getMessage().getContentRaw();
-        BTEDiscordAddon.info(content);
-        BTEDiscordAddon.info(config.getString("DiscordCommandsPrefix"));
         if (content.length() < 2) return;
         if (!content.substring(0, 1).equals(config.getString("DiscordCommandsPrefix"))) {
             return;

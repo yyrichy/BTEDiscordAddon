@@ -25,6 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -93,64 +94,55 @@ public class Placeholder {
                 JSONObject pending = getRequest("api/v1/applications/pending", key);
                 return applyOrEmptyString(pending, Placeholder::getLength);
             }
-            if (parameter.startsWith("website_members")) {
-                JSONObject members = getRequest("api/v1/members", key);
-                if (parameter.equals("website_members")) {
-                    return applyOrEmptyString(members, Placeholder::getLength);
-                }
-                if (members == null) return "";
-                int leaders = 0;
-                int coLeaders = 0;
-                int reviewers = 0;
-                int builders = 0;
-                ArrayList<String> leaderList = new ArrayList<>();
-                ArrayList<String> coLeaderList = new ArrayList<>();
-                ArrayList<String> reviewerList = new ArrayList<>();
-                ArrayList<String> builderList = new ArrayList<>();
-                ArrayList<String> memberList = new ArrayList<>();
-                for (int i = 0; i < members.getJSONArray("members").length(); i++) {
-                    JSONObject member = members.getJSONArray("members").getJSONObject(i);
-                    memberList.add(member.getString("discordTag"));
-                    switch (member.getString("role")) {
-                        case "leader":
-                            leaders++;
-                            leaderList.add(member.getString("discordTag"));
-                            break;
-                        case "co-leader":
-                            coLeaders++;
-                            coLeaderList.add(member.getString("discordTag"));
-                            break;
-                        case "reviewer":
-                            reviewers++;
-                            reviewerList.add(member.getString("discordTag"));
-                            break;
-                        case "builder":
-                            builders++;
-                            builderList.add(member.getString("discordTag"));
-                            break;
-                    }
-                }
-                switch (parameter) {
-                    case "website_leaders":
-                        return String.valueOf(leaders);
-                    case "website_co-leaders":
-                        return String.valueOf(coLeaders);
-                    case "website_reviewers":
-                        return String.valueOf(reviewers);
-                    case "website_builders":
-                        return String.valueOf(builders);
-                    case "website_leader_list":
-                        return String.join("\n", leaderList);
-                    case "website_co-leader_list":
-                        return String.join("\n", coLeaderList);
-                    case "website_reviewer_list":
-                        return String.join("\n", reviewerList);
-                    case "website_builder_list":
-                        return String.join("\n", builderList);
-                    case "website_member_list":
-                        return String.join("\n", memberList);
+            JSONObject members = getRequest("api/v1/members", key);
+            if (members == null) return "";
+            if (parameter.equals("website_members")) {
+                return applyOrEmptyString(members, Placeholder::getLength);
+            }
+            ArrayList<String> leaderList = new ArrayList<>();
+            ArrayList<String> coLeaderList = new ArrayList<>();
+            ArrayList<String> reviewerList = new ArrayList<>();
+            ArrayList<String> builderList = new ArrayList<>();
+            ArrayList<String> memberList = new ArrayList<>();
+            for (int i = 0; i < members.getJSONArray("members").length(); i++) {
+                JSONObject member = members.getJSONArray("members").getJSONObject(i);
+                memberList.add(member.getString("discordTag"));
+                switch (member.getString("role")) {
+                    case "leader":
+                        leaderList.add(member.getString("discordTag"));
+                        break;
+                    case "co-leader":
+                        coLeaderList.add(member.getString("discordTag"));
+                        break;
+                    case "reviewer":
+                        reviewerList.add(member.getString("discordTag"));
+                        break;
+                    case "builder":
+                        builderList.add(member.getString("discordTag"));
+                        break;
                 }
             }
+            switch (parameter) {
+                case "website_leaders":
+                    return String.valueOf(leaderList.size());
+                case "website_co-leaders":
+                    return String.valueOf(coLeaderList.size());
+                case "website_reviewers":
+                    return String.valueOf(reviewerList.size());
+                case "website_builders":
+                    return String.valueOf(builderList.size());
+                case "website_leader_list":
+                    return String.join("\n", leaderList);
+                case "website_co-leader_list":
+                    return String.join("\n", coLeaderList);
+                case "website_reviewer_list":
+                    return String.join("\n", reviewerList);
+                case "website_builder_list":
+                    return String.join("\n", builderList);
+                case "website_member_list":
+                    return String.join("\n", memberList);
+            }
+
         }
 
         if (parameter.startsWith("player")) {
@@ -222,7 +214,7 @@ public class Placeholder {
                         return role.getName();
                     case "player_discord_role_mention":
                         return role.getAsMention();
-                    case "player_discord_role_color":
+                    case "player_discord_role_color_hex":
                         return applyOrEmptyString(role.getColor(), Placeholder::getHex);
                 }
             }
@@ -335,7 +327,7 @@ public class Placeholder {
 
     private static String formatDateOrEmptyString(OffsetDateTime date) {
         if (date == null) return "";
-        else return "UTC" + date.getOffset() + " " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(date);
+        return "UTC" + date.getOffset() + " " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date(date.toInstant().toEpochMilli()));
     }
 
     private static String getUserAfkStatus(User user) {

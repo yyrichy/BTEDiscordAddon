@@ -42,9 +42,7 @@ public class DiscordCommandManager {
         BTEDiscordAddon.info(command);
         DiscordCommand discordCommand = discordCommands.get(command);
         if (discordCommand != null) {
-            BTEDiscordAddon.info("not null cmd");
             if (discordCommand.hasPermission(event.getMember())) {
-                BTEDiscordAddon.info("has perms");
                 if (discordCommand.getArguments() == null || args.length >= discordCommand.getArguments().length) {
                     discordCommand.execute(event, args);
                 } else {

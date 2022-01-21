@@ -3,7 +3,7 @@
 
 # In order to set up the Discord bot's message, use the command "$setup" in Discord.
 # It will create a new message that will be edited with the status of the Minecraft Server.
-# Provided placeholders: https://github.com/vaporrrr/BTEDiscordAddon (PlaceHolder API is supported)
+# Provided placeholders: https://github.com/vaporrrr%btediscordAddon (PlaceHolder API is supported)
 ServerStatus:
   Title: Minecraft Server
   IconURL: https://i.imgur.com/dhYpMGQ.gif
@@ -58,7 +58,7 @@ MinecraftCommands:
   afk:
     CooldownInSeconds: 10
 
-# Provided placeholders: https://github.com/vaporrrr/BTEDiscordAddon (PlaceHolder API is supported)
+# Provided placeholders: https://github.com/vaporrrr%btediscordAddon (PlaceHolder API is supported)
 Stats:
   Minecraft:
     Enabled: true
@@ -66,11 +66,11 @@ Stats:
     ChannelID: 00000000000000000
     MessageID: 00000000000000000
     Description:
-      - '**Last Updated**: <t:$current_unix$:R>'
-      - '**Unique Players Joined**: `$unique_players_joined$`'
-      - '**Linked Players**: `$linked_players$`'
-      - '**Memory**: $memory$'
-      - '**Uptime**: $uptime$'
+      - '**Last Updated**: <t:%bted_time_now_unix%:R>'
+      - '**Unique Players Joined**: `%bted_unique_players_joined%`'
+      - '**Linked Players**: `%bted_linked_players%`'
+      - '**Memory**: %bted_memory%'
+      - '**Uptime**: %bted_uptime%'
     GroupNames:
       - Default
   # BTEWebsiteAPIKey can be obtained from https://github.com/BuildTheEarth/build-team-api#getting-your-api-key
@@ -81,26 +81,27 @@ Stats:
     MessageID: 00000000000000000
     BTEWebsiteAPIKey: ''
     Description:
-      - '**Last Updated**: <t:$current_unix$:R>'
+      - '**Last Updated**: <t:%bted_time_now_unix%:R>'
       - '**-- BTE Website --**'
-      - '**Members**: `$bte_team_members$`'
-      - '**Leaders**: `$bte_team_leaders$`'
-      - '**Co-Leaders**: `$bte_team_co-leaders$`'
-      - '**Reviewers**: `$bte_team_reviewers$`'
-      - '**Builders**: `$bte_team_builders$`'
-      - '**Team/Project Locations**: `$bte_team_locations$`/`$bte_project_locations$`'
-      - '**Pending Applications**: `$bte_team_applications_pending$`'
+      - '**Members**: `%bted_website_members%`'
+      - '**Leaders**: `%bted_website_leaders%`'
+      - '**Co-Leaders**: `%bted_website_co-leaders%`'
+      - '**Reviewers**: `%bted_website_reviewers%`'
+      - '**Builders**: `%bted_website_builders%`'
+      - '**Team/Total Locations**: `%bted_website_locations_team%`/`%bted_website_locations_total%`'
+      - '**Pending Applications**: `%bted_website_applications_pending%`'
       - '**-- Discord --**'
-      - '**Guild Created**: <t:$guild_age_unix$:R>'
-      - '**Members**: `$guild_members$`/`$guild_member_max$`'
-      - '**Categories**: `$guild_categories$`'
-      - '**Voice Channels**: `$guild_channel_voice$`'
-      - '**Text Channels**: `$guild_channel_text$`'
-      - '**Store Channels**: `$guild_channel_store$`'
-      - '**Channels**: `$guild_channels$`'
-      - '**Roles**: `$guild_roles$`'
-      - '**Emotes**: `$guild_emotes$`/`$guild_emote_max$`'
-      - '**Boosts**: `$guild_boosts$`'
-      - '**Boosters**: `$guild_boosters$`'
+      - '**Guild Created**: `%bted_guild_creation_date%`'
+      - '**Members**: `%bted_guild_members%`/`%bted_guild_member_max%`'
+      - '**Categories**: `%bted_guild_categories%`'
+      - '**Voice Channels**: `%bted_guild_channel_voice%`'
+      - '**Text Channels**: `%bted_guild_channel_text%`'
+      - '**Store Channels**: `%bted_guild_channel_store%`'
+      - '**Channels**: `%bted_guild_channels%`'
+      - '**Roles**: `%bted_guild_roles%`'
+      - '**Emotes**: `%bted_guild_emotes%`/`%bted_guild_emote_max%`'
+      - '**Boosts**: `%bted_guild_boosts%`'
+      - '**Boosters**: `$%bted_guild_boosters%`'
+      - '**Owner**: %bted_guild_owner_mention% (Status: %bted_guild_owner_status%)'
     RoleIDS:
       - '00000000000000000'
