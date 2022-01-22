@@ -1,7 +1,6 @@
 package com.github.vaporrrr.btediscordaddon.util;
 
 import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
-import com.github.vaporrrr.btediscordaddon.User;
 import com.github.vaporrrr.btediscordaddon.luckperms.LP;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.*;
@@ -164,7 +163,7 @@ public class Placeholder {
                 case "player_UUID":
                     return String.valueOf(player.getUniqueId());
                 case "player_afk_status":
-                    return getUserAfkStatus(BTEDiscordAddon.getPlugin().getUserManager().getUser(player));
+                    return BTEDiscordAddon.getPlugin().getUserManager().getUser(player).isAfk() ? "[AFK]" : "";
             }
 
             String id = getDiscordIDFromUUID(player.getUniqueId());
@@ -349,10 +348,6 @@ public class Placeholder {
     private static String formatDateOrEmptyString(OffsetDateTime date) {
         if (date == null) return "";
         return "UTC" + date.getOffset() + " " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date(date.toInstant().toEpochMilli()));
-    }
-
-    private static String getUserAfkStatus(User user) {
-        return user.isAfk() ? "[AFK]" : "";
     }
 
     private static github.scarsz.discordsrv.dependencies.jda.api.entities.User getDiscordUserFromID(String id) {

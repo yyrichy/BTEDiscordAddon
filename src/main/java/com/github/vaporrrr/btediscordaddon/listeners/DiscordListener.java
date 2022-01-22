@@ -44,7 +44,7 @@ public class DiscordListener {
     public void discordReadyEvent(DiscordReadyEvent event) {
         BTEDiscordAddon.info("Discord Ready!");
         BTEDiscordAddon.getPlugin().getServerStatus().update();
-        BTEDiscordAddon.getPlugin().startStats();
+        BTEDiscordAddon.getPlugin().getStatsUpdater().start();
     }
 
     @Subscribe(priority = ListenerPriority.MONITOR)

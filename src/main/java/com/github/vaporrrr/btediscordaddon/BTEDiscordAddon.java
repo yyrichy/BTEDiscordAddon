@@ -25,30 +25,27 @@ import com.github.vaporrrr.btediscordaddon.commands.minecraft.Update;
 import com.github.vaporrrr.btediscordaddon.listeners.BukkitListener;
 import com.github.vaporrrr.btediscordaddon.listeners.DiscordListener;
 import com.github.vaporrrr.btediscordaddon.luckperms.LP;
-import com.github.vaporrrr.btediscordaddon.stats.MinecraftStats;
-import com.github.vaporrrr.btediscordaddon.stats.TeamStats;
+import com.github.vaporrrr.btediscordaddon.stats.StatsUpdater;
 import de.leonhard.storage.Config;
 import de.leonhard.storage.LightningBuilder;
 import de.leonhard.storage.internal.settings.ConfigSettings;
 import de.leonhard.storage.internal.settings.DataType;
 import de.leonhard.storage.internal.settings.ReloadSettings;
 import github.scarsz.discordsrv.DiscordSRV;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.Timer;
 
 public class BTEDiscordAddon extends JavaPlugin {
     private final Config config;
     private final DiscordListener discordSRVListener = new DiscordListener();
-    private final UserManager userManager = new UserManager();
-    private final ServerStatus serverStatus = new ServerStatus();
-    private final Timer t = new Timer();
-    private MinecraftStats mcStats = new MinecraftStats();
-    private TeamStats teamStats = new TeamStats();
-    private LP luckPerms = null;
+    @Getter private final UserManager userManager = new UserManager();
+    @Getter private final ServerStatus serverStatus = new ServerStatus();
+    @Getter private final StatsUpdater statsUpdater = new StatsUpdater();
+    @Getter private LP luckPerms = null;
 
     public BTEDiscordAddon() {
         super();
@@ -93,18 +90,6 @@ public class BTEDiscordAddon extends JavaPlugin {
         config().forceReload();
     }
 
-    public UserManager getUserManager() {
-        return userManager;
-    }
-
-    public ServerStatus getServerStatus() {
-        return serverStatus;
-    }
-
-    public LP getLuckPerms() {
-        return luckPerms;
-    }
-
     public static void info(String message) {
         getPlugin().getLogger().info(message);
     }
@@ -115,23 +100,6 @@ public class BTEDiscordAddon extends JavaPlugin {
 
     public static void severe(String message) {
         getPlugin().getLogger().severe(message);
-    }
-
-    public void restartStats() {
-        mcStats.cancel();
-        teamStats.cancel();
-        startStats();
-    }
-
-    public void startStats() {
-        if (config().getBoolean("Stats.Minecraft.Enabled")) {
-            mcStats = new MinecraftStats();
-            t.scheduleAtFixedRate(getPlugin().mcStats, 0, config().getInt("Stats.Minecraft.IntervalInSeconds") * 1000L);
-        }
-        if (config().getBoolean("Stats.Team.Enabled")) {
-            teamStats = new TeamStats();
-            t.scheduleAtFixedRate(teamStats, 0, config().getInt("Stats.Team.IntervalInSeconds") * 1000L);
-        }
     }
 }
 

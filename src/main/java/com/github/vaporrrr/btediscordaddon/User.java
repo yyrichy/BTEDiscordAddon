@@ -18,6 +18,7 @@
 
 package com.github.vaporrrr.btediscordaddon;
 
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -26,7 +27,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class User {
-    private final Player player;
+    @Getter private final Player player;
     private boolean isAfk;
     private final Timer t = new Timer();
     private TimerTask afkTimerTask = new TimerTask() {
@@ -39,10 +40,6 @@ public class User {
     public User(Player player, boolean isAfk) {
         this.player = player;
         this.isAfk = isAfk;
-    }
-
-    public Player getPlayer() {
-        return player;
     }
 
     public boolean isAfk() {

@@ -10,7 +10,7 @@ ServerStatus:
   ChannelID: 000000000000000000
   MessageID: 000000000000000000
   OfflineMessage: Sorry for the inconvenience.
-  NameFormat: $player_name_with_afk_status$ $discord_mention$
+  NameFormat: "%bted_player_afk_status%%bted_player_name_escape_markdown% %bted_player_discord_mention%"
   # Hex color values
   Colors:
     PlayersOnline: a1ee33
@@ -99,5 +99,5 @@ Stats:
       - '**Roles**: `%bted_guild_roles%`'
       - '**Emotes**: `%bted_guild_emotes%`/`%bted_guild_emote_max%`'
       - '**Boosts**: `%bted_guild_boosts%`'
-      - '**Boosters**: `$%bted_guild_boosters%`'
+      - '**Boosters**: `%bted_guild_boosters%`'
       - '**Owner**: %bted_guild_owner_mention% (Status: %bted_guild_owner_status%)'

@@ -21,10 +21,8 @@ package com.github.vaporrrr.btediscordaddon.luckperms;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.group.Group;
-import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.matcher.NodeMatcher;
 import net.luckperms.api.node.types.InheritanceNode;
-import org.bukkit.entity.Player;
 
 public class LP {
     private final LuckPerms luckPerms;

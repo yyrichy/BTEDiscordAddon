@@ -20,6 +20,7 @@ package com.github.vaporrrr.btediscordaddon;
 
 import com.github.vaporrrr.btediscordaddon.util.Placeholder;
 import github.scarsz.discordsrv.util.PlaceholderUtil;
+import lombok.Getter;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -27,15 +28,10 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class UserManager {
-    private final HashMap<UUID, User> userMap = new HashMap<>();
-
-    public HashMap<UUID, User> getUserMap() {
-        return userMap;
-    }
+    @Getter private final HashMap<UUID, User> userMap = new HashMap<>();
 
     public ArrayList<String> playerList() {
         ArrayList<String> playerList = new ArrayList<>();
-        HashMap<UUID, User> userMap = BTEDiscordAddon.getPlugin().getUserManager().getUserMap();
         for (User user : userMap.values()) {
             playerList.add(format(user));
         }

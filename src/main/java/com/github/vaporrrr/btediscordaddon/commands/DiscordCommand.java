@@ -24,12 +24,10 @@ import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Member;
 
 public abstract class DiscordCommand {
-    private static final String KEY = "DiscordCommands";
-
     protected boolean hasPermission(Member member) {
         Config config = BTEDiscordAddon.config();
-        if (!config.getBoolean(KEY + "." + getName() + ".Enabled")) return false;
-        return config.getStringList(KEY + "." + getName() + ".Permissions.Roles").stream().anyMatch(id -> member.getRoles().stream().anyMatch(r -> r.getId().equals(id))) || config.getStringList(KEY + "." + getName() + ".Permissions.Users").stream().anyMatch(id -> member.getId().equals(id));
+        if (!config.getBoolean("DiscordCommands." + getName() + ".Enabled")) return false;
+        return config.getStringList("DiscordCommands." + getName() + ".Permissions.Roles").stream().anyMatch(id -> member.getRoles().stream().anyMatch(r -> r.getId().equals(id))) || config.getStringList("DiscordCommands." + getName() + ".Permissions.Users").stream().anyMatch(id -> member.getId().equals(id));
     }
 
     public abstract void execute(DiscordGuildMessageReceivedEvent event, String[] args);

@@ -33,7 +33,7 @@ public class Update implements CommandExecutor {
             return true;
         }
         BTEDiscordAddon.getPlugin().getServerStatus().update();
-        BTEDiscordAddon.getPlugin().restartStats();
+        BTEDiscordAddon.getPlugin().getStatsUpdater().reload();
         commandSender.sendMessage("Updated.");
         return true;
     }

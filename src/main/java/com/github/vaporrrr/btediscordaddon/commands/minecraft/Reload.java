@@ -36,7 +36,7 @@ public class Reload implements CommandExecutor {
         BTEDiscordAddon bteDiscordAddon = BTEDiscordAddon.getPlugin();
         bteDiscordAddon.reloadConfig();
         bteDiscordAddon.getServerStatus().update();
-        bteDiscordAddon.restartStats();
+        bteDiscordAddon.getStatsUpdater().reload();
         return true;
     }
 }
