@@ -42,10 +42,14 @@ import java.io.InputStream;
 public class BTEDiscordAddon extends JavaPlugin {
     private final Config config;
     private final DiscordListener discordSRVListener = new DiscordListener();
-    @Getter private final UserManager userManager = new UserManager();
-    @Getter private final ServerStatus serverStatus = new ServerStatus();
-    @Getter private final StatsUpdater statsUpdater = new StatsUpdater();
-    @Getter private LP luckPerms = null;
+    @Getter
+    private final UserManager userManager = new UserManager();
+    @Getter
+    private final ServerStatus serverStatus = new ServerStatus();
+    @Getter
+    private final StatsUpdater statsUpdater = new StatsUpdater();
+    @Getter
+    private LP luckPerms = null;
 
     public BTEDiscordAddon() {
         super();

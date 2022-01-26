@@ -38,7 +38,8 @@ public class Stat extends Thread {
                 MessageUtil.editMessageFromConfig("Stats." + name + ".ChannelID", "Stats." + name + ".MessageID", embed.build(), name + " Statistics");
                 Thread.sleep(TimeUnit.SECONDS.toMillis(interval));
             }
-        } catch (InterruptedException ignored) {}
+        } catch (InterruptedException ignored) {
+        }
     }
 
     private void add(String value) {

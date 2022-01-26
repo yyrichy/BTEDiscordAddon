@@ -18,6 +18,7 @@
 
 package com.github.vaporrrr.btediscordaddon.commands.discord;
 
+import com.github.vaporrrr.btediscordaddon.commands.DiscordCommand;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.dependencies.commons.lang3.StringUtils;
@@ -26,8 +27,6 @@ import github.scarsz.discordsrv.dependencies.jda.api.entities.Member;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.User;
 import github.scarsz.discordsrv.util.DiscordUtil;
-import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
-import com.github.vaporrrr.btediscordaddon.commands.DiscordCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 

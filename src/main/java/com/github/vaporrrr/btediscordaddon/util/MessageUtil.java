@@ -10,10 +10,10 @@ public class MessageUtil {
         TextChannel channel = DiscordUtil.getJda().getTextChannelById(channelID);
         if (channel == null) {
             BTEDiscordAddon.severe(procedureFormat(procedure, "Could not get TextChannel from " + channelID));
-        } else if (content instanceof MessageEmbed){
+        } else if (content instanceof MessageEmbed) {
             channel.retrieveMessageById(messageID).queue((message) -> message.editMessage((MessageEmbed) content).queue(), (failure) -> BTEDiscordAddon.severe(procedureFormat(procedure, "Could not edit message " + messageID + " in #" + channel.getName())));
         } else if (content instanceof String) {
-            channel.retrieveMessageById(messageID).queue((message) -> message.editMessage((String) content).queue(), (failure) -> BTEDiscordAddon.severe(procedureFormat(procedure,"Could not edit message " + messageID + " in #" + channel.getName())));
+            channel.retrieveMessageById(messageID).queue((message) -> message.editMessage((String) content).queue(), (failure) -> BTEDiscordAddon.severe(procedureFormat(procedure, "Could not edit message " + messageID + " in #" + channel.getName())));
         }
     }
 

@@ -28,7 +28,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class Online implements CommandExecutor {
 
@@ -66,7 +69,7 @@ public class Online implements CommandExecutor {
                 playerList.add((user.isAfk() ? "[AFK]" : "") + user.getPlayer().getName());
             }
             playerList.sort(String.CASE_INSENSITIVE_ORDER);
-            commandSender.sendMessage(ChatColor.BOLD + "" + ChatColor.YELLOW + Bukkit.getOnlinePlayers().size() +  "Online Players:");
+            commandSender.sendMessage(ChatColor.BOLD + "" + ChatColor.YELLOW + Bukkit.getOnlinePlayers().size() + "Online Players:");
             for (String player : playerList) {
                 commandSender.sendMessage(ChatColor.GRAY + " - " + player);
             }

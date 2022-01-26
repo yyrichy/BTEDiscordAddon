@@ -28,7 +28,8 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class UserManager {
-    @Getter private final HashMap<UUID, User> userMap = new HashMap<>();
+    @Getter
+    private final HashMap<UUID, User> userMap = new HashMap<>();
 
     public ArrayList<String> playerList() {
         ArrayList<String> playerList = new ArrayList<>();

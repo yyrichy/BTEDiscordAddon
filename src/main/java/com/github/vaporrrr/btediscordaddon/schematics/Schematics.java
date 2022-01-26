@@ -18,9 +18,9 @@
 
 package com.github.vaporrrr.btediscordaddon.schematics;
 
+import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import github.scarsz.discordsrv.api.events.DiscordGuildMessageReceivedEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
-import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 

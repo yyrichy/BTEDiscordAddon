@@ -27,7 +27,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class User {
-    @Getter private final Player player;
+    @Getter
+    private final Player player;
     private boolean isAfk;
     private final Timer t = new Timer();
     private TimerTask afkTimerTask = new TimerTask() {
