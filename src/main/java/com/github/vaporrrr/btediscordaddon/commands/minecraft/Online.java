@@ -69,7 +69,7 @@ public class Online implements CommandExecutor {
                 playerList.add((user.isAfk() ? "[AFK]" : "") + user.getPlayer().getName());
             }
             playerList.sort(String.CASE_INSENSITIVE_ORDER);
-            commandSender.sendMessage(ChatColor.BOLD + "" + ChatColor.YELLOW + Bukkit.getOnlinePlayers().size() + "Online Players:");
+            commandSender.sendMessage(ChatColor.YELLOW.toString() + ChatColor.BOLD + Bukkit.getOnlinePlayers().size() + " Online Players:");
             for (String player : playerList) {
                 commandSender.sendMessage(ChatColor.GRAY + " - " + player);
             }
