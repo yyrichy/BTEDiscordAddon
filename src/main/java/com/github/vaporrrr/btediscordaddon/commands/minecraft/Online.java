@@ -22,7 +22,6 @@ import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import com.github.vaporrrr.btediscordaddon.User;
 import github.scarsz.discordsrv.hooks.VaultHook;
 import github.scarsz.discordsrv.util.PluginUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -41,11 +40,12 @@ public class Online implements CommandExecutor {
             commandSender.sendMessage(ChatColor.RED + "You do not have permission to use that command.");
             return true;
         }
-        if (Bukkit.getOnlinePlayers().size() == 0) {
+        HashMap<UUID, User> userMap = BTEDiscordAddon.getPlugin().getUserManager().getUserMap();
+        int onlinePlayers = userMap.size();
+        if (onlinePlayers == 0) {
             commandSender.sendMessage(ChatColor.GOLD + "No players online.");
             return true;
         }
-        HashMap<UUID, User> userMap = BTEDiscordAddon.getPlugin().getUserManager().getUserMap();
         if (PluginUtil.pluginHookIsEnabled("vault")) {
             HashMap<String, ArrayList<String>> playerMap = new HashMap<>();
             for (User user : userMap.values()) {
@@ -55,7 +55,7 @@ public class Online implements CommandExecutor {
                 }
                 playerMap.get(group).add((user.isAfk() ? "[AFK]" : "") + user.getPlayer().getName());
             }
-            commandSender.sendMessage(ChatColor.GOLD.toString() + ChatColor.BOLD + Bukkit.getOnlinePlayers().size() + " Online Players:");
+            commandSender.sendMessage(ChatColor.GOLD.toString() + ChatColor.BOLD + onlinePlayers + " Online Players:");
             for (Map.Entry<String, ArrayList<String>> entry : playerMap.entrySet()) {
                 entry.getValue().sort(String.CASE_INSENSITIVE_ORDER);
                 commandSender.sendMessage(ChatColor.GOLD + entry.getKey().substring(0, 1).toUpperCase() + entry.getKey().substring(1).toLowerCase() + " (" + entry.getValue().size() + "):");
@@ -69,7 +69,7 @@ public class Online implements CommandExecutor {
                 playerList.add((user.isAfk() ? "[AFK]" : "") + user.getPlayer().getName());
             }
             playerList.sort(String.CASE_INSENSITIVE_ORDER);
-            commandSender.sendMessage(ChatColor.YELLOW.toString() + ChatColor.BOLD + Bukkit.getOnlinePlayers().size() + " Online Players:");
+            commandSender.sendMessage(ChatColor.YELLOW.toString() + ChatColor.BOLD + onlinePlayers + " Online Players:");
             for (String player : playerList) {
                 commandSender.sendMessage(ChatColor.GRAY + " - " + player);
             }
