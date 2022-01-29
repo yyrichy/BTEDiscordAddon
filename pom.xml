@@ -74,6 +74,12 @@
             <version>1.18.22</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -101,9 +107,9 @@
                         <configuration>
                             <filters>
                                 <filter>
-                                    <artifact>org.json</artifact>
+                                    <artifact>*.*</artifact>
                                     <excludes>
-                                        <exclude>META-INF/*.MF</exclude>
+                                        <exclude>META-INF/**</exclude>
                                     </excludes>
                                 </filter>
                             </filters>

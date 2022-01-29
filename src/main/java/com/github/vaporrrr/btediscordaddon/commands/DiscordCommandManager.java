@@ -39,7 +39,6 @@ public class DiscordCommandManager {
     }
 
     public void executeCommand(DiscordGuildMessageReceivedEvent event, String command, String[] args) {
-        BTEDiscordAddon.info(command);
         DiscordCommand discordCommand = discordCommands.get(command);
         if (discordCommand != null) {
             if (discordCommand.hasPermission(event.getMember())) {

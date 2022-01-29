@@ -20,8 +20,10 @@ package com.github.vaporrrr.btediscordaddon.commands.minecraft;
 
 import com.github.vaporrrr.btediscordaddon.BTEDiscordAddon;
 import com.github.vaporrrr.btediscordaddon.User;
-import github.scarsz.discordsrv.hooks.VaultHook;
 import github.scarsz.discordsrv.util.PluginUtil;
+import lombok.SneakyThrows;
+import net.milkbowl.vault.permission.Permission;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,6 +36,7 @@ import java.util.UUID;
 
 public class Online implements CommandExecutor {
 
+    @SneakyThrows
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         if (!commandSender.hasPermission("bted.command.online") && !commandSender.isOp()) {
@@ -47,9 +50,14 @@ public class Online implements CommandExecutor {
             return true;
         }
         if (PluginUtil.pluginHookIsEnabled("vault")) {
+            Permission permissionProvider = (Permission) Bukkit.getServer().getServicesManager().getRegistration(Class.forName("net.milkbowl.vault.permission.Permission")).getProvider();
+            if (permissionProvider == null) {
+                commandSender.sendMessage(ChatColor.RED + "Failed to get the registered service provider for Vault");
+                return true;
+            }
             HashMap<String, ArrayList<String>> playerMap = new HashMap<>();
             for (User user : userMap.values()) {
-                String group = VaultHook.getPrimaryGroup(user.getPlayer());
+                String group = permissionProvider.getPrimaryGroup(user.getPlayer());
                 if (!playerMap.containsKey(group)) {
                     playerMap.put(group, new ArrayList<>());
                 }
