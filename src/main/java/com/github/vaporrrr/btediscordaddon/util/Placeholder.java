@@ -166,8 +166,9 @@ public class Placeholder {
                     return BTEDiscordAddon.getPlugin().getUserManager().getUser(player).isAfk() ? "[AFK]" : "";
             }
 
-            String id = getDiscordIDFromUUID(player.getUniqueId());
             if (parameter.startsWith("player_discord")) {
+                if (DiscordSRV.getPlugin().getAccountLinkManager() == null) return "";
+                String id = getDiscordIDFromUUID(player.getUniqueId());
                 if (id == null) return "";
                 if (parameter.equals("player_discord_id")) return id;
 
