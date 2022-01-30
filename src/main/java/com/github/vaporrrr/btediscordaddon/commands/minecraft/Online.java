@@ -50,6 +50,9 @@ public class Online implements CommandExecutor {
             HashMap<String, ArrayList<String>> playerMap = new HashMap<>();
             for (User user : userMap.values()) {
                 String group = VaultHook.getPrimaryGroup(user.getPlayer());
+                if (group.isEmpty()) {
+                    group = "default";
+                }
                 if (!playerMap.containsKey(group)) {
                     playerMap.put(group, new ArrayList<>());
                 }
